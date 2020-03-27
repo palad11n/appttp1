@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">TTPApp</string>
+    <string name="app_name">CheckingUpdate</string>
+    <string name="editLink">Insert link</string>
+    <string name="done">DONE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="setting_row">Setting task</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="set_name">Insert title</string>
+    <string name="about_app">About</string>
+    <string name="setting_app">Setting application</string>
+    <string name="about_description">Application to check for updates on your site./n Makes: student of CSU.</string>
 </resources>

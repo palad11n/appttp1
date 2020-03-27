@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sizeRow">0</dimen>
+    <dimen name="sizeText">16sp</dimen>
+    <dimen name="test"></dimen>
+    <dimen name="test1"></dimen>
+</resources>
