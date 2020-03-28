@@ -3,9 +3,26 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorMy</item>
+        <item name="colorPrimaryDark">@color/colorMy</item>
+        <item name="colorAccent">@color/colorMy</item>
+
+    </style>
+
+
+    <style name="StyleTaskForList">
+        <item name="android:background">@drawable/my_off_shape</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+    <style name="BtnUpdate" parent="StyleTaskForList">
+        <item name="android:background">@drawable/btn_update_shape</item>
+    </style>
+
+    <style name="TextView">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textStyle">bold</item>
+        <!--        <item name="android:fontFamily">@font/objectsans_regular</item>-->
+        <!--        <item name="fontFamily">@font/objectsans_regular</item>-->
     </style>
 
 </resources>
