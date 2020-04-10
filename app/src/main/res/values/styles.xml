@@ -9,7 +9,6 @@
 
     </style>
 
-
     <style name="StyleTaskForList">
         <item name="android:background">@drawable/my_off_shape</item>
         <item name="android:textColor">#fff</item>
@@ -21,8 +20,6 @@
     <style name="TextView">
         <item name="android:textColor">#fff</item>
         <item name="android:textStyle">bold</item>
-        <!--        <item name="android:fontFamily">@font/objectsans_regular</item>-->
-        <!--        <item name="fontFamily">@font/objectsans_regular</item>-->
     </style>
 
 </resources>

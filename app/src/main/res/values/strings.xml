@@ -1,14 +1,22 @@
 <resources>
     <string name="app_name">CheckingUpdate</string>
+
+    <!-- TODO: Быстрые настройки и создание задачи -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="setting_row">Setting task</string>
+    <string name="set_name">Insert title</string>
     <string name="editLink">Insert link</string>
     <string name="done">DONE</string>
     <string name="cancel">CANCEL</string>
-    <string name="setting_row">Setting task</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="set_name">Insert title</string>
+
+
+    <!-- TODO: Меню -->
     <string name="about_app">About</string>
     <string name="setting_app">Setting application</string>
-    <string name="about_description">Application to check for updates on your site./n Makes: student of CSU.</string>
+    <string name="about_description">Application to check for updates on your site.
+        Makes: student of CSU.</string>
+    <!-- TODO: Вид задачи -->
+    <string name="last_check">Last check: </string>
+    <string name="update_is_exist">Update is exist!</string>
 </resources>
