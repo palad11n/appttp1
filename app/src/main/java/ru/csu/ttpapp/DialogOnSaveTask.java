@@ -12,6 +12,11 @@ import android.widget.Button;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.textfield.TextInputEditText;
+
+import ru.csu.ttpapp.common.Task;
+import ru.csu.ttpapp.mvp.MainActivity;
+
 public class DialogOnSaveTask extends DialogFragment {
 
     public interface DialogListener {
@@ -21,12 +26,12 @@ public class DialogOnSaveTask extends DialogFragment {
     }
 
     public DialogListener mListener;
-    public Button btnYes, btnNo;
 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
             mListener = (DialogListener) activity;
+
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement DialogListener");
         }
@@ -57,7 +62,7 @@ public class DialogOnSaveTask extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        return null;
+        View view = inflater.inflate(R.layout.dialog_create, null);
+        return view;
     }
 }

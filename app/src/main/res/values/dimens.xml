@@ -2,6 +2,6 @@
 <resources>
     <dimen name="sizeRow">0</dimen>
     <dimen name="sizeText">16sp</dimen>
-    <dimen name="test"></dimen>
-    <dimen name="test1"></dimen>
+    <dimen name="margin_start">10dp</dimen>
+    <dimen name="radius_shape">50dp</dimen>
 </resources>
