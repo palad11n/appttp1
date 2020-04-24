@@ -3,9 +3,13 @@ package ru.csu.ttpapp.mvp;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Date;
+
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.common.ListTasks;
 import ru.csu.ttpapp.common.Task;
+import ru.csu.ttpapp.service.strategy.IStrategy;
+import ru.csu.ttpapp.service.strategy.SiteUpdate;
 
 public class TasksPresenter {
     private MainActivity view;
@@ -28,7 +32,7 @@ public class TasksPresenter {
 
             @Override
             public void onLoad(ListTasks listTasks) {
-                TextView textEmpty = (TextView) view.findViewById(R.id.emptyId);
+                TextView textEmpty = view.findViewById(R.id.emptyId);
                 if (listTasks != null) {
                     view.showTasks(listTasks);
                     if (!listTasks.isEmpty())
@@ -44,10 +48,21 @@ public class TasksPresenter {
     }
 
     public void add() {
-        Task task = view.getTask();
+        Task task = view.getTaskFromDialog();
+        IStrategy update = new SiteUpdate(task.getLink());
+        if (task.getTitle().equals("")) {
+            task.setTitle(update.getTitleSite());
+        }
+        task.setDate(update.findUpDate());
+        saveTask(task);
+    }
+
+    private void saveTask(Task task) {
+        //view.showProgressDialog();
         model.saveTask(task, new TaskModel.ICompleteCallback() {
             @Override
             public void onComplete() {
+                //view.hideProgressDialog();
                 loadTasks();
             }
         });
@@ -60,5 +75,21 @@ public class TasksPresenter {
                 loadTasks();
             }
         });
+    }
+
+    public void loadUpdate(Task task) {
+        try {
+            IStrategy scu = new SiteUpdate(task.getLink());
+            Date newDate = scu.findUpDate();
+            if (newDate != null) {
+                if (newDate.after(task.getDate())) {
+                    task.setUpdate(true);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }//todo
+        remove(task);
+        saveTask(task);
     }
 }

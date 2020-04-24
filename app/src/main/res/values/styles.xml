@@ -1,18 +1,25 @@
 <resources>
-
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorMy</item>
         <item name="colorPrimaryDark">@color/colorMy</item>
         <item name="colorAccent">@color/colorMy</item>
+    </style>
 
+    <style name="DarkStyle">
+        <item name="android:background">#000</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="LightStyle">
+        <item name="android:background">#fff</item>
+        <item name="android:textColor">#000</item>
     </style>
 
     <style name="StyleTaskForList">
         <item name="android:background">@drawable/my_off_shape</item>
         <item name="android:textColor">#fff</item>
     </style>
+
     <style name="BtnUpdate" parent="StyleTaskForList">
         <item name="android:background">@drawable/btn_update_shape</item>
     </style>
@@ -21,5 +28,4 @@
         <item name="android:textColor">#fff</item>
         <item name="android:textStyle">bold</item>
     </style>
-
 </resources>

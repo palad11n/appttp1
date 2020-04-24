@@ -48,9 +48,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         Button deleteBtn;
         ImageButton syncImgBtn;
         Button updateBtn;
+        private View itemView;
 
         public TaskHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             title = itemView.findViewById(R.id.nameLink);
             lastCheck = itemView.findViewById(R.id.lastCheck);
             deleteBtn = itemView.findViewById(R.id.delBtn);
@@ -59,7 +61,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         }
 
         void bind(final Task task) {
-            //todo: загрузка заголовка сайта по link
             title.setText(task.getTitle());
             lastCheck.setText(task.getSimpleDateFormat());
             deleteBtn.setOnClickListener(new View.OnClickListener() {
@@ -71,15 +72,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             syncImgBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //todo: проверка обновлений на сайте и информирование об этом в приложении
-                    Toast.makeText(MainActivity.mContext, "todo: sync with website", Toast.LENGTH_SHORT).show();
+                    MainActivity.presenter.loadUpdate(task);
+                    lastCheck.setText(task.getSimpleDateFormat());
+                    if (task.isUpdate()) {
+                        itemView.setBackgroundResource(R.drawable.my_on_shape);
+                    }
+                    else Toast.makeText(MainActivity.mContext,"Update is not...",Toast.LENGTH_SHORT).show();
                 }
             });
             updateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //todo: переход на сайт
-                    Toast.makeText(MainActivity.mContext, "todo: jump on website", Toast.LENGTH_SHORT).show();
+                   task.setUpdate(false);
+                   itemView.setBackgroundResource(R.drawable.my_off_shape);
                 }
             });
         }

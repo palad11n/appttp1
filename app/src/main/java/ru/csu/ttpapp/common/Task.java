@@ -1,22 +1,16 @@
 package ru.csu.ttpapp.common;
 
+import androidx.annotation.NonNull;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Task {
-    private long id;
     private String title;
+    @NonNull
     private String link;
     private Date date = new Date();
-    private boolean isUpdate=false;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    private boolean isUpdate = false;
 
     public String getLink() {
         return link;
@@ -46,14 +40,13 @@ public class Task {
         return date;
     }
 
-    public void setDate() {
-        this.date = new Date();
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public String getSimpleDateFormat(){
-        SimpleDateFormat formatForDateNow
-                = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+    public String getSimpleDateFormat() {
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         String format = formatForDateNow.format(this.date);
-        return  format;
+        return format;
     }
 }
