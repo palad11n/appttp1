@@ -13,8 +13,11 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".mvp.SettingsActivity"
+            android:configChanges="locale"
             android:label="@string/title_activity_settings"></activity>
-        <activity android:name=".mvp.MainActivity">
+        <activity
+            android:name=".mvp.MainActivity"
+            android:configChanges="locale">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

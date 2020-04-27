@@ -18,7 +18,6 @@ import ru.csu.ttpapp.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

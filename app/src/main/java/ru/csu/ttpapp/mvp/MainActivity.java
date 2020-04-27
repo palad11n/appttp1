@@ -2,7 +2,9 @@ package ru.csu.ttpapp.mvp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,10 +12,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -65,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(taskAdapter);
         listView.setVisibility(View.VISIBLE);
-      //  findViewById(R.id.emptyId).GONE;
 
         TaskModel taskModel = new TaskModel(mContext);
 
@@ -77,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
     @Override
     protected void onResume() {
         super.onResume();
+        presenter.applySetting();
+
     }
 
     @Override
@@ -95,8 +102,9 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.itemPreferences:
-                Toast.makeText(this, "Setting App - todo", Toast.LENGTH_SHORT).show();
-                break;
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
             case R.id.itemAbout:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder
@@ -109,9 +117,7 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
                         });
                 builder.create();
                 builder.show();
-                break;
-            default:
-                break;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -121,14 +127,17 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
     public void onDialogPositiveClick(DialogFragment dialog) {
         editTextTitle = dialog.getDialog().getWindow().findViewById(R.id.setName);
         editTextLink = dialog.getDialog().getWindow().findViewById(R.id.setLink);
-        presenter.add();
+        if (!editTextLink.getText().toString().isEmpty())
+            presenter.add();
+        else Toast.makeText(this, getString(R.string.link_empty_error), Toast.LENGTH_SHORT).show();
+
         dialog.dismiss();
     }
 
     public Task getTaskFromDialog() {
         Task newTask = new Task();
-        newTask.setTitle(editTextTitle.getText().toString());
         newTask.setLink(editTextLink.getText().toString());
+        newTask.setTitle(editTextTitle.getText().toString());
         return newTask;
     }
 
@@ -138,6 +147,21 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
+        dialog.dismiss();
+    }
+
+    private AlertDialog dialog;
+
+    public void showProgressDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.progress_dialog, null);
+        builder.setView(view);
+        builder.setCancelable(false);
+        dialog = builder.create();
+        dialog.show();
+    }
+
+    public void hideProgressDialog() {
         dialog.dismiss();
     }
 }

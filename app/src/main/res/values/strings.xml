@@ -35,4 +35,7 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="please_wait">Please, wait</string>
     <string name="link_empty_error">Link is empty. Task is not save</string>
+    <string name="other_settings">Other settings</string>
+    <string name="lang_title">Language</string>
+    <string name="lang_summary">You must restart the application to accept the changes.</string>
 </resources>
