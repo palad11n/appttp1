@@ -14,16 +14,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
-import ru.csu.ttpapp.DialogOnSaveTask;
+
 import ru.csu.ttpapp.R;
+import ru.csu.ttpapp.common.DialogOnSaveTask;
 import ru.csu.ttpapp.common.ListTasks;
 import ru.csu.ttpapp.common.Task;
 import ru.csu.ttpapp.common.TaskAdapter;
@@ -127,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         dialog.dismiss();
     }
 
-    public Task getTask() {
+    public Task getTaskFromDialog() {
         Task newTask = new Task();
         newTask.setTitle(editTextTitle.getText().toString());
         newTask.setLink(editTextLink.getText().toString());
