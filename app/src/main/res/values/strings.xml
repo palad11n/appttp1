@@ -1,14 +1,38 @@
 <resources>
     <string name="app_name">CheckingUpdate</string>
+
+    <!-- Быстрые настройки и создание задачи -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="setting_row">Setting task</string>
+    <string name="set_name">Insert title</string>
     <string name="editLink">Insert link</string>
     <string name="done">DONE</string>
     <string name="cancel">CANCEL</string>
-    <string name="setting_row">Setting task</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="set_name">Insert title</string>
+    <!-- Меню -->
     <string name="about_app">About</string>
     <string name="setting_app">Setting application</string>
-    <string name="about_description">Application to check for updates on your site./n Makes: student of CSU.</string>
+    <string name="about_description">Application to check for updates on your site.
+        Makes: student of CSU.</string>
+    <!-- Вид задачи -->
+    <string name="last_check">Last update: </string>
+    <string name="update_is_exist">Update is exist!</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="appearance_header">Appearance</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="theme_title">Your theme</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="please_wait">Please, wait</string>
+    <string name="link_empty_error">Link is empty. Task is not save</string>
 </resources>

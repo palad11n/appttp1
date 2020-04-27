@@ -1,4 +1,4 @@
-package ru.csu.ttpapp;
+package ru.csu.ttpapp.common;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -8,9 +8,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.fragment.app.DialogFragment;
+
+import ru.csu.ttpapp.R;
 
 public class DialogOnSaveTask extends DialogFragment {
 
@@ -21,12 +22,12 @@ public class DialogOnSaveTask extends DialogFragment {
     }
 
     public DialogListener mListener;
-    public Button btnYes, btnNo;
 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
             mListener = (DialogListener) activity;
+
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement DialogListener");
         }
@@ -35,10 +36,8 @@ public class DialogOnSaveTask extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
         builder.setTitle(R.string.setting_row);
-
         builder.setView(inflater.inflate(R.layout.dialog_create, null))
                 .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
                     @Override
@@ -57,7 +56,7 @@ public class DialogOnSaveTask extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        return null;
+        View view = inflater.inflate(R.layout.dialog_create, null);
+        return view;
     }
 }
