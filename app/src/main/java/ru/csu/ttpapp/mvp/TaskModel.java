@@ -91,14 +91,14 @@ class TaskModel {
         @Override
         protected Void doInBackground(Task... tasks) {
             Task newTask = tasks[0];
-            for (Task t: listTasks){
-                if(newTask.getTitle().equals(t.getTitle())){
-                    Task oldTask = t;
-                    listTasks.remove(oldTask);
+            for (int i=0;i< listTasks.size();i++){
+                Task oldTask = listTasks.get(i);
+                if(newTask.getTitle().equals(oldTask.getTitle())){
+                   // Task findOldTask = oldTask;
+                    listTasks.set(i, newTask);
                     break;
                 }
             }
-            listTasks.add(newTask);
             SharedPreferences sharedPreferences =
                     mContext.getSharedPreferences(database, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();

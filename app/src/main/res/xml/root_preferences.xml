@@ -6,13 +6,11 @@
             app:entryValues="@array/theme_values"
             app:key="theme"
             app:title="@string/theme_title"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:summary="@string/theme_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/other_settings">
-        <!--        <SwitchPreferenceCompat-->
-        <!--            app:key="sync"-->
-        <!--            app:title="@string/sync_title" />-->
         <ListPreference
             app:defaultValue="default"
             app:entries="@array/lang_entries"
@@ -20,7 +18,6 @@
             app:key="lang"
             app:title="@string/lang_title"
             app:summary="@string/lang_summary"
-
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 </PreferenceScreen>

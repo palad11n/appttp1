@@ -9,6 +9,18 @@
     android:visibility="visible"
     tools:context=".mvp.MainActivity">
 
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progress_spinner"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="end"-->
+<!--        android:indeterminate="true"-->
+<!--        android:visibility="visible"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/listView"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"

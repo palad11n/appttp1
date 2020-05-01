@@ -34,16 +34,16 @@ public class TasksPresenter {
         view = null;
     }
 
-    public void applySetting(){
+    public void applySetting() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view);
         setTheme(prefs);
         setLang(prefs);
     }
 
-    private void setLang(SharedPreferences prefs){
-        String lang =  prefs.getString("lang", "default");
+    private void setLang(SharedPreferences prefs) {
+        String lang = prefs.getString("lang", "default");
         if (lang.equals("default")) {
-            lang=view.getResources().getConfiguration().locale.getCountry();
+            lang = view.getResources().getConfiguration().locale.getCountry();
         }
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
@@ -52,7 +52,7 @@ public class TasksPresenter {
         view.getBaseContext().getResources().updateConfiguration(config, null);
     }
 
-    private void setTheme(SharedPreferences prefs){
+    private void setTheme(SharedPreferences prefs) {
         String theme = prefs.getString("theme", "dark");
         ConstraintLayout cl = view.findViewById(R.id.cl_main);
         TextView empty = view.findViewById(R.id.emptyId);
@@ -67,7 +67,6 @@ public class TasksPresenter {
     }
 
     public void loadTasks() {
-        view.showProgressDialog();
         model.loadTasks(new TaskModel.ILoadCallback() {
 
             @Override
@@ -81,7 +80,6 @@ public class TasksPresenter {
                 }
             }
         });
-        view.hideProgressDialog();
     }
 
     public void viewIsReady() {
@@ -108,7 +106,7 @@ public class TasksPresenter {
         });
     }
 
-    public void updateTask(Task task){
+    public void updateTask(Task task) {
         model.updateTask(task, new TaskModel.ICompleteCallback() {
             @Override
             public void onComplete() {
@@ -127,17 +125,23 @@ public class TasksPresenter {
     }
 
     public void loadUpdate(Task task) {
+
+        view.showProgressDialog();
         try {
             ISite scu = new SiteUpdate(task.getLink());
             Date newDate = scu.findUpDate();
             if (newDate != null) {
                 if (newDate.after(task.getDate())) {
                     task.setUpdate(true);
+                    task.setDate(newDate);
+                    updateTask(task);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            view.hideProgressDialog();
         }
-        updateTask(task);
     }
+
 }

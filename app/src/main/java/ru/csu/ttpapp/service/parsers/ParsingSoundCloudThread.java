@@ -1,19 +1,17 @@
 package ru.csu.ttpapp.service.parsers;
 
 import android.os.AsyncTask;
-import android.text.PrecomputedText;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
-import java.util.ArrayList;
 
 public class ParsingSoundCloudThread extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+
     }
 
     @Override

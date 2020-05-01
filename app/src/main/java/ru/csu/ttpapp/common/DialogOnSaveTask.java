@@ -4,14 +4,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 
 import ru.csu.ttpapp.R;
+import ru.csu.ttpapp.mvp.MainActivity;
 
 public class DialogOnSaveTask extends DialogFragment {
 
@@ -37,7 +40,16 @@ public class DialogOnSaveTask extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        builder.setTitle(R.string.setting_row);
+       // builder.setTitle(R.string.setting_row);
+
+        TextView textView = new TextView(MainActivity.mContext);
+        textView.setText(R.string.setting_row);
+        textView.setPadding(75, 40, 20, 40);
+        textView.setTextSize(25F);
+        textView.setBackgroundColor(getResources().getColor(R.color.colorMy));
+        textView.setTextColor(Color.WHITE);
+
+       builder.setCustomTitle(textView);
         builder.setView(inflater.inflate(R.layout.dialog_create, null))
                 .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
                     @Override

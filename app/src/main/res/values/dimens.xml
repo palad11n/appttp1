@@ -3,6 +3,6 @@
     <dimen name="sizeRow">0</dimen>
     <dimen name="sizeText">16sp</dimen>
     <dimen name="margin_start">0dp</dimen>
-    <dimen name="radius_shape">10dp</dimen>
+    <dimen name="radius_shape">3dp</dimen>
     <dimen name="margin_dialog">20dp</dimen>
 </resources>

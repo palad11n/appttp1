@@ -1,4 +1,4 @@
-package ru.csu.ttpapp.service;
+package ru.csu.ttpapp.service.sites;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,7 +19,7 @@ public class InfoOfSite {
         months.put("фев", 2);
         months.put("мар", 3);
         months.put("апр", 4);
-        months.put("май", 5);
+        months.put("мая", 5);
         months.put("июн", 6);
         months.put("июл", 7);
         months.put("авг", 8);
@@ -43,6 +43,8 @@ public class InfoOfSite {
     }
 
     public void setDate(String date) {
+//        if (date.equals(""))
+//            this.date = new Date();
         try {
             this.date = convertToDate(date);
         } catch (Exception ex) {
@@ -59,6 +61,7 @@ public class InfoOfSite {
     }
 
     private Date convertToDate(String date) throws ParseException {
+        if (date.equals("")) return null;
         Date fromSite;
         SimpleDateFormat formatter;
         if (!date.contains("Z")) {

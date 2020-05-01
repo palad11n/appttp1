@@ -27,14 +27,22 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final TaskHolder holder, int position) {
         holder.bind(data.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo смена названия
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return data.size();
     }
+
+
 
     public void setData(ListTasks listTasks) {
         data.clear();
@@ -76,16 +84,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                     lastCheck.setText(task.getSimpleDateFormat());
                     if (task.isUpdate()) {
                         itemView.setBackgroundResource(R.drawable.my_on_shape);
+                        task.setUpdate(false);
                     }
-                    else Toast.makeText(MainActivity.mContext,"Update is not...",Toast.LENGTH_SHORT).show();
+                    else Toast.makeText(MainActivity.mContext,"Update is not!",Toast.LENGTH_SHORT).show();
                 }
             });
             updateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //todo: переход на сайт
-                   task.setUpdate(false);
-                   itemView.setBackgroundResource(R.drawable.my_off_shape);
                 }
             });
         }

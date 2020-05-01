@@ -10,20 +10,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 
 import ru.csu.ttpapp.R;
@@ -122,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         editTextTitle = dialog.getDialog().getWindow().findViewById(R.id.setName);
@@ -150,18 +156,34 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         dialog.dismiss();
     }
 
-    private AlertDialog dialog;
+    private AlertDialog.Builder builder;
+    private AlertDialog progressDialog;
 
     public void showProgressDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.progress_dialog, null);
-        builder.setView(view);
-        builder.setCancelable(false);
-        dialog = builder.create();
-        dialog.show();
+        if (progressDialog == null)
+            progressDialog = getDialogProgressBar().create();
+        progressDialog.show();
+        try{}catch (Exception e){}
     }
 
     public void hideProgressDialog() {
-        dialog.dismiss();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private AlertDialog.Builder getDialogProgressBar() {
+        if (builder == null) {
+            builder = new AlertDialog.Builder(this);
+            final ProgressBar progressBar = new ProgressBar(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            progressBar.setLayoutParams(lp);
+            progressBar.setProgress(0);
+            builder.setView(progressBar);
+            builder.setCancelable(false);
+        }
+        return builder;
     }
 }
