@@ -6,7 +6,7 @@
     <color name="colorMy">#560319</color>
     <color name="shape_off_color">#CB363640</color>
     <color name="shape_on_color">#00a86b</color>
-    <color name="delete_btn_off">#363640</color>
+    <color name="delete_btn_off">#F3363640</color>
     <color name="delete_btn_on">#4eb782</color>
     <color name="error">#B00020</color>
 </resources>

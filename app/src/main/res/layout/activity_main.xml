@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_main"
@@ -13,25 +14,29 @@
 <!--        android:id="@+id/progress_spinner"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="end"-->
+<!--        android:layout_gravity="center"-->
 <!--        android:indeterminate="true"-->
-<!--        android:visibility="visible"-->
+
+<!--        android:visibility="gone"-->
 <!--        app:layout_constraintBottom_toBottomOf="parent"-->
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/listView"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="30dp"
         android:clickable="true"
-        app:backgroundTint="#560319"
-        app:layout_constraintBottom_toBottomOf="@+id/listView"
-        app:layout_constraintEnd_toEndOf="@+id/listView"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        android:layout_gravity="end|bottom"
+        app:backgroundTint="@color/colorMy"
+        app:srcCompat="@android:drawable/ic_menu_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_behavior="ru.csu.ttpapp.common.desing.ScrollAwareFABBehavior"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listView"

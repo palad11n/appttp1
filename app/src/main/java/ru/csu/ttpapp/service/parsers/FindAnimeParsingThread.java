@@ -4,11 +4,9 @@ import android.os.AsyncTask;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class SerialMovieParsingThread extends AsyncTask<String, Void, String> {
-
+public class FindAnimeParsingThread extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... strings) {
         Document doc;
@@ -21,16 +19,8 @@ public class SerialMovieParsingThread extends AsyncTask<String, Void, String> {
                     .timeout(5000)
                     .get();
             if (strings.length > 1) {
-                Elements rows = doc.select(strings[1]);
-                for (int i = 0; i < rows.size(); i++) {
-                    Element row = rows.get(i); //по номеру индекса получает строку
-                    Elements cols = row.select("td");// разбиваем полученную строку по тегу на столбы
-                    String d = cols.get(3).html();
-                    if (d.contains("release")) {
-                        date = cols.get(2).text();
-                        break;
-                    }
-                }
+                Elements rows = doc.select(strings[1]).select(".hidden-xxs");
+               date = rows.get(1).text();
             }
 
         } catch (Exception ex) {
@@ -38,6 +28,4 @@ public class SerialMovieParsingThread extends AsyncTask<String, Void, String> {
         }
         return date;
     }
-
-
 }

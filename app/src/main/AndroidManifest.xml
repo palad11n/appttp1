@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.csu.ttpapp">
-    !-- Разрешение на Интернет -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- Разрешение на получения статуса соединения -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application

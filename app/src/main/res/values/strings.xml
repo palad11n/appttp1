@@ -13,7 +13,7 @@
     <string name="about_app">About</string>
     <string name="setting_app">Setting application</string>
     <string name="about_description">Application to check for updates on your site.
-        Makes: student of CSU.</string>
+        Makes: student of CSU. Checking update on your favorite site: </string>
     <!-- Вид задачи -->
     <string name="last_check">Last update: </string>
     <string name="update_is_exist">Update is exist!</string>
@@ -32,10 +32,15 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="please_wait">Please, wait</string>
-    <string name="link_empty_error">Link is empty. Task is not save</string>
+    <string name="link_empty_error">Link entered incorrectly or was not entered. Task is not save</string>
 
     <!-- Lang Preferences -->
     <string name="other_settings">Other settings</string>
     <string name="lang_title">Language</string>
     <string name="lang_summary">You must restart the application to accept the changes.</string>
+
+    <string name="confirmation_of_delet">Are you sure you want to delete the task?</string>
+
+    <string name="update_not">Update is not. Try again later</string>
+    <string name="update_exist">There is an update! Long click on the task to view</string>
 </resources>

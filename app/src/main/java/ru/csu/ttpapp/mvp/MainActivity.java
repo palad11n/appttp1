@@ -1,54 +1,50 @@
 package ru.csu.ttpapp.mvp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.DialogFragment;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
 
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.common.DialogOnSaveTask;
 import ru.csu.ttpapp.common.ListTasks;
 import ru.csu.ttpapp.common.Task;
 import ru.csu.ttpapp.common.TaskAdapter;
+import ru.csu.ttpapp.common.desing.ScrollFABBehavior;
+
 
 public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.DialogListener {
 
     public static Context mContext;
-    Activity mActivity;
 
     public static TasksPresenter presenter;
     private TaskAdapter taskAdapter;
 
     private TextInputEditText editTextTitle;
     private TextInputEditText editTextLink;
+    private FloatingActionButton floatingActionButton;
+    private ConstraintLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +53,12 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         init();
     }
 
+
     private void init() {
         if (mContext == null) mContext = MainActivity.this;
-        if (mActivity == null) mActivity = MainActivity.this;
 
-        final FloatingActionButton floatingActionButton = findViewById(R.id.floatingActionButton);
-
+        coordinatorLayout = (ConstraintLayout) findViewById(R.id.cl_main);
+        floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,11 +75,31 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         listView.setAdapter(taskAdapter);
         listView.setVisibility(View.VISIBLE);
 
+        listView.addOnScrollListener(new ScrollFABBehavior() {
+            @Override
+            public void onHide() {
+                hideViews();
+            }
+
+            @Override
+            public void onShow() {
+                showViews();
+            }
+        });
+
         TaskModel taskModel = new TaskModel(mContext);
 
         presenter = new TasksPresenter(taskModel);
         presenter.attachView(this);
         presenter.viewIsReady();
+    }
+
+    private void hideViews() {
+        floatingActionButton.hide();
+    }
+
+    private void showViews() {
+        floatingActionButton.show();
     }
 
     @Override
@@ -129,17 +145,6 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-        editTextTitle = dialog.getDialog().getWindow().findViewById(R.id.setName);
-        editTextLink = dialog.getDialog().getWindow().findViewById(R.id.setLink);
-        if (!editTextLink.getText().toString().isEmpty())
-            presenter.add();
-        else Toast.makeText(this, getString(R.string.link_empty_error), Toast.LENGTH_SHORT).show();
-
-        dialog.dismiss();
-    }
-
     public Task getTaskFromDialog() {
         Task newTask = new Task();
         newTask.setLink(editTextLink.getText().toString());
@@ -152,24 +157,46 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
     }
 
     @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        editTextTitle = dialog.getDialog().getWindow().findViewById(R.id.setName);
+        editTextLink = dialog.getDialog().getWindow().findViewById(R.id.setLink);
+        String textLink = editTextLink.getText().toString();
+        if (!textLink.isEmpty() && (textLink.startsWith("http://") || textLink.startsWith("https://")
+                && textLink.contains(".")))
+            presenter.add();
+        else
+            Snackbar.make(coordinatorLayout, getString(R.string.link_empty_error), Snackbar.LENGTH_LONG).show();
+        dialog.dismiss();
+    }
+
+    @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         dialog.dismiss();
+    }
+
+    public void isUpdate(boolean isExistUpdate) {
+        if (isExistUpdate)
+            Snackbar.make(coordinatorLayout, getString(R.string.update_exist), Snackbar.LENGTH_SHORT)
+                    .show();
+        else Snackbar.make(coordinatorLayout, getString(R.string.update_not), Snackbar.LENGTH_SHORT)
+                .show();
     }
 
     private AlertDialog.Builder builder;
     private AlertDialog progressDialog;
 
     public void showProgressDialog() {
+        //  findViewById(R.id.progress_spinner).setVisibility(View.VISIBLE);
         if (progressDialog == null)
             progressDialog = getDialogProgressBar().create();
         progressDialog.show();
-        try{}catch (Exception e){}
     }
 
     public void hideProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+        //   findViewById(R.id.progress_spinner).setVisibility(View.GONE);
     }
 
     private AlertDialog.Builder getDialogProgressBar() {
@@ -186,4 +213,6 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         }
         return builder;
     }
+
 }
+

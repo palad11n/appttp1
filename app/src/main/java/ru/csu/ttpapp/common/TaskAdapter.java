@@ -1,15 +1,22 @@
 package ru.csu.ttpapp.common;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Collection;
+import java.util.Collections;
 
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.mvp.MainActivity;
@@ -43,7 +50,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     }
 
 
-
     public void setData(ListTasks listTasks) {
         data.clear();
         data.addAll(listTasks);
@@ -55,7 +61,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         TextView lastCheck;
         Button deleteBtn;
         ImageButton syncImgBtn;
-        Button updateBtn;
+        //  Button updateBtn;
         private View itemView;
 
         public TaskHolder(View itemView) {
@@ -65,7 +71,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             lastCheck = itemView.findViewById(R.id.lastCheck);
             deleteBtn = itemView.findViewById(R.id.delBtn);
             syncImgBtn = itemView.findViewById(R.id.syncBtn);
-            updateBtn = itemView.findViewById(R.id.updateBtn);
+            //  updateBtn = itemView.findViewById(R.id.updateBtn);
         }
 
         void bind(final Task task) {
@@ -74,25 +80,46 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MainActivity.presenter.remove(task);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.mContext);
+                    builder.setTitle(R.string.setting_row);
+                    builder.setMessage(R.string.confirmation_of_delet)
+                            .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    MainActivity.presenter.remove(task);
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.create();
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
             });
+
             syncImgBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MainActivity.presenter.loadUpdate(task);
-                    lastCheck.setText(task.getSimpleDateFormat());
                     if (task.isUpdate()) {
                         itemView.setBackgroundResource(R.drawable.my_on_shape);
+                        lastCheck.setText(task.getSimpleDateFormat());
                         task.setUpdate(false);
+                        MainActivity.presenter.updateTask(task);
                     }
-                    else Toast.makeText(MainActivity.mContext,"Update is not!",Toast.LENGTH_SHORT).show();
                 }
             });
-            updateBtn.setOnClickListener(new View.OnClickListener() {
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
-                    //todo: переход на сайт
+                public boolean onLongClick(View v) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(task.getLink()));
+                    MainActivity.mContext.startActivity(browserIntent);
+                    return false;
                 }
             });
         }

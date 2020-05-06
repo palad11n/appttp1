@@ -20,7 +20,6 @@ public class DialogOnSaveTask extends DialogFragment {
 
     public interface DialogListener {
         void onDialogPositiveClick(DialogFragment dialog);
-
         void onDialogNegativeClick(DialogFragment dialog);
     }
 

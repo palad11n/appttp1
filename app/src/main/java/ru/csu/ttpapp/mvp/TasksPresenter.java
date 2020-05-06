@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.Date;
 import java.util.Locale;
 
@@ -37,7 +39,7 @@ public class TasksPresenter {
     public void applySetting() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view);
         setTheme(prefs);
-        setLang(prefs);
+        //  setLang(prefs);
     }
 
     private void setLang(SharedPreferences prefs) {
@@ -97,7 +99,6 @@ public class TasksPresenter {
     }
 
     private void saveTask(Task task) {
-
         model.saveTask(task, new TaskModel.ICompleteCallback() {
             @Override
             public void onComplete() {
@@ -125,8 +126,6 @@ public class TasksPresenter {
     }
 
     public void loadUpdate(Task task) {
-
-        view.showProgressDialog();
         try {
             ISite scu = new SiteUpdate(task.getLink());
             Date newDate = scu.findUpDate();
@@ -134,14 +133,11 @@ public class TasksPresenter {
                 if (newDate.after(task.getDate())) {
                     task.setUpdate(true);
                     task.setDate(newDate);
-                    updateTask(task);
                 }
+                view.isUpdate(task.isUpdate());
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            view.hideProgressDialog();
         }
     }
-
 }

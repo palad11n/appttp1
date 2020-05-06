@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class InfoOfSite {
     private Date date;
@@ -42,9 +44,15 @@ public class InfoOfSite {
         this.title = title;
     }
 
+    public InfoOfSite() {
+
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public void setDate(String date) {
-//        if (date.equals(""))
-//            this.date = new Date();
         try {
             this.date = convertToDate(date);
         } catch (Exception ex) {
@@ -65,9 +73,13 @@ public class InfoOfSite {
         Date fromSite;
         SimpleDateFormat formatter;
         if (!date.contains("Z")) {
-            String[] dates = convertToMonth(date);
-            fromSite = new SimpleDateFormat("d/MM/yyyy", Locale.getDefault())
-                    .parse(dates[0] + "/" + dates[1] + "/" + dates[2]);
+            String newDate;
+            if (date.contains(" ")) {
+                String[] dates = convertToMonth(date);
+                newDate = dates[0] + "." + dates[1] + "." + dates[2];
+            } else newDate = date;
+            fromSite = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+                    .parse(newDate);
         } else {
             formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
             date = date.replaceAll("Z$", "+0000");
@@ -85,8 +97,7 @@ public class InfoOfSite {
                 break;
             }
         }
+        dates[0] = Integer.parseInt(dates[0]) < 10 ? "0" + dates[0] : dates[0];
         return dates;
     }
-
-
 }
