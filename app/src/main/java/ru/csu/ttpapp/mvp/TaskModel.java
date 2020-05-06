@@ -34,6 +34,11 @@ class TaskModel {
         loadListTask.execute();
     }
 
+    void updateTask(Task task, ICompleteCallback callback){
+        UpdateTask updateTask = new UpdateTask(callback);
+        updateTask.execute(task);
+    }
+
     void saveTask(Task task, ICompleteCallback callback) {
         AddTask addTask = new AddTask(callback);
         addTask.execute(task);
@@ -56,6 +61,44 @@ class TaskModel {
         protected Void doInBackground(Task... tasks) {
             Task task = tasks[0];
             listTasks.add(task);
+            SharedPreferences sharedPreferences =
+                    mContext.getSharedPreferences(database, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            String json = new Gson().toJson(listTasks);
+            editor.putString(LIST_TASKS_LOADSAVE, json);
+            editor.apply();
+            editor.commit();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (callback != null) {
+                callback.onComplete();
+            }
+        }
+    }
+
+    class UpdateTask extends AsyncTask<Task, Void, Void> {
+
+        private final ICompleteCallback callback;
+
+        UpdateTask(ICompleteCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected Void doInBackground(Task... tasks) {
+            Task newTask = tasks[0];
+            for (int i=0;i< listTasks.size();i++){
+                Task oldTask = listTasks.get(i);
+                if(newTask.getTitle().equals(oldTask.getTitle())){
+                   // Task findOldTask = oldTask;
+                    listTasks.set(i, newTask);
+                    break;
+                }
+            }
             SharedPreferences sharedPreferences =
                     mContext.getSharedPreferences(database, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();

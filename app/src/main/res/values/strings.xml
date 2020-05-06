@@ -1,38 +1,43 @@
 <resources>
-    <string name="app_name">CheckingUpdate</string>
+    <string name="app_name">Checking Update</string>
 
     <!-- Быстрые настройки и создание задачи -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="setting_row">Setting task</string>
-    <string name="set_name">Insert title</string>
-    <string name="editLink">Insert link</string>
-    <string name="done">DONE</string>
+    <string name="set_name">Title</string>
+    <string name="editLink">Site link*</string>
+
+    <!-- Основные кнопки -->
+    <string name="done">OK</string>
     <string name="cancel">CANCEL</string>
 
     <!-- Меню -->
     <string name="about_app">About</string>
     <string name="setting_app">Setting application</string>
-    <string name="about_description">Application to check for updates on your site.
-        Makes: student of CSU.</string>
-    <!-- Вид задачи -->
+    <string name="about_description">Check for updates from your favorite authors without opening a browser and consuming unnecessary traffic.</string>
+
+    <!-- Задача -->
     <string name="last_check">Last update: </string>
-    <string name="update_is_exist">Update is exist!</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="link_empty_error">Link entered incorrectly or was not entered. Task is not save</string>
+    <string name="confirmation_of_delete">Are you sure you want to delete the task?</string>
 
-    <!-- Preference Titles -->
-    <string name="appearance_header">Appearance</string>
-    <string name="sync_header">Sync</string>
+    <!-- Состояния задачи -->
+    <string name="update_is_exist">Update is exist!</string>
+    <string name="update_not">Update is not. Try again later</string>
+    <string name="update_exist">There is an update! Long click on the task to view</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="theme_title">Your theme</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- Загрузка -->
     <string name="please_wait">Please, wait</string>
-    <string name="link_empty_error">Link is empty. Task is not save</string>
+
+    <!-- Настройки вида -->
+    <string name="appearance_header">Appearance</string>
+    <string name="signature_title">Your signature</string>
+    <string name="theme_title">Color background</string>
+    <string name="theme_summary">App background color selection.</string>
+
+    <!-- Прочие настройки -->
+    <string name="other_settings">Other settings</string>
+    <string name="lang_title">Language</string>
+    <string name="lang_summary">You must restart the application to accept the changes.</string>
+
 </resources>

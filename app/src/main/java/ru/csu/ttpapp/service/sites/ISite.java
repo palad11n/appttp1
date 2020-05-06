@@ -1,8 +1,8 @@
-package ru.csu.ttpapp.service.strategy;
+package ru.csu.ttpapp.service.sites;
 
 import java.util.Date;
 
-public interface IStrategy {
+public interface ISite {
     Date findUpDate();
     String getTitleSite();
 }
