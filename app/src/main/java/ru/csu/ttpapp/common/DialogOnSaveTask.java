@@ -39,11 +39,10 @@ public class DialogOnSaveTask extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-       // builder.setTitle(R.string.setting_row);
 
         TextView textView = new TextView(MainActivity.mContext);
         textView.setText(R.string.setting_row);
-        textView.setPadding(75, 40, 20, 40);
+        textView.setPadding(70, 40, 20, 40);
         textView.setTextSize(25F);
         textView.setBackgroundColor(getResources().getColor(R.color.colorMy));
         textView.setTextColor(Color.WHITE);

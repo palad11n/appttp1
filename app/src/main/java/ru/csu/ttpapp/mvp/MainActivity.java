@@ -130,9 +130,8 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
                 return true;
             case R.id.itemAbout:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder
-                        .setTitle(R.string.about_app)
-                        .setMessage(R.string.about_description)
+                View view = getLayoutInflater().inflate(R.layout.dialog_about, null);
+                builder.setView(view)
                         .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.dismiss();

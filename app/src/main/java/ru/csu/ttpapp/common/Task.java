@@ -45,7 +45,7 @@ public class Task {
     }
 
     public String getSimpleDateFormat() {
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
         String format = formatForDateNow.format(this.date);
         return format;
     }

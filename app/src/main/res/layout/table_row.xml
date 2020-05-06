@@ -34,8 +34,6 @@
             android:singleLine="true"
             android:text="Name film"
             android:textSize="@dimen/sizeText" />
-
-
     </LinearLayout>
 
     <Button

@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,9 +13,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.Collection;
-import java.util.Collections;
 
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.mvp.MainActivity;
@@ -82,7 +78,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.mContext);
                     builder.setTitle(R.string.setting_row);
-                    builder.setMessage(R.string.confirmation_of_delet)
+                    builder.setMessage(R.string.confirmation_of_delete)
                             .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
