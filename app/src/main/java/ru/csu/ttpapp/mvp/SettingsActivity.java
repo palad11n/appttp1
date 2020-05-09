@@ -1,18 +1,11 @@
 package ru.csu.ttpapp.mvp;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
 
 import ru.csu.ttpapp.R;
 

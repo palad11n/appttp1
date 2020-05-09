@@ -1,7 +1,6 @@
 package ru.csu.ttpapp.mvp;
 
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
@@ -9,10 +8,7 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.preference.PreferenceManager;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.Date;
-import java.util.Locale;
 
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.common.ListTasks;
@@ -39,19 +35,6 @@ public class TasksPresenter {
     public void applySetting() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view);
         setTheme(prefs);
-        //  setLang(prefs);
-    }
-
-    private void setLang(SharedPreferences prefs) {
-        String lang = prefs.getString("lang", "default");
-        if (lang.equals("default")) {
-            lang = view.getResources().getConfiguration().locale.getCountry();
-        }
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        view.getBaseContext().getResources().updateConfiguration(config, null);
     }
 
     private void setTheme(SharedPreferences prefs) {
@@ -111,7 +94,7 @@ public class TasksPresenter {
         model.updateTask(task, new TaskModel.ICompleteCallback() {
             @Override
             public void onComplete() {
-                loadTasks();
+                // loadTasks();
             }
         });
     }
@@ -125,19 +108,26 @@ public class TasksPresenter {
         });
     }
 
-    public void loadUpdate(Task task) {
+    public boolean loadUpdate(Task task) {
+        view.showLoadToast();
         try {
             ISite scu = new SiteUpdate(task.getLink());
             Date newDate = scu.findUpDate();
             if (newDate != null) {
                 if (newDate.after(task.getDate())) {
-                    task.setUpdate(true);
                     task.setDate(newDate);
+                    task.setUpdate(true);
+                    return true;
                 }
                 view.isUpdate(task.isUpdate());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //ignore
         }
+        return false;
+    }
+
+    public void getNotConnection() {
+        view.alertConnection();
     }
 }

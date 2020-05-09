@@ -1,6 +1,11 @@
 package ru.csu.ttpapp.service.sites;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -23,7 +28,7 @@ public class SiteUpdate implements ISite {
         map = new HashMap<>();
         map.put("//soundcloud.com/", "time");
         map.put("seria", ".epscape_tr");
-        map.put("//findanime.me/", ".table");
+        map.put("//findanime.me/", ".table td.hidden-xxs");
     }
 
     public SiteUpdate(String site) {
@@ -38,12 +43,20 @@ public class SiteUpdate implements ISite {
 
     @Override
     public Date findUpDate() {
+        if (!isNetworkAvailable()){
+            MainActivity.presenter.getNotConnection();
+            return null;
+        }
         parsingDate();
         return infoOfSite.getDate();
     }
 
     @Override
     public String getTitleSite() {
+        if (!isNetworkAvailable()){
+            MainActivity.presenter.getNotConnection();
+            return null;
+        }
         parsingTitle();
         return infoOfSite.getTitle();
     }
@@ -56,7 +69,7 @@ public class SiteUpdate implements ISite {
             pt = new SerialMovieParsingThread();
         } else {
             pt = new FindAnimeParsingThread();
-            TAG_CLASS = ".table";
+            TAG_CLASS = ".table td.hidden-xxs";
         }
         pt.execute(linkUsers, TAG_CLASS);
         try {
@@ -79,5 +92,30 @@ public class SiteUpdate implements ISite {
         } catch (Exception e) {
             //ignore
         }
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) MainActivity.mContext.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+                if (capabilities != null) {
+                    if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                            || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                            || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+                    )
+                        return true;
+                }
+            } else {
+                try {
+                    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                    if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+                        return true;
+                    }
+                } catch (Exception e) {
+                }
+            }
+        }
+        return false;
     }
 }

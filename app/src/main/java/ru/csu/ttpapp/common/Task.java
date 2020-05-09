@@ -25,6 +25,7 @@ public class Task {
     }
 
     public void setTitle(String title) {
+        if (title == null) title = "";
         this.title = title;
     }
 

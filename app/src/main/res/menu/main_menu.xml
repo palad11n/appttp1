@@ -12,4 +12,10 @@
         android:icon="@android:drawable/ic_menu_preferences"
         app:showAsAction="never"
         android:title="@string/about_app"/>
+
+    <item
+        android:id="@+id/itemHelp"
+        android:icon="@drawable/ic_help_24px"
+        app:showAsAction="ifRoom"
+        android:title="help"/>
 </menu>

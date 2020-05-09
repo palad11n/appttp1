@@ -19,8 +19,14 @@ public class FindAnimeParsingThread extends AsyncTask<String, Void, String> {
                     .timeout(5000)
                     .get();
             if (strings.length > 1) {
-                Elements rows = doc.select(strings[1]).select(".hidden-xxs");
-               date = rows.get(1).text();
+                Elements rows = doc.select(strings[1]);
+                for (int i=0; i<rows.size();i++){
+                    String td = rows.get(i).text();
+                    if(td !=null){
+                        date = td;
+                        break;
+                    }
+                }
             }
 
         } catch (Exception ex) {

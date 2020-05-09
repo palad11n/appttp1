@@ -57,7 +57,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         TextView lastCheck;
         Button deleteBtn;
         ImageButton syncImgBtn;
-        //  Button updateBtn;
         private View itemView;
 
         public TaskHolder(View itemView) {
@@ -67,7 +66,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             lastCheck = itemView.findViewById(R.id.lastCheck);
             deleteBtn = itemView.findViewById(R.id.delBtn);
             syncImgBtn = itemView.findViewById(R.id.syncBtn);
-            //  updateBtn = itemView.findViewById(R.id.updateBtn);
         }
 
         void bind(final Task task) {
@@ -77,7 +75,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.mContext);
-                    builder.setTitle(R.string.setting_row);
                     builder.setMessage(R.string.confirmation_of_delete)
                             .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
                                 @Override
@@ -115,7 +112,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 public boolean onLongClick(View v) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(task.getLink()));
                     MainActivity.mContext.startActivity(browserIntent);
-                    return false;
+                    return true;
                 }
             });
         }
