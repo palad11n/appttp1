@@ -42,9 +42,8 @@ public class TasksPresenter {
         ConstraintLayout cl = view.findViewById(R.id.cl_main);
         TextView empty = view.findViewById(R.id.emptyId);
         if (theme.equals("dark")) {
-            cl.setBackgroundColor(Color.BLACK);
+            cl.setBackgroundColor(view.getResources().getColor(R.color.background_dark));
             empty.setTextColor(Color.WHITE);
-
         } else {
             cl.setBackgroundColor(Color.WHITE);
             empty.setTextColor(Color.BLACK);
@@ -120,7 +119,8 @@ public class TasksPresenter {
                     return true;
                 }
                 view.isUpdate(task.isUpdate());
-            }
+            } else
+                view.showToast(view.getString(R.string.site_rip), R.drawable.ic_sentiment_dissatisfied_toast);
         } catch (Exception e) {
             //ignore
         }

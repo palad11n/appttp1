@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Checking Update</string>
+    <string name="app_name">WhenUPDATE</string>
 
     <!-- Быстрые настройки и создание задачи -->
-    <string name="setting_row">Setting task</string>
-    <string name="set_name">Title</string>
-    <string name="editLink">Site link*</string>
+    <string name="setting_row">Create task</string>
+    <string name="set_name">Your title</string>
+    <string name="editLink">Link of site*</string>
 
     <!-- Основные кнопки -->
     <string name="done">OK</string>
@@ -14,6 +14,10 @@
     <string name="about_app">About</string>
     <string name="setting_app">Setting application</string>
     <string name="about_description">Check for updates from your favorite authors without opening a browser and consuming unnecessary traffic.</string>
+    <string name="supported_sites">Supported sites:</string>
+    <string name="wishes_or_problems">Wishes or problems?</string>
+    <string name="write_to_telegram">Write to Telegram:</string>
+    <string name="link_for_problem">\@testtest</string>
 
     <!-- Задача -->
     <string name="last_check">Last update: </string>
@@ -25,9 +29,10 @@
     <string name="update_is_exist">Update is exist!</string>
     <string name="update_not">Update is not. Try again later</string>
     <string name="update_exist">There is an update! Long click on the task to view</string>
+    <string name="site_rip">Site not available...</string>
 
     <!-- Загрузка -->
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading... Wait, please</string>
 
     <!-- Настройки вида -->
     <string name="appearance_header">Appearance</string>
@@ -40,6 +45,9 @@
     <string name="lang_title">Language</string>
     <string name="lang_summary">You must restart the application to accept the changes.</string>
     <string name="check_internet">Check your internet connection...</string>
-    <string name="help_long_click">You may not have known! But a long click on the task will open your bookmark in the browser.</string>
+    <string name="help_long_click">Long click to go to browser.</string>
+    <string name="help_subtitle">You may not have known!</string>
+    <string name="helper_title">Helper</string>
+
 
 </resources>

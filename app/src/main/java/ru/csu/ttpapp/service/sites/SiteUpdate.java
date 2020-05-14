@@ -75,7 +75,6 @@ public class SiteUpdate implements ISite {
         try {
             String date = pt.get();
             if (date.equals("")) {
-                Toast.makeText(MainActivity.mContext, "Site is RIP!", Toast.LENGTH_SHORT).show();
                 return;
             }
             infoOfSite.setDate(date);
@@ -113,6 +112,7 @@ public class SiteUpdate implements ISite {
                         return true;
                     }
                 } catch (Exception e) {
+                    //ignore
                 }
             }
         }

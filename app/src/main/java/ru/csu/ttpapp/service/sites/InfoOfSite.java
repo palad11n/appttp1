@@ -91,7 +91,7 @@ public class InfoOfSite {
     private String[] convertToMonth(String date) {
         String[] dates = date.replaceAll(",", "").split(" ");
         for (String month : months.keySet()) {
-            if (dates[1].equals(month)) {
+            if (dates[1].contains(month)) {
                 Integer numMonth = months.get(month);
                 dates[1] = numMonth < 10 ? "0" + numMonth.toString() : numMonth.toString();
                 break;

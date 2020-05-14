@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WhenUPDATE</string>
+    <string name="about_app">О приложении</string>
+    <string name="about_description">Проверяйте обновления своих любимых произведений/сериалов без открытия браузера и лищних телодвижений.</string>
+    <string name="appearance_header">Внешний вид</string>
+    <string name="cancel">Отмена</string>
+    <string name="done">OK</string>
+    <string name="confirmation_of_delete">Вы действительно хотите удалить задачу?</string>
+    <string name="check_internet">Проверьте интернет соединение...</string>
+    <string name="editLink">Ссылка на страницу*</string>
+    <string name="help_long_click">Зажмите, чтобы перейти в браузер.</string>
+    <string name="help_subtitle">Возможно, вы не знали!</string>
+    <string name="helper_title">Помощь</string>
+    <string name="lang_summary">Вы должны перезапустить приложение, чтобы принять изменения.</string>
+    <string name="lang_title">Язык</string>
+    <string name="last_check">"Последний раз: "</string>
+    <string name="link_empty_error">Ссылка введена неправильно или не была введена. Задача не сохранена</string>
+    <string name="loading">Загружаем... Подождите!</string>
+    <string name="other_settings">Другие настройки</string>
+    <string name="set_name">Название</string>
+    <string name="setting_app">Настройки приложения</string>
+    <string name="setting_row">Создание задачи</string>
+    <string name="signature_title">Твоя подпись</string>
+    <string name="site_rip">Сайт не доступен...</string>
+    <string name="theme_summary">Выбор цвета фона приложения.</string>
+    <string name="theme_title">Цвет фона</string>
+    <string name="title_activity_settings">Настройки</string>
+    <string name="update_exist">Есть обновление! Зажмите задачу для просмотра</string>
+    <string name="update_is_exist">Обновление существует!</string>
+    <string name="update_not">Обновления нет. Попробуйте позже</string>
+    <string name="wishes_or_problems">Проблемы или предложения?</string>
+    <string name="write_to_telegram">Пишите в Telegram:</string>
+    <string name="link_for_problem">\@testtest</string>
+    <string name="supported_sites">Поддерживаемые сайты:</string>
+</resources>

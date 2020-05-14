@@ -129,13 +129,13 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
                 showDialogPref(R.layout.dialog_about);
                 return true;
             case R.id.itemHelp:
-                showDialogPref(R.layout.help_layout);
+                showDialogPref(R.layout.dialog_help);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void showDialogPref(int resId){
+    private void showDialogPref(int resId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(resId, null);
         builder.setView(view)
@@ -201,8 +201,8 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         imageView.setImageResource(resIdIcon);
 
         Toast toast = new Toast(getApplicationContext());
-        toast.setGravity(Gravity.CENTER, 0, 0);
         toast.setDuration(Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
         toast.setView(layout);
         toast.show();
     }
@@ -210,13 +210,5 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
     public void showLoadToast() {
         showToast(getString(R.string.loading), R.drawable.ic_update_load);
     }
-
-//    public void showProgressDialog() {
-//        progressBar.setVisibility(View.VISIBLE);
-//    }
-//
-//    public void hideProgressDialog() {
-//        progressBar.setVisibility(View.GONE);
-//    }
 }
 

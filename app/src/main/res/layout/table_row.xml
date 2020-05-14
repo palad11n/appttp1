@@ -91,7 +91,7 @@
             android:layout_width="37dp"
             android:layout_height="match_parent"
             android:background="#00000000"
-            android:src="@drawable/ic_loop_24px" />
+            android:src="@drawable/img_btn_state" />
 
     </LinearLayout>
 
