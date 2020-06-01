@@ -1,34 +1,35 @@
 package ru.csu.ttpapp.mvp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.common.DialogOnSaveTask;
 import ru.csu.ttpapp.common.ListTasks;
+import ru.csu.ttpapp.common.NotifyService;
 import ru.csu.ttpapp.common.Task;
 import ru.csu.ttpapp.common.TaskAdapter;
 import ru.csu.ttpapp.common.desing.ScrollFABBehavior;
@@ -44,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
     private TextInputEditText editTextTitle;
     private TextInputEditText editTextLink;
     private FloatingActionButton floatingActionButton;
-    private ConstraintLayout coordinatorLayout;
+    private ConstraintLayout constraintLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +55,11 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         init();
     }
 
-
     private void init() {
         if (mContext == null) mContext = MainActivity.this;
 
-        coordinatorLayout = (ConstraintLayout) findViewById(R.id.cl_main);
+        constraintLayout = (ConstraintLayout) findViewById(R.id.cl_main);
+
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
 
         taskAdapter = new TaskAdapter();
 
-        RecyclerView listView = findViewById(R.id.listView);
+        final RecyclerView listView = findViewById(R.id.listView);
         listView.setHasFixedSize(true);
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(taskAdapter);
@@ -92,6 +94,30 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         presenter = new TasksPresenter(taskModel);
         presenter.attachView(this);
         presenter.viewIsReady();
+
+        swipeRefreshLayout = findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorMy),
+                getResources().getColor(R.color.delete_btn_on));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        if (presenter.loadUpdate()) {
+                            //temp ** перенести уведомления сюда
+                        }
+                        //temp **
+                        Intent intent = new Intent(getApplicationContext(), NotifyService.class);
+                        startService(intent);
+                    }
+                }, 3000);
+
+
+            }
+        });
+
     }
 
     private void hideViews() {
@@ -106,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
     protected void onResume() {
         super.onResume();
         presenter.applySetting();
-
     }
 
     @Override
@@ -129,19 +154,26 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
                 startActivity(intent);
                 return true;
             case R.id.itemAbout:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                View view = getLayoutInflater().inflate(R.layout.dialog_about, null);
-                builder.setView(view)
-                        .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.dismiss();
-                            }
-                        });
-                builder.create();
-                builder.show();
+                showDialogPref(R.layout.dialog_about);
+                return true;
+            case R.id.itemHelp:
+                showDialogPref(R.layout.dialog_help);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showDialogPref(int resId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(resId, null);
+        builder.setView(view)
+                .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.create();
+        builder.show();
     }
 
     public Task getTaskFromDialog() {
@@ -164,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
                 && textLink.contains(".")))
             presenter.add();
         else
-            Snackbar.make(coordinatorLayout, getString(R.string.link_empty_error), Snackbar.LENGTH_LONG).show();
+            showToast(getString(R.string.link_empty_error), R.drawable.ic_sentiment_dissatisfied_toast);
         dialog.dismiss();
     }
 
@@ -175,43 +207,36 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
 
     public void isUpdate(boolean isExistUpdate) {
         if (isExistUpdate)
-            Snackbar.make(coordinatorLayout, getString(R.string.update_exist), Snackbar.LENGTH_SHORT)
-                    .show();
-        else Snackbar.make(coordinatorLayout, getString(R.string.update_not), Snackbar.LENGTH_SHORT)
-                .show();
+            showToast(getString(R.string.update_exist));
+        else showToast(getString(R.string.update_not), R.drawable.ic_sentiment_dissatisfied_toast);
     }
 
-    private AlertDialog.Builder builder;
-    private AlertDialog progressDialog;
-
-    public void showProgressDialog() {
-        //  findViewById(R.id.progress_spinner).setVisibility(View.VISIBLE);
-        if (progressDialog == null)
-            progressDialog = getDialogProgressBar().create();
-        progressDialog.show();
+    public void alertConnection() {
+        showToast(getString(R.string.check_internet), R.drawable.ic_wifi_off_24px);
     }
 
-    public void hideProgressDialog() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-        //   findViewById(R.id.progress_spinner).setVisibility(View.GONE);
+    public void showToast(String textToast) {
+        showToast(textToast, R.drawable.ic_sentiment_smale_toast);
     }
 
-    private AlertDialog.Builder getDialogProgressBar() {
-        if (builder == null) {
-            builder = new AlertDialog.Builder(this);
-            final ProgressBar progressBar = new ProgressBar(this);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            progressBar.setLayoutParams(lp);
-            progressBar.setProgress(0);
-            builder.setView(progressBar);
-            builder.setCancelable(false);
-        }
-        return builder;
+    public void showToast(String textToast, int resIdIcon) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.toast_layout, (ViewGroup) findViewById(R.id.toast_root));
+        TextView textView = layout.findViewById(R.id.toast_text);
+        ImageView imageView = layout.findViewById(R.id.toast_icon);
+
+        textView.setText(textToast);
+        imageView.setImageResource(resIdIcon);
+
+        Toast toast = new Toast(this);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setView(layout);
+        toast.show();
     }
 
+    public void showLoadToast() {
+        showToast(getString(R.string.loading), R.drawable.ic_update_load);
+    }
 }
 

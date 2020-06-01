@@ -1,6 +1,11 @@
 package ru.csu.ttpapp.service.sites;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -23,7 +28,7 @@ public class SiteUpdate implements ISite {
         map = new HashMap<>();
         map.put("//soundcloud.com/", "time");
         map.put("seria", ".epscape_tr");
-        map.put("//findanime.me/", ".table");
+        map.put("//findanime.me/", ".table td.hidden-xxs");
     }
 
     public SiteUpdate(String site) {
@@ -56,13 +61,12 @@ public class SiteUpdate implements ISite {
             pt = new SerialMovieParsingThread();
         } else {
             pt = new FindAnimeParsingThread();
-            TAG_CLASS = ".table";
+            TAG_CLASS = ".table td.hidden-xxs";
         }
         pt.execute(linkUsers, TAG_CLASS);
         try {
             String date = pt.get();
             if (date.equals("")) {
-                Toast.makeText(MainActivity.mContext, "Site is RIP!", Toast.LENGTH_SHORT).show();
                 return;
             }
             infoOfSite.setDate(date);
@@ -80,4 +84,6 @@ public class SiteUpdate implements ISite {
             //ignore
         }
     }
+
+
 }

@@ -2,7 +2,11 @@ package ru.csu.ttpapp.mvp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import com.google.gson.Gson;
 
@@ -20,6 +24,10 @@ class TaskModel {
 
     private final static String database = "list_db";
     private final String LIST_TASKS_LOADSAVE = "ListTasks";
+
+    private final static String  maxSizeList = "list_size_db";
+    private final String LIST_MAX_SIZE = "MaxSize";
+
     private ListTasks listTasks;
     private Context mContext;
 
@@ -34,7 +42,7 @@ class TaskModel {
         loadListTask.execute();
     }
 
-    void updateTask(Task task, ICompleteCallback callback){
+    void updateTask(Task task, ICompleteCallback callback) {
         UpdateTask updateTask = new UpdateTask(callback);
         updateTask.execute(task);
     }
@@ -49,7 +57,33 @@ class TaskModel {
         removeTask.execute(task);
     }
 
-    class AddTask extends AsyncTask<Task, Void, Void> {
+    boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) MainActivity.mContext.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+                if (capabilities != null) {
+                    if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                            || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                            || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+                    )
+                        return true;
+                }
+            } else {
+                try {
+                    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                    if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+                        return true;
+                    }
+                } catch (Exception e) {
+                    //ignore
+                }
+            }
+        }
+        return false;
+    }
+
+    private class AddTask extends AsyncTask<Task, Void, Void> {
 
         private final ICompleteCallback callback;
 
@@ -60,7 +94,10 @@ class TaskModel {
         @Override
         protected Void doInBackground(Task... tasks) {
             Task task = tasks[0];
+            long max = getMaxSize();
+            task.setId(max);
             listTasks.add(task);
+
             SharedPreferences sharedPreferences =
                     mContext.getSharedPreferences(database, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -69,6 +106,20 @@ class TaskModel {
             editor.apply();
             editor.commit();
             return null;
+        }
+
+        private long getMaxSize() {
+            SharedPreferences  sharedPreferences =
+                    mContext.getSharedPreferences(maxSizeList, Context.MODE_PRIVATE);
+            String loadSize = sharedPreferences.getString(LIST_MAX_SIZE, "0");
+
+            long maxSaveSize = Long.parseLong(loadSize) + 1;
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(LIST_MAX_SIZE, Long.toString(maxSaveSize));
+            editor.apply();
+            editor.commit();
+            return maxSaveSize;
         }
 
         @Override
@@ -80,7 +131,7 @@ class TaskModel {
         }
     }
 
-    class UpdateTask extends AsyncTask<Task, Void, Void> {
+    private class UpdateTask extends AsyncTask<Task, Void, Void> {
 
         private final ICompleteCallback callback;
 
@@ -91,10 +142,10 @@ class TaskModel {
         @Override
         protected Void doInBackground(Task... tasks) {
             Task newTask = tasks[0];
-            for (int i=0;i< listTasks.size();i++){
+            for (int i = 0; i < listTasks.size(); i++) {
                 Task oldTask = listTasks.get(i);
-                if(newTask.getTitle().equals(oldTask.getTitle())){
-                   // Task findOldTask = oldTask;
+                if (newTask.getId() == oldTask.getId()) {
+                    // Task findOldTask = oldTask;
                     listTasks.set(i, newTask);
                     break;
                 }
@@ -118,7 +169,7 @@ class TaskModel {
         }
     }
 
-    class LoadListTask extends AsyncTask<Void, Void, ListTasks> {
+    private class LoadListTask extends AsyncTask<Void, Void, ListTasks> {
 
         private final ILoadCallback callback;
 
@@ -144,7 +195,7 @@ class TaskModel {
         }
     }
 
-    class RemoveTask extends AsyncTask<Task, Void, Void> {
+    private class RemoveTask extends AsyncTask<Task, Void, Void> {
 
         private final ICompleteCallback callback;
 

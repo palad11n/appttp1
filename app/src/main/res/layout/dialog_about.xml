@@ -25,7 +25,7 @@
         style="@style/StyleAbout.TextView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Supported sites:" />
+        android:text="@string/supported_sites" />
 
     <TextView
         style="@style/StyleAbout.ListSite"
@@ -61,13 +61,18 @@
             style="@style/StyleAbout.Footer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Wishes or problems?"/>
+            android:text="@string/wishes_or_problems"/>
+        <TextView
+            style="@style/StyleAbout.Footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/write_to_telegram"/>
         <TextView
             style="@style/StyleAbout.Footer"
             android:textIsSelectable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Write to Telegram: @testtest"/>
+            android:text="@string/link_for_problem"/>
     </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -21,19 +21,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
-
-        <TextView
-            android:id="@+id/nameLink"
-            style="@style/TextView"
+        <HorizontalScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_start"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:padding="5dip"
-            android:singleLine="true"
-            android:text="Name film"
-            android:textSize="@dimen/sizeText" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/nameLink"
+                style="@style/TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_start"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:padding="@dimen/field_task_padding"
+                android:text="Name film"
+                android:textSize="@dimen/sizeText" />
+        </HorizontalScrollView>
     </LinearLayout>
 
     <Button
@@ -69,7 +72,7 @@
             android:layout_marginStart="@dimen/margin_start"
             android:ellipsize="end"
             android:maxLines="1"
-            android:padding="5dip"
+            android:padding="@dimen/field_task_padding"
             android:singleLine="true"
             android:text="@string/last_check"
             android:textSize="@dimen/sizeText" />
@@ -91,22 +94,8 @@
             android:layout_width="37dp"
             android:layout_height="match_parent"
             android:background="#00000000"
-            android:src="@drawable/ic_loop_24px" />
+            android:src="@drawable/img_btn_state" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/updateBtn"
-        style="@style/BtnUpdate"
-        android:layout_width="34sp"
-        android:layout_height="34sp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="32dp"
-        android:stateListAnimator="@null"
-        android:text="@string/update_is_exist"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/delBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

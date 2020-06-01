@@ -2,6 +2,7 @@ package ru.csu.ttpapp.service.sites;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -73,13 +74,12 @@ public class InfoOfSite {
         Date fromSite;
         SimpleDateFormat formatter;
         if (!date.contains("Z")) {
-            String newDate;
             if (date.contains(" ")) {
                 String[] dates = convertToMonth(date);
-                newDate = dates[0] + "." + dates[1] + "." + dates[2];
-            } else newDate = date;
-            fromSite = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-                    .parse(newDate);
+                date = dates[0] + "." + dates[1] + "." + dates[2];
+            }
+            fromSite = new SimpleDateFormat("dd.MM.yy")
+                    .parse(date);
         } else {
             formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
             date = date.replaceAll("Z$", "+0000");
@@ -91,13 +91,14 @@ public class InfoOfSite {
     private String[] convertToMonth(String date) {
         String[] dates = date.replaceAll(",", "").split(" ");
         for (String month : months.keySet()) {
-            if (dates[1].equals(month)) {
+            if (dates[1].contains(month)) {
                 Integer numMonth = months.get(month);
                 dates[1] = numMonth < 10 ? "0" + numMonth.toString() : numMonth.toString();
                 break;
             }
         }
         dates[0] = Integer.parseInt(dates[0]) < 10 ? "0" + dates[0] : dates[0];
+        dates[2] = dates[2].length() == 4 ? dates[2].substring(2, 4) : dates[2];
         return dates;
     }
 }

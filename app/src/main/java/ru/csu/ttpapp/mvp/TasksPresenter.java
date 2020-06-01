@@ -1,7 +1,6 @@
 package ru.csu.ttpapp.mvp;
 
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
@@ -9,10 +8,7 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.preference.PreferenceManager;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.Date;
-import java.util.Locale;
 
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.common.ListTasks;
@@ -23,6 +19,7 @@ import ru.csu.ttpapp.service.sites.SiteUpdate;
 public class TasksPresenter {
     private MainActivity view;
     private final TaskModel model;
+    private boolean flagUpdate = false;
 
     public TasksPresenter(TaskModel model) {
         this.model = model;
@@ -39,19 +36,6 @@ public class TasksPresenter {
     public void applySetting() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view);
         setTheme(prefs);
-        //  setLang(prefs);
-    }
-
-    private void setLang(SharedPreferences prefs) {
-        String lang = prefs.getString("lang", "default");
-        if (lang.equals("default")) {
-            lang = view.getResources().getConfiguration().locale.getCountry();
-        }
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        view.getBaseContext().getResources().updateConfiguration(config, null);
     }
 
     private void setTheme(SharedPreferences prefs) {
@@ -59,9 +43,8 @@ public class TasksPresenter {
         ConstraintLayout cl = view.findViewById(R.id.cl_main);
         TextView empty = view.findViewById(R.id.emptyId);
         if (theme.equals("dark")) {
-            cl.setBackgroundColor(Color.BLACK);
+            cl.setBackgroundColor(view.getResources().getColor(R.color.background_dark));
             empty.setTextColor(Color.WHITE);
-
         } else {
             cl.setBackgroundColor(Color.WHITE);
             empty.setTextColor(Color.BLACK);
@@ -92,7 +75,9 @@ public class TasksPresenter {
         Task task = view.getTaskFromDialog();
         ISite update = new SiteUpdate(task.getLink());
         if (task.getTitle().equals("")) {
-            task.setTitle(update.getTitleSite());
+            if (checkConnecting())
+                task.setTitle(update.getTitleSite());
+            else task.setTitle(task.getLink());
         }
         task.setDate(update.findUpDate());
         saveTask(task);
@@ -111,7 +96,7 @@ public class TasksPresenter {
         model.updateTask(task, new TaskModel.ICompleteCallback() {
             @Override
             public void onComplete() {
-                loadTasks();
+                // loadTasks();
             }
         });
     }
@@ -125,19 +110,67 @@ public class TasksPresenter {
         });
     }
 
-    public void loadUpdate(Task task) {
+    public boolean loadUpdate(Task task) {
+        if (!checkConnecting())
+            return false;
+        view.showLoadToast();
+        view.isUpdate(task.isUpdate());
+
+        return loadingUpdate(task);
+    }
+
+    public boolean loadUpdate() {
+        if (!checkConnecting())
+            return false;
+
+        model.loadTasks(new TaskModel.ILoadCallback() {
+            @Override
+            public void onLoad(ListTasks listTasks) {
+                for (Task task : listTasks) {
+                    loadingUpdate(task);
+
+                }
+            }
+        });
+        boolean isNotify = flagUpdate;
+        flagUpdate = false;
+        loadTasks();
+        view.isUpdate(isNotify);
+
+        return isNotify;
+    }
+
+    private boolean loadingUpdate(Task task) {
         try {
             ISite scu = new SiteUpdate(task.getLink());
             Date newDate = scu.findUpDate();
             if (newDate != null) {
                 if (newDate.after(task.getDate())) {
-                    task.setUpdate(true);
                     task.setDate(newDate);
+                    task.setUpdate(true);
+                    flagUpdate = true;
+                    updateTask(task);
+                    return true;
                 }
-                view.isUpdate(task.isUpdate());
+            } else {
+                String link = task.getLink();
+                int index = link.indexOf('/', ((link.contains("https")) ? 8 : 7));
+                String serverOff = link.substring(0, (index == -1) ? link.length() : index);
+                view.showToast(view.getString(R.string.site_rip) + serverOff
+                        , R.drawable.ic_sentiment_dissatisfied_toast);
             }
         } catch (Exception e) {
-            e.printStackTrace();
         }
+
+        return false;
+    }
+
+    private boolean checkConnecting() {
+        if (!model.isNetworkAvailable()) {
+            view.alertConnection();
+            return false;
+        }
+
+        return true;
     }
 }

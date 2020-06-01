@@ -42,7 +42,7 @@ public class DialogOnSaveTask extends DialogFragment {
 
         TextView textView = new TextView(MainActivity.mContext);
         textView.setText(R.string.setting_row);
-        textView.setPadding(70, 40, 20, 40);
+        textView.setPadding(50, 40, 0, 20);
         textView.setTextSize(25F);
         textView.setBackgroundColor(getResources().getColor(R.color.colorMy));
         textView.setTextColor(Color.WHITE);

@@ -8,11 +8,11 @@
         android:bottomLeftRadius="@dimen/radius_shape">
     </corners>
     <solid
-        android:color="@color/shape_on_color">
+        android:color="@color/toast">
     </solid>
     <padding
-        android:left="@dimen/padding_shape_row"
-        android:top="@dimen/padding_shape_row"
-        android:right="@dimen/padding_shape_row"
-        android:bottom="@dimen/padding_shape_row" />
+        android:left="5dp"
+        android:top="5dp"
+        android:right="5dp"
+        android:bottom="5dp" />
 </shape>
