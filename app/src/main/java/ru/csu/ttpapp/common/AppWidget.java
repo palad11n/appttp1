@@ -47,6 +47,8 @@ public class AppWidget extends AppWidgetProvider {
             if (appWidgetManager == null)
                 this.appWidgetManager = AppWidgetManager.getInstance(context);
             MainActivity.presenter.loadUpdate();
+            remoteViews = new RemoteViews(context.getPackageName(), R.layout.info_widget);
+            watchWidget = new ComponentName(context, AppWidget.class);
             // remoteViews.setTextViewText(R.id.widget_btn, "TESTING");
             appWidgetManager.updateAppWidget(watchWidget, remoteViews);
             // Log.i("@@@@@@@@", "click!!!");
