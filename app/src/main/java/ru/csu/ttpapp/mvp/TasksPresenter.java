@@ -19,6 +19,7 @@ import ru.csu.ttpapp.service.sites.SiteUpdate;
 public class TasksPresenter {
     private MainActivity view;
     private final TaskModel model;
+    private boolean flagUpdate = false;
 
     public TasksPresenter(TaskModel model) {
         this.model = model;
@@ -74,7 +75,9 @@ public class TasksPresenter {
         Task task = view.getTaskFromDialog();
         ISite update = new SiteUpdate(task.getLink());
         if (task.getTitle().equals("")) {
-            task.setTitle(update.getTitleSite());
+            if (checkConnecting())
+                task.setTitle(update.getTitleSite());
+            else task.setTitle(task.getLink());
         }
         task.setDate(update.findUpDate());
         saveTask(task);
@@ -108,7 +111,36 @@ public class TasksPresenter {
     }
 
     public boolean loadUpdate(Task task) {
+        if (!checkConnecting())
+            return false;
         view.showLoadToast();
+        view.isUpdate(task.isUpdate());
+
+        return loadingUpdate(task);
+    }
+
+    public boolean loadUpdate() {
+        if (!checkConnecting())
+            return false;
+
+        model.loadTasks(new TaskModel.ILoadCallback() {
+            @Override
+            public void onLoad(ListTasks listTasks) {
+                for (Task task : listTasks) {
+                    loadingUpdate(task);
+
+                }
+            }
+        });
+        boolean isNotify = flagUpdate;
+        flagUpdate = false;
+        loadTasks();
+        view.isUpdate(isNotify);
+
+        return isNotify;
+    }
+
+    private boolean loadingUpdate(Task task) {
         try {
             ISite scu = new SiteUpdate(task.getLink());
             Date newDate = scu.findUpDate();
@@ -116,18 +148,29 @@ public class TasksPresenter {
                 if (newDate.after(task.getDate())) {
                     task.setDate(newDate);
                     task.setUpdate(true);
+                    flagUpdate = true;
+                    updateTask(task);
                     return true;
                 }
-                view.isUpdate(task.isUpdate());
-            } else
-                view.showToast(view.getString(R.string.site_rip), R.drawable.ic_sentiment_dissatisfied_toast);
+            } else {
+                String link = task.getLink();
+                int index = link.indexOf('/', ((link.contains("https")) ? 8 : 7));
+                String serverOff = link.substring(0, (index == -1) ? link.length() : index);
+                view.showToast(view.getString(R.string.site_rip) + serverOff
+                        , R.drawable.ic_sentiment_dissatisfied_toast);
+            }
         } catch (Exception e) {
-            //ignore
         }
+
         return false;
     }
 
-    public void getNotConnection() {
-        view.alertConnection();
+    private boolean checkConnecting() {
+        if (!model.isNetworkAvailable()) {
+            view.alertConnection();
+            return false;
+        }
+
+        return true;
     }
 }

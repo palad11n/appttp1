@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,6 +116,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                     return true;
                 }
             });
+
+            if (task.isUpdate()){
+                itemView.setBackgroundResource(R.drawable.my_on_shape);
+                task.setUpdate(false);
+                MainActivity.presenter.updateTask(task);
+            }
         }
     }
 }

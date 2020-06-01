@@ -11,8 +11,8 @@
         android:color="@color/shape_off_color">
     </solid>
     <padding
-        android:left="5dp"
-        android:top="5dp"
-        android:right="5dp"
-        android:bottom="5dp" />
+        android:left="@dimen/padding_shape_row"
+        android:top="@dimen/padding_shape_row"
+        android:right="@dimen/padding_shape_row"
+        android:bottom="@dimen/padding_shape_row" />
 </shape>

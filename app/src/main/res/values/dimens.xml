@@ -5,4 +5,6 @@
     <dimen name="margin_start">0dp</dimen>
     <dimen name="radius_shape">3dp</dimen>
     <dimen name="margin_dialog">20dp</dimen>
+    <dimen name="field_task_padding">5dip</dimen>
+    <dimen name="padding_shape_row">5dp</dimen>
 </resources>

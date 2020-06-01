@@ -30,13 +30,6 @@
                 android:text="@string/helper_title" />
 
             <TextView
-                android:id="@+id/subtitle"
-                style="@style/StyleAbout.Footer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/help_subtitle" />
-
-            <TextView
                 android:id="@+id/decs_help"
                 style="@style/StyleAbout.Footer"
                 android:layout_width="match_parent"

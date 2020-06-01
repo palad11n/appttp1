@@ -43,20 +43,12 @@ public class SiteUpdate implements ISite {
 
     @Override
     public Date findUpDate() {
-        if (!isNetworkAvailable()){
-            MainActivity.presenter.getNotConnection();
-            return null;
-        }
         parsingDate();
         return infoOfSite.getDate();
     }
 
     @Override
     public String getTitleSite() {
-        if (!isNetworkAvailable()){
-            MainActivity.presenter.getNotConnection();
-            return null;
-        }
         parsingTitle();
         return infoOfSite.getTitle();
     }
@@ -93,29 +85,5 @@ public class SiteUpdate implements ISite {
         }
     }
 
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) MainActivity.mContext.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
-                if (capabilities != null) {
-                    if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                            || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-                            || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
-                    )
-                        return true;
-                }
-            } else {
-                try {
-                    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-                    if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
-                        return true;
-                    }
-                } catch (Exception e) {
-                    //ignore
-                }
-            }
-        }
-        return false;
-    }
+
 }

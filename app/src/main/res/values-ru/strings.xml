@@ -16,21 +16,21 @@
     <string name="lang_title">Язык</string>
     <string name="last_check">"Последний раз: "</string>
     <string name="link_empty_error">Ссылка введена неправильно или не была введена. Задача не сохранена</string>
-    <string name="loading">Загружаем... Подождите!</string>
+    <string name="loading">Загружаем...</string>
     <string name="other_settings">Другие настройки</string>
-    <string name="set_name">Название</string>
-    <string name="setting_app">Настройки приложения</string>
+    <string name="set_name">Название(необязательно)</string>
+    <string name="setting_app">Настройки</string>
     <string name="setting_row">Создание задачи</string>
     <string name="signature_title">Твоя подпись</string>
-    <string name="site_rip">Сайт не доступен...</string>
+    <string name="site_rip">"Сайт не доступен: "</string>
     <string name="theme_summary">Выбор цвета фона приложения.</string>
     <string name="theme_title">Цвет фона</string>
     <string name="title_activity_settings">Настройки</string>
     <string name="update_exist">Есть обновление! Зажмите задачу для просмотра</string>
-    <string name="update_is_exist">Обновление существует!</string>
     <string name="update_not">Обновления нет. Попробуйте позже</string>
     <string name="wishes_or_problems">Проблемы или предложения?</string>
     <string name="write_to_telegram">Пишите в Telegram:</string>
-    <string name="link_for_problem">\@testtest</string>
+    <string name="link_for_problem">\@Life_not</string>
     <string name="supported_sites">Поддерживаемые сайты:</string>
+    <string name="title_notify">Хорошие новости</string>
 </resources>

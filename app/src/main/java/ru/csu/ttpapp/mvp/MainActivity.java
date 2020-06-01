@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -28,6 +29,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.common.DialogOnSaveTask;
 import ru.csu.ttpapp.common.ListTasks;
+import ru.csu.ttpapp.common.NotifyService;
 import ru.csu.ttpapp.common.Task;
 import ru.csu.ttpapp.common.TaskAdapter;
 import ru.csu.ttpapp.common.desing.ScrollFABBehavior;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
     private TextInputEditText editTextLink;
     private FloatingActionButton floatingActionButton;
     private ConstraintLayout constraintLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         if (mContext == null) mContext = MainActivity.this;
 
         constraintLayout = (ConstraintLayout) findViewById(R.id.cl_main);
+
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
 
         taskAdapter = new TaskAdapter();
 
-        RecyclerView listView = findViewById(R.id.listView);
+        final RecyclerView listView = findViewById(R.id.listView);
         listView.setHasFixedSize(true);
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(taskAdapter);
@@ -90,6 +94,30 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         presenter = new TasksPresenter(taskModel);
         presenter.attachView(this);
         presenter.viewIsReady();
+
+        swipeRefreshLayout = findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorMy),
+                getResources().getColor(R.color.delete_btn_on));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                        if (presenter.loadUpdate()) {
+                            //temp ** перенести уведомления сюда
+                        }
+                        //temp **
+                        Intent intent = new Intent(getApplicationContext(), NotifyService.class);
+                        startService(intent);
+                    }
+                }, 3000);
+
+
+            }
+        });
+
     }
 
     private void hideViews() {
@@ -200,8 +228,8 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         textView.setText(textToast);
         imageView.setImageResource(resIdIcon);
 
-        Toast toast = new Toast(getApplicationContext());
-        toast.setDuration(Toast.LENGTH_LONG);
+        Toast toast = new Toast(this);
+        toast.setDuration(Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.setView(layout);
         toast.show();

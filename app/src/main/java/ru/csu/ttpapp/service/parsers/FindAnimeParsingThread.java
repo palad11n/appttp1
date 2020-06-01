@@ -28,7 +28,6 @@ public class FindAnimeParsingThread extends AsyncTask<String, Void, String> {
                     }
                 }
             }
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
