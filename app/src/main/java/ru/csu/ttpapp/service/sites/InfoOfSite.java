@@ -46,11 +46,12 @@ public class InfoOfSite {
     }
 
     public InfoOfSite() {
-
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        if (title.equals(""))
+            this.title = "None title";
+        else this.title = title;
     }
 
     public void setDate(String date) {

@@ -18,7 +18,7 @@
     <string name="link_empty_error">Ссылка введена неправильно или не была введена. Задача не сохранена</string>
     <string name="loading">Загружаем...</string>
     <string name="other_settings">Другие настройки</string>
-    <string name="set_name">Название(необязательно)</string>
+    <string name="set_name">Название (необязательно)</string>
     <string name="setting_app">Настройки</string>
     <string name="setting_row">Создание задачи</string>
     <string name="signature_title">Твоя подпись</string>

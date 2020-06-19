@@ -53,7 +53,6 @@ public class TasksPresenter {
 
     public void loadTasks() {
         model.loadTasks(new TaskModel.ILoadCallback() {
-
             @Override
             public void onLoad(ListTasks listTasks) {
                 TextView textEmpty = view.findViewById(R.id.emptyId);
@@ -72,21 +71,30 @@ public class TasksPresenter {
     }
 
     public void add() {
-        Task task = view.getTaskFromDialog();
-        ISite update = new SiteUpdate(task.getLink());
-        if (task.getTitle().equals("")) {
-            if (checkConnecting())
-                task.setTitle(update.getTitleSite());
-            else task.setTitle(task.getLink());
-        }
-        task.setDate(update.findUpDate());
-        saveTask(task);
+        view.showProgress();
+        new Thread() {
+            @Override
+            public void run() {
+                Task task = view.getTaskFromDialog();
+                ISite update = new SiteUpdate(task.getLink());
+                if (task.getTitle().equals("")) {
+                    if (checkConnecting()) {
+                        String title = update.getTitleSite();
+                        task.setTitle(title);
+                    } else task.setTitle(task.getLink());
+                }
+                task.setDate(update.findUpDate());
+                saveTask(task);
+            }
+        }.start();
+
     }
 
     private void saveTask(Task task) {
         model.saveTask(task, new TaskModel.ICompleteCallback() {
             @Override
             public void onComplete() {
+                view.hideProgress();
                 loadTasks();
             }
         });
@@ -113,10 +121,14 @@ public class TasksPresenter {
     public boolean loadUpdate(Task task) {
         if (!checkConnecting())
             return false;
-        view.showLoadToast();
+
+        loadingUpdate(task);
         view.isUpdate(task.isUpdate());
 
-        return loadingUpdate(task);
+        boolean isNotify = flagUpdate;
+        flagUpdate = false;
+
+        return isNotify;
     }
 
     public boolean loadUpdate() {
@@ -128,7 +140,6 @@ public class TasksPresenter {
             public void onLoad(ListTasks listTasks) {
                 for (Task task : listTasks) {
                     loadingUpdate(task);
-
                 }
             }
         });
@@ -140,29 +151,32 @@ public class TasksPresenter {
         return isNotify;
     }
 
-    private boolean loadingUpdate(Task task) {
-        try {
-            ISite scu = new SiteUpdate(task.getLink());
-            Date newDate = scu.findUpDate();
-            if (newDate != null) {
-                if (newDate.after(task.getDate())) {
-                    task.setDate(newDate);
-                    task.setUpdate(true);
-                    flagUpdate = true;
-                    updateTask(task);
-                    return true;
+    private void loadingUpdate(Task task1) {
+        final Task task = task1;
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    ISite scu = new SiteUpdate(task.getLink());
+                    Date newDate = scu.findUpDate();
+                    if (newDate != null) {
+                        if (newDate.after(task.getDate())) {
+                            task.setDate(newDate);
+                            task.setUpdate(true);
+                            flagUpdate = true;
+                            updateTask(task);
+                        }
+                    } else {
+                        String link = task.getLink();
+                        int index = link.indexOf('/', ((link.contains("https")) ? 8 : 7));
+                        String serverOff = link.substring(0, (index == -1) ? link.length() : index);
+                        view.showToast(view.getString(R.string.site_rip) + serverOff
+                                , R.drawable.ic_sentiment_dissatisfied_toast);
+                    }
+                } catch (Exception e) {
                 }
-            } else {
-                String link = task.getLink();
-                int index = link.indexOf('/', ((link.contains("https")) ? 8 : 7));
-                String serverOff = link.substring(0, (index == -1) ? link.length() : index);
-                view.showToast(view.getString(R.string.site_rip) + serverOff
-                        , R.drawable.ic_sentiment_dissatisfied_toast);
             }
-        } catch (Exception e) {
-        }
-
-        return false;
+        };
     }
 
     private boolean checkConnecting() {
@@ -173,4 +187,5 @@ public class TasksPresenter {
 
         return true;
     }
+
 }

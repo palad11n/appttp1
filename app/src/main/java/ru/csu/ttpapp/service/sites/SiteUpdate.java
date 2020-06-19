@@ -1,18 +1,11 @@
 package ru.csu.ttpapp.service.sites;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.widget.Toast;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import ru.csu.ttpapp.mvp.MainActivity;
 import ru.csu.ttpapp.service.parsers.FindAnimeParsingThread;
 import ru.csu.ttpapp.service.parsers.ParsingSoundCloudThread;
 import ru.csu.ttpapp.service.parsers.SerialMovieParsingThread;
@@ -20,7 +13,7 @@ import ru.csu.ttpapp.service.parsers.TitleParsingThread;
 
 public class SiteUpdate implements ISite {
     private final String linkUsers;
-    private InfoOfSite infoOfSite =  new InfoOfSite();
+    private InfoOfSite infoOfSite = new InfoOfSite();
     private String TAG_CLASS;
     private static final Map<String, String> map;
 
@@ -63,15 +56,13 @@ public class SiteUpdate implements ISite {
             pt = new FindAnimeParsingThread();
             TAG_CLASS = ".table td.hidden-xxs";
         }
+
         pt.execute(linkUsers, TAG_CLASS);
         try {
             String date = pt.get();
-            if (date.equals("")) {
-                return;
-            }
+            if (date.equals("")) return;
             infoOfSite.setDate(date);
         } catch (Exception e) {
-            //ignore
         }
     }
 
@@ -79,11 +70,11 @@ public class SiteUpdate implements ISite {
         TitleParsingThread pt = new TitleParsingThread();
         pt.execute(linkUsers);
         try {
-            infoOfSite.setTitle(pt.get());
+            String title = pt.get();
+            infoOfSite.setTitle(title);
         } catch (Exception e) {
-            //ignore
         }
     }
-
-
 }
+
+

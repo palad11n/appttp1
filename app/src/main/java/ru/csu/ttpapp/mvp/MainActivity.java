@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -104,20 +105,15 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
                 swipeRefreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
                         if (presenter.loadUpdate()) {
-                            //temp ** перенести уведомления сюда
+                            Intent intent = new Intent(getApplicationContext(), NotifyService.class);
+                            startService(intent);
                         }
-                        //temp **
-                        Intent intent = new Intent(getApplicationContext(), NotifyService.class);
-                        startService(intent);
+                        swipeRefreshLayout.setRefreshing(false);
                     }
-                }, 3000);
-
-
+                }, 2000);
             }
         });
-
     }
 
     private void hideViews() {
@@ -237,6 +233,18 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
 
     public void showLoadToast() {
         showToast(getString(R.string.loading), R.drawable.ic_update_load);
+    }
+
+    private ProgressDialog progressDialog;
+
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(this, "", getString(R.string.loading));
+    }
+
+    public void hideProgress() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 }
 
