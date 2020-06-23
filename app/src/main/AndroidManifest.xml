@@ -15,10 +15,14 @@
         <activity
             android:name=".mvp.SettingsActivity"
             android:configChanges="locale"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait">
+        </activity>
+
         <activity
             android:name=".mvp.MainActivity"
-            android:configChanges="locale">
+            android:configChanges="locale"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

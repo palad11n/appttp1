@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
     private FloatingActionButton floatingActionButton;
     private ConstraintLayout constraintLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView textEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         if (mContext == null) mContext = MainActivity.this;
 
         constraintLayout = (ConstraintLayout) findViewById(R.id.cl_main);
-
+        textEmpty = findViewById(R.id.emptyId);
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,14 +106,14 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
                 swipeRefreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                       presenter.loadUpdate();
+                        presenter.loadUpdate();
                     }
                 }, 1000);
             }
         });
     }
 
-    public SwipeRefreshLayout getSwipeRefreshLayout(){
+    public SwipeRefreshLayout getSwipeRefreshLayout() {
         return swipeRefreshLayout;
     }
 
@@ -245,6 +246,19 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
+    }
+
+    public void setBackground(int colorBackground, int colorText) {
+        constraintLayout.setBackgroundColor(colorBackground);
+        textEmpty.setTextColor(colorText);
+    }
+
+    public void showEmptyText() {
+        textEmpty.setVisibility(View.VISIBLE);
+    }
+
+    public void hideEmptyText() {
+        textEmpty.setVisibility(View.GONE);
     }
 }
 

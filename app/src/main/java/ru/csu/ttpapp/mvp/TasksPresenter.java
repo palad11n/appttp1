@@ -3,10 +3,7 @@ package ru.csu.ttpapp.mvp;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.view.View;
-import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.preference.PreferenceManager;
 
 import java.util.Date;
@@ -42,14 +39,10 @@ public class TasksPresenter {
 
     private void setTheme(SharedPreferences prefs) {
         String theme = prefs.getString("theme", "dark");
-        ConstraintLayout cl = view.findViewById(R.id.cl_main);
-        TextView empty = view.findViewById(R.id.emptyId);
         if (theme.equals("dark")) {
-            cl.setBackgroundColor(view.getResources().getColor(R.color.background_dark));
-            empty.setTextColor(Color.WHITE);
+            view.setBackground(view.getResources().getColor(R.color.background_dark), Color.WHITE);
         } else {
-            cl.setBackgroundColor(Color.WHITE);
-            empty.setTextColor(Color.BLACK);
+            view.setBackground(Color.WHITE, Color.BLACK);
         }
     }
 
@@ -57,12 +50,11 @@ public class TasksPresenter {
         model.loadTasks(new TaskModel.ILoadCallback() {
             @Override
             public void onLoad(ListTasks listTasks) {
-                TextView textEmpty = view.findViewById(R.id.emptyId);
                 if (listTasks != null) {
                     view.showTasks(listTasks);
                     if (!listTasks.isEmpty())
-                        textEmpty.setVisibility(View.GONE);
-                    else textEmpty.setVisibility(View.VISIBLE);
+                        view.hideEmptyText();
+                    else view.showEmptyText();
                 }
             }
         });
@@ -163,6 +155,7 @@ public class TasksPresenter {
                     task.setUpdate(true);
                     flagUpdate = true;
                     updateTask(task);
+
                     Intent intent = new Intent(view.getApplicationContext(), NotifyService.class);
                     view.startService(intent);
                 }
@@ -180,6 +173,7 @@ public class TasksPresenter {
     private boolean checkConnecting() {
         if (!model.isNetworkAvailable()) {
             view.alertConnection();
+            view.getSwipeRefreshLayout().setRefreshing(false);
             return false;
         }
 
