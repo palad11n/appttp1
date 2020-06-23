@@ -6,7 +6,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import ru.csu.ttpapp.service.sites.SiteUpdate;
+
 public class FindAnimeParsingThread extends AsyncTask<String, Void, String> {
+
     @Override
     protected String doInBackground(String... strings) {
         Document doc;
@@ -29,8 +32,12 @@ public class FindAnimeParsingThread extends AsyncTask<String, Void, String> {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
         }
         return date;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
     }
 }

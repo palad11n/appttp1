@@ -7,6 +7,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import ru.csu.ttpapp.service.sites.SiteUpdate;
+
 public class SerialMovieParsingThread extends AsyncTask<String, Void, String> {
 
     @Override
@@ -33,11 +35,13 @@ public class SerialMovieParsingThread extends AsyncTask<String, Void, String> {
                 }
             }
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) { }
+
         return date;
     }
 
-
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+    }
 }

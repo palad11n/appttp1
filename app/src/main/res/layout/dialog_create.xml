@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:imeOptions="actionNext"
-                android:hint="@string/editLink"
+                android:hint="@string/set_link"
                 android:inputType="textUri"
                 android:singleLine="true"
                 android:focusableInTouchMode="true"

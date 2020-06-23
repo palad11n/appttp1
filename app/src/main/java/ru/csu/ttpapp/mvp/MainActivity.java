@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,7 +30,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.common.DialogOnSaveTask;
 import ru.csu.ttpapp.common.ListTasks;
-import ru.csu.ttpapp.common.NotifyService;
 import ru.csu.ttpapp.common.Task;
 import ru.csu.ttpapp.common.TaskAdapter;
 import ru.csu.ttpapp.common.desing.ScrollFABBehavior;
@@ -101,23 +101,19 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
                 swipeRefreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                        if (presenter.loadUpdate()) {
-                            //temp ** перенести уведомления сюда
-                        }
-                        //temp **
-                        Intent intent = new Intent(getApplicationContext(), NotifyService.class);
-                        startService(intent);
+                       presenter.loadUpdate();
                     }
-                }, 3000);
-
-
+                }, 1000);
             }
         });
+    }
 
+    public SwipeRefreshLayout getSwipeRefreshLayout(){
+        return swipeRefreshLayout;
     }
 
     private void hideViews() {
@@ -237,6 +233,18 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
 
     public void showLoadToast() {
         showToast(getString(R.string.loading), R.drawable.ic_update_load);
+    }
+
+    private ProgressDialog progressDialog;
+
+    public void showProgress() {
+        progressDialog = ProgressDialog.show(this, "", getString(R.string.loading));
+    }
+
+    public void hideProgress() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 }
 

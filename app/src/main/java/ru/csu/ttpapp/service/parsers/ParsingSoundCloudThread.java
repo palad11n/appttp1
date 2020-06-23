@@ -6,6 +6,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import ru.csu.ttpapp.service.sites.SiteUpdate;
+
 public class ParsingSoundCloudThread extends AsyncTask<String, Void, String> {
 
     @Override
@@ -28,10 +30,12 @@ public class ParsingSoundCloudThread extends AsyncTask<String, Void, String> {
                 elementDate = doc.select(strings[1]).first();
                 date = elementDate.text();
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) { }
         return date;
     }
 
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+    }
 }

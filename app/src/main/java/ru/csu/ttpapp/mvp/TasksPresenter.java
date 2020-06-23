@@ -1,5 +1,6 @@
 package ru.csu.ttpapp.mvp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.View;
@@ -12,6 +13,7 @@ import java.util.Date;
 
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.common.ListTasks;
+import ru.csu.ttpapp.common.NotifyService;
 import ru.csu.ttpapp.common.Task;
 import ru.csu.ttpapp.service.sites.ISite;
 import ru.csu.ttpapp.service.sites.SiteUpdate;
@@ -53,7 +55,6 @@ public class TasksPresenter {
 
     public void loadTasks() {
         model.loadTasks(new TaskModel.ILoadCallback() {
-
             @Override
             public void onLoad(ListTasks listTasks) {
                 TextView textEmpty = view.findViewById(R.id.emptyId);
@@ -72,21 +73,29 @@ public class TasksPresenter {
     }
 
     public void add() {
-        Task task = view.getTaskFromDialog();
-        ISite update = new SiteUpdate(task.getLink());
-        if (task.getTitle().equals("")) {
-            if (checkConnecting())
-                task.setTitle(update.getTitleSite());
-            else task.setTitle(task.getLink());
-        }
-        task.setDate(update.findUpDate());
-        saveTask(task);
+        view.showProgress();
+        new Thread() {
+            @Override
+            public void run() {
+                Task task = view.getTaskFromDialog();
+                ISite update = new SiteUpdate(task.getLink());
+                if (task.getTitle().equals("")) {
+                    if (checkConnecting()) {
+                        String title = update.getTitleSite();
+                        task.setTitle(title);
+                    } else task.setTitle(task.getLink());
+                }
+                task.setDate(update.findUpDate());
+                saveTask(task);
+            }
+        }.start();
     }
 
     private void saveTask(Task task) {
         model.saveTask(task, new TaskModel.ICompleteCallback() {
             @Override
             public void onComplete() {
+                view.hideProgress();
                 loadTasks();
             }
         });
@@ -113,34 +122,38 @@ public class TasksPresenter {
     public boolean loadUpdate(Task task) {
         if (!checkConnecting())
             return false;
-        view.showLoadToast();
+
+        loadingUpdate(task);
         view.isUpdate(task.isUpdate());
 
-        return loadingUpdate(task);
-    }
-
-    public boolean loadUpdate() {
-        if (!checkConnecting())
-            return false;
-
-        model.loadTasks(new TaskModel.ILoadCallback() {
-            @Override
-            public void onLoad(ListTasks listTasks) {
-                for (Task task : listTasks) {
-                    loadingUpdate(task);
-
-                }
-            }
-        });
         boolean isNotify = flagUpdate;
         flagUpdate = false;
-        loadTasks();
-        view.isUpdate(isNotify);
 
         return isNotify;
     }
 
-    private boolean loadingUpdate(Task task) {
+    public void loadUpdate() {
+        if (!checkConnecting())
+            return;
+
+        new Thread(){
+            @Override
+            public void run() {
+                model.loadTasks(new TaskModel.ILoadCallback() {
+                    @Override
+                    public void onLoad(ListTasks listTasks) {
+                        for (Task task : listTasks) {
+                            loadingUpdate(task);
+                        }
+                    }
+                });
+
+                view.getSwipeRefreshLayout().setRefreshing(false);
+            }
+        }.start();
+    }
+
+    private void loadingUpdate(Task task) {
         try {
             ISite scu = new SiteUpdate(task.getLink());
             Date newDate = scu.findUpDate();
@@ -150,7 +163,8 @@ public class TasksPresenter {
                     task.setUpdate(true);
                     flagUpdate = true;
                     updateTask(task);
-                    return true;
+                    Intent intent = new Intent(view.getApplicationContext(), NotifyService.class);
+                    view.startService(intent);
                 }
             } else {
                 String link = task.getLink();
@@ -161,8 +175,6 @@ public class TasksPresenter {
             }
         } catch (Exception e) {
         }
-
-        return false;
     }
 
     private boolean checkConnecting() {
@@ -173,4 +185,5 @@ public class TasksPresenter {
 
         return true;
     }
+
 }

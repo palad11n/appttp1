@@ -22,10 +22,6 @@
 
     </style>
 
-    <style name="BtnUpdate" parent="StyleTaskForList">
-        <item name="android:background">@drawable/btn_update_shape</item>
-    </style>
-
     <style name="TextView">
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textStyle">bold</item>
