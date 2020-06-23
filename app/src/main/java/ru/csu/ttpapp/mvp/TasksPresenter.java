@@ -1,5 +1,6 @@
 package ru.csu.ttpapp.mvp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.View;
@@ -12,6 +13,7 @@ import java.util.Date;
 
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.common.ListTasks;
+import ru.csu.ttpapp.common.NotifyService;
 import ru.csu.ttpapp.common.Task;
 import ru.csu.ttpapp.service.sites.ISite;
 import ru.csu.ttpapp.service.sites.SiteUpdate;
@@ -87,7 +89,6 @@ public class TasksPresenter {
                 saveTask(task);
             }
         }.start();
-
     }
 
     private void saveTask(Task task) {
@@ -131,52 +132,49 @@ public class TasksPresenter {
         return isNotify;
     }
 
-    public boolean loadUpdate() {
+    public void loadUpdate() {
         if (!checkConnecting())
-            return false;
+            return;
 
-        model.loadTasks(new TaskModel.ILoadCallback() {
-            @Override
-            public void onLoad(ListTasks listTasks) {
-                for (Task task : listTasks) {
-                    loadingUpdate(task);
-                }
-            }
-        });
-        boolean isNotify = flagUpdate;
-        flagUpdate = false;
-        loadTasks();
-        view.isUpdate(isNotify);
-
-        return isNotify;
-    }
-
-    private void loadingUpdate(Task task1) {
-        final Task task = task1;
-        new Thread() {
+        new Thread(){
             @Override
             public void run() {
-                try {
-                    ISite scu = new SiteUpdate(task.getLink());
-                    Date newDate = scu.findUpDate();
-                    if (newDate != null) {
-                        if (newDate.after(task.getDate())) {
-                            task.setDate(newDate);
-                            task.setUpdate(true);
-                            flagUpdate = true;
-                            updateTask(task);
+                model.loadTasks(new TaskModel.ILoadCallback() {
+                    @Override
+                    public void onLoad(ListTasks listTasks) {
+                        for (Task task : listTasks) {
+                            loadingUpdate(task);
                         }
-                    } else {
-                        String link = task.getLink();
-                        int index = link.indexOf('/', ((link.contains("https")) ? 8 : 7));
-                        String serverOff = link.substring(0, (index == -1) ? link.length() : index);
-                        view.showToast(view.getString(R.string.site_rip) + serverOff
-                                , R.drawable.ic_sentiment_dissatisfied_toast);
                     }
-                } catch (Exception e) {
-                }
+                });
+
+                view.getSwipeRefreshLayout().setRefreshing(false);
             }
-        };
+        }.start();
+    }
+
+    private void loadingUpdate(Task task) {
+        try {
+            ISite scu = new SiteUpdate(task.getLink());
+            Date newDate = scu.findUpDate();
+            if (newDate != null) {
+                if (newDate.after(task.getDate())) {
+                    task.setDate(newDate);
+                    task.setUpdate(true);
+                    flagUpdate = true;
+                    updateTask(task);
+                    Intent intent = new Intent(view.getApplicationContext(), NotifyService.class);
+                    view.startService(intent);
+                }
+            } else {
+                String link = task.getLink();
+                int index = link.indexOf('/', ((link.contains("https")) ? 8 : 7));
+                String serverOff = link.substring(0, (index == -1) ? link.length() : index);
+                view.showToast(view.getString(R.string.site_rip) + serverOff
+                        , R.drawable.ic_sentiment_dissatisfied_toast);
+            }
+        } catch (Exception e) {
+        }
     }
 
     private boolean checkConnecting() {

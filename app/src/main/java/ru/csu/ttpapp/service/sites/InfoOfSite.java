@@ -2,13 +2,9 @@ package ru.csu.ttpapp.service.sites;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class InfoOfSite {
     private Date date;
@@ -36,28 +32,24 @@ public class InfoOfSite {
         this.title = title;
         try {
             this.date = convertToDate(date);
-        } catch (Exception ex) {
+        } catch (ParseException ex) {
             ex.printStackTrace();
         }
-    }
-
-    public InfoOfSite(String title) {
-        this.title = title;
     }
 
     public InfoOfSite() {
     }
 
-    public void setTitle(String title) {
-        if (title.equals(""))
-            this.title = "None title";
+    public void setTitle(String title, String link) {
+        if (title == null || title.isEmpty())
+            this.title = link;
         else this.title = title;
     }
 
     public void setDate(String date) {
         try {
             this.date = convertToDate(date);
-        } catch (Exception ex) {
+        } catch (ParseException ex) {
             ex.printStackTrace();
         }
     }
@@ -75,12 +67,10 @@ public class InfoOfSite {
         Date fromSite;
         SimpleDateFormat formatter;
         if (!date.contains("Z")) {
-            if (date.contains(" ")) {
-                String[] dates = convertToMonth(date);
-                date = dates[0] + "." + dates[1] + "." + dates[2];
-            }
-            fromSite = new SimpleDateFormat("dd.MM.yy")
-                    .parse(date);
+            if (date.contains(" "))
+                date = convertToMonth(date);
+
+            fromSite = new SimpleDateFormat("dd.MM.yy").parse(date);
         } else {
             formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
             date = date.replaceAll("Z$", "+0000");
@@ -89,7 +79,7 @@ public class InfoOfSite {
         return fromSite;
     }
 
-    private String[] convertToMonth(String date) {
+    private String convertToMonth(String date) {
         String[] dates = date.replaceAll(",", "").split(" ");
         for (String month : months.keySet()) {
             if (dates[1].contains(month)) {
@@ -98,8 +88,17 @@ public class InfoOfSite {
                 break;
             }
         }
+        if (!isOnlyDigits(dates[1]))
+            throw new IllegalArgumentException("Invalid month format: " + dates[1]);
+
         dates[0] = Integer.parseInt(dates[0]) < 10 ? "0" + dates[0] : dates[0];
         dates[2] = dates[2].length() == 4 ? dates[2].substring(2, 4) : dates[2];
-        return dates;
+
+        date = dates[0] + "." + dates[1] + "." + dates[2];
+        return date;
+    }
+
+    private static boolean isOnlyDigits(String str) {
+        return str.matches("[\\d]+");
     }
 }

@@ -4,7 +4,7 @@
     <!-- Быстрые настройки и создание задачи -->
     <string name="setting_row">Create task</string>
     <string name="set_name">Your title (optional)</string>
-    <string name="editLink">Link of site*</string>
+    <string name="set_link">Link of site*</string>
 
     <!-- Основные кнопки -->
     <string name="done">OK</string>

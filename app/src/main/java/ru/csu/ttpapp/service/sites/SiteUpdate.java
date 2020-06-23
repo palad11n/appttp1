@@ -71,7 +71,7 @@ public class SiteUpdate implements ISite {
         pt.execute(linkUsers);
         try {
             String title = pt.get();
-            infoOfSite.setTitle(title);
+            infoOfSite.setTitle(title, linkUsers);
         } catch (Exception e) {
         }
     }

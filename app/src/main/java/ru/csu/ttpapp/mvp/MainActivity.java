@@ -30,7 +30,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.common.DialogOnSaveTask;
 import ru.csu.ttpapp.common.ListTasks;
-import ru.csu.ttpapp.common.NotifyService;
 import ru.csu.ttpapp.common.Task;
 import ru.csu.ttpapp.common.TaskAdapter;
 import ru.csu.ttpapp.common.desing.ScrollFABBehavior;
@@ -102,18 +101,19 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
                 swipeRefreshLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (presenter.loadUpdate()) {
-                            Intent intent = new Intent(getApplicationContext(), NotifyService.class);
-                            startService(intent);
-                        }
-                        swipeRefreshLayout.setRefreshing(false);
+                       presenter.loadUpdate();
                     }
-                }, 2000);
+                }, 1000);
             }
         });
+    }
+
+    public SwipeRefreshLayout getSwipeRefreshLayout(){
+        return swipeRefreshLayout;
     }
 
     private void hideViews() {

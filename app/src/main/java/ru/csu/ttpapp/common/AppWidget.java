@@ -56,7 +56,6 @@ public class AppWidget extends AppWidgetProvider {
             remoteViews.setTextViewText(R.id.widget_btn, "Loading...");
             appWidgetManager.updateAppWidget(watchWidget, remoteViews);
            try {
-              // MainActivity.presenter.loadUpdate();
                Toast.makeText(context,"Congration",Toast.LENGTH_SHORT).show();
            }catch (Exception e){
                Log.d("@@@", e.getMessage());

@@ -8,7 +8,7 @@
     <string name="done">OK</string>
     <string name="confirmation_of_delete">Вы действительно хотите удалить задачу?</string>
     <string name="check_internet">Проверьте интернет соединение...</string>
-    <string name="editLink">Ссылка на страницу*</string>
+    <string name="set_link">Ссылка на страницу*</string>
     <string name="help_long_click">Зажмите, чтобы перейти в браузер.</string>
     <string name="help_subtitle">Возможно, вы не знали!</string>
     <string name="helper_title">Помощь</string>
