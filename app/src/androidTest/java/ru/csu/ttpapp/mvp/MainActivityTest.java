@@ -1,5 +1,6 @@
 package ru.csu.ttpapp.mvp;
 
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -11,14 +12,18 @@ import org.junit.runner.RunWith;
 
 import ru.csu.ttpapp.R;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.is;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -37,15 +42,18 @@ public class MainActivityTest {
 
     @Test
     public void onDialogPositiveClick() {
+        int currentCount = ((RecyclerView) mActivityRule.getActivity().findViewById(R.id.listView)).getAdapter().getItemCount();
+
         onView(withId(R.id.floatingActionButton)).perform(click());
         onView(withId(R.id.clSetting)).check(matches(isDisplayed()));
-        onView(withId(R.id.textInputLayoutSetLink)) .check(matches(isDisplayed()));
+        onView(withId(R.id.textInputLayoutSetLink)).check(matches(isDisplayed()));
         onView(withId(R.id.textInputLayoutSetName)).check(matches(isDisplayed()));
         onView(withId(R.id.setLink)).perform(typeText("https://127.0.0.1/"));
         onView(withText(R.string.done)).perform(click());
 
         onView(withId(R.id.clSetting)).check(doesNotExist());
-
+        int newCount = ((RecyclerView) mActivityRule.getActivity().findViewById(R.id.listView)).getAdapter().getItemCount();
+        assertThat(newCount, is(currentCount + 1));
     }
 
     @Test
