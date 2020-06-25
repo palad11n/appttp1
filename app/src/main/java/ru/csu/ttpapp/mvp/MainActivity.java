@@ -62,12 +62,9 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         constraintLayout = (ConstraintLayout) findViewById(R.id.cl_main);
         textEmpty = findViewById(R.id.emptyId);
         floatingActionButton = findViewById(R.id.floatingActionButton);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment dialog = new DialogOnSaveTask();
-                dialog.show(getSupportFragmentManager(), "DialogOnSaveTask show");
-            }
+        floatingActionButton.setOnClickListener(v -> {
+            DialogFragment dialog = new DialogOnSaveTask();
+            dialog.show(getSupportFragmentManager(), "DialogOnSaveTask show");
         });
 
         taskAdapter = new TaskAdapter();
@@ -77,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(taskAdapter);
         listView.setVisibility(View.VISIBLE);
-
         listView.addOnScrollListener(new ScrollFABBehavior() {
             @Override
             public void onHide() {
@@ -99,22 +95,17 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorMy),
                 getResources().getColor(R.color.delete_btn_on));
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
-                swipeRefreshLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        presenter.loadUpdate();
-                    }
-                }, 1000);
-            }
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            swipeRefreshLayout.postDelayed(() -> {
+                presenter.loadUpdate();
+                swipeRefreshLayout.setRefreshing(false);
+            }, 2000);
         });
     }
 
-    public SwipeRefreshLayout getSwipeRefreshLayout() {
-        return swipeRefreshLayout;
+    public void hideSwipeRefreshLayout() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     private void hideViews() {
@@ -164,11 +155,7 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(resId, null);
         builder.setView(view)
-                .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
+                .setPositiveButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
         builder.create();
         builder.show();
     }
@@ -189,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         editTextTitle = dialog.getDialog().getWindow().findViewById(R.id.setName);
         editTextLink = dialog.getDialog().getWindow().findViewById(R.id.setLink);
         String textLink = editTextLink.getText().toString();
-        if (!textLink.isEmpty() && (textLink.startsWith("http://") || textLink.startsWith("https://")
+        if (!textLink.isEmpty() && ((textLink.startsWith("http://") || textLink.startsWith("https://"))
                 && textLink.contains(".")))
             presenter.add();
         else

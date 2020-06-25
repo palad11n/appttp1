@@ -5,37 +5,17 @@ import android.os.AsyncTask;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import ru.csu.ttpapp.service.sites.InfoOfSite;
 import ru.csu.ttpapp.service.sites.SiteUpdate;
 
-public class ParsingSoundCloudThread extends AsyncTask<String, Void, String> {
-
+public class ParsingSoundCloudThread extends InfoOfSite {
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-
-    }
-
-    @Override
-    protected String doInBackground(String... strings) {
-        Document doc;
+    public String getLastDate(Elements rows) {
         Element elementDate;
-        String date = "";
-        try {
-            doc = Jsoup.connect(strings[0])
-                    .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
-                    .maxBodySize(0)
-                    .get();
-            if (strings.length > 1) {
-                elementDate = doc.select(strings[1]).first();
-                date = elementDate.text();
-            }
-        } catch (Exception ex) { }
-        return date;
-    }
+        elementDate = rows.first();
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
+        return elementDate.text();
     }
 }

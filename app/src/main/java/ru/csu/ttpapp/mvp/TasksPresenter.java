@@ -9,7 +9,6 @@ import androidx.preference.PreferenceManager;
 import java.util.Date;
 
 import ru.csu.ttpapp.R;
-import ru.csu.ttpapp.common.ListTasks;
 import ru.csu.ttpapp.common.NotifyService;
 import ru.csu.ttpapp.common.Task;
 import ru.csu.ttpapp.service.sites.ISite;
@@ -32,7 +31,7 @@ public class TasksPresenter {
         view = null;
     }
 
-    public void applySetting() {
+    void applySetting() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view);
         setTheme(prefs);
     }
@@ -47,15 +46,12 @@ public class TasksPresenter {
     }
 
     public void loadTasks() {
-        model.loadTasks(new TaskModel.ILoadCallback() {
-            @Override
-            public void onLoad(ListTasks listTasks) {
-                if (listTasks != null) {
-                    view.showTasks(listTasks);
-                    if (!listTasks.isEmpty())
-                        view.hideEmptyText();
-                    else view.showEmptyText();
-                }
+        model.loadTasks(listTasks -> {
+            if (listTasks != null) {
+                view.showTasks(listTasks);
+                if (!listTasks.isEmpty())
+                    view.hideEmptyText();
+                else view.showEmptyText();
             }
         });
     }
@@ -70,45 +66,38 @@ public class TasksPresenter {
             @Override
             public void run() {
                 Task task = view.getTaskFromDialog();
-                ISite update = new SiteUpdate(task.getLink());
+                ISite update = new SiteUpdate(task.getLink(), task.getDate());
                 if (task.getTitle().equals("")) {
                     if (checkConnecting()) {
                         String title = update.getTitleSite();
                         task.setTitle(title);
                     } else task.setTitle(task.getLink());
                 }
-                task.setDate(update.findUpDate());
+
+                update.findUpDate((result, newDate) -> date1 = newDate);
+                task.setDate(date1);
                 saveTask(task);
             }
         }.start();
     }
 
+    private Date date1;
+
     private void saveTask(Task task) {
-        model.saveTask(task, new TaskModel.ICompleteCallback() {
-            @Override
-            public void onComplete() {
-                view.hideProgress();
-                loadTasks();
-            }
+        model.saveTask(task, () -> {
+            view.hideProgress();
+            loadTasks();
         });
     }
 
     public void updateTask(Task task) {
-        model.updateTask(task, new TaskModel.ICompleteCallback() {
-            @Override
-            public void onComplete() {
-                // loadTasks();
-            }
+        model.updateTask(task, () -> {
+            // loadTasks();
         });
     }
 
     public void remove(Task task) {
-        model.removeTask(task, new TaskModel.ICompleteCallback() {
-            @Override
-            public void onComplete() {
-                loadTasks();
-            }
-        });
+        model.removeTask(task, () -> loadTasks());
     }
 
     public boolean loadUpdate(Task task) {
@@ -116,56 +105,52 @@ public class TasksPresenter {
             return false;
 
         loadingUpdate(task);
-        view.isUpdate(task.isUpdate());
 
         boolean isNotify = flagUpdate;
         flagUpdate = false;
 
+        view.isUpdate(task.isUpdate());
         return isNotify;
     }
 
     public void loadUpdate() {
         if (!checkConnecting())
             return;
-
-        new Thread(){
-            @Override
-            public void run() {
-                model.loadTasks(new TaskModel.ILoadCallback() {
-                    @Override
-                    public void onLoad(ListTasks listTasks) {
-                        for (Task task : listTasks) {
-                            loadingUpdate(task);
-                        }
-                    }
-                });
-
-                view.getSwipeRefreshLayout().setRefreshing(false);
+        model.loadTasks(listTasks -> {
+            for (Task task : listTasks) {
+                loadingUpdate(task);
             }
-        }.start();
+        });
+
     }
 
     private void loadingUpdate(Task task) {
         try {
-            ISite scu = new SiteUpdate(task.getLink());
-            Date newDate = scu.findUpDate();
-            if (newDate != null) {
-                if (newDate.after(task.getDate())) {
-                    task.setDate(newDate);
-                    task.setUpdate(true);
-                    flagUpdate = true;
-                    updateTask(task);
+            ISite scu = new SiteUpdate(task.getLink(), task.getDate());
+            scu.findUpDate((result, newDate) -> {
+                switch (result) {
+                    case 1:
+                        task.setDate(newDate);
+                        task.setUpdate(true);
+                        flagUpdate = true;
+                        updateTask(task);
 
-                    Intent intent = new Intent(view.getApplicationContext(), NotifyService.class);
-                    view.startService(intent);
+                        Intent intent = new Intent(view.getApplicationContext(), NotifyService.class);
+                        view.startService(intent);
+                        break;
+
+                    case -1:
+                        String link = task.getLink();
+                        int index = link.indexOf('/', ((link.contains("https")) ? 8 : 7));
+                        String serverOff = link.substring(0, (index == -1) ? link.length() : index);
+                        view.showToast(view.getString(R.string.site_rip) + serverOff
+                                , R.drawable.ic_sentiment_dissatisfied_toast);
+                        break;
+
+                    default:
+                        break;
                 }
-            } else {
-                String link = task.getLink();
-                int index = link.indexOf('/', ((link.contains("https")) ? 8 : 7));
-                String serverOff = link.substring(0, (index == -1) ? link.length() : index);
-                view.showToast(view.getString(R.string.site_rip) + serverOff
-                        , R.drawable.ic_sentiment_dissatisfied_toast);
-            }
+            });
         } catch (Exception e) {
         }
     }
@@ -173,7 +158,6 @@ public class TasksPresenter {
     private boolean checkConnecting() {
         if (!model.isNetworkAvailable()) {
             view.alertConnection();
-            view.getSwipeRefreshLayout().setRefreshing(false);
             return false;
         }
 

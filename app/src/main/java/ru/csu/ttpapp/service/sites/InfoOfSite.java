@@ -1,12 +1,14 @@
 package ru.csu.ttpapp.service.sites;
 
+import org.jsoup.select.Elements;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InfoOfSite {
+public abstract class InfoOfSite {
     private Date date;
     private String title;
 
@@ -39,6 +41,8 @@ public class InfoOfSite {
 
     public InfoOfSite() {
     }
+
+    public abstract String getLastDate(Elements rows);
 
     public void setTitle(String title, String link) {
         if (title == null || title.isEmpty())
