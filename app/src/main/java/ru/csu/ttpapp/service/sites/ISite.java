@@ -1,8 +1,6 @@
 package ru.csu.ttpapp.service.sites;
 
-import java.util.Date;
-
 public interface ISite {
-    void findUpDate(SiteUpdate.IComplete iComplete);
+    void findUpDate(SiteUpdate.ICompleteCallback iCompleteCallback);
     String getTitleSite();
 }

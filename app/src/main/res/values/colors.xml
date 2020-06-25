@@ -12,12 +12,16 @@
     <color name="toast">#0068e3</color>
     <color name="colorMy">#0068e3</color>
 
-    <color name="shape_off_color">#990068E3</color>
+<!--    <color name="shape_off_color">#990068E3</color>-->
+    <color name="shape_off_color">#CCFFFFFD</color>
     <color name="shape_on_color">#00A86B</color>
 
     <color name="delete_btn_off">#990068E3</color>
     <color name="delete_btn_on">#4eb782</color>
 
     <color name="background_dark">#161616</color>
+    <color name="background_light">#eceaec</color>
 
+
+    <color name="text_row">#0068e3</color>
 </resources>

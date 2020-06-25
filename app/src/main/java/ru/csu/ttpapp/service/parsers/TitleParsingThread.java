@@ -4,9 +4,6 @@ import android.os.AsyncTask;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import ru.csu.ttpapp.service.sites.SiteUpdate;
 
 public class TitleParsingThread extends AsyncTask<String, Void, String> {
 

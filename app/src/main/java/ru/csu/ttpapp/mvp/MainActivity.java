@@ -104,10 +104,6 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         });
     }
 
-    public void hideSwipeRefreshLayout() {
-        swipeRefreshLayout.setRefreshing(false);
-    }
-
     private void hideViews() {
         floatingActionButton.hide();
     }

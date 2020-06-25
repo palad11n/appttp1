@@ -1,9 +1,6 @@
 package ru.csu.ttpapp.service.sites;
 
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,18 +10,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import ru.csu.ttpapp.R;
-import ru.csu.ttpapp.common.ListTasks;
-import ru.csu.ttpapp.common.NotifyService;
-import ru.csu.ttpapp.mvp.MainActivity;
-import ru.csu.ttpapp.service.parsers.FindAnimeParsingThread;
-import ru.csu.ttpapp.service.parsers.ParsingSoundCloudThread;
-import ru.csu.ttpapp.service.parsers.SerialMovieParsingThread;
+import ru.csu.ttpapp.service.parsers.FindAnimeParsing;
+import ru.csu.ttpapp.service.parsers.SoundCloudParsing;
+import ru.csu.ttpapp.service.parsers.SerialMovieParsing;
 import ru.csu.ttpapp.service.parsers.TitleParsingThread;
 
 public class SiteUpdate implements ISite {
@@ -33,6 +24,7 @@ public class SiteUpdate implements ISite {
     private InfoOfSite infoOfSite;
     private String TAG_CLASS;
     private static final Map<String, String> map;
+
     static {
         map = new HashMap<>();
         map.put("//soundcloud.com/", "time");
@@ -40,6 +32,10 @@ public class SiteUpdate implements ISite {
         map.put("//findanime.me/", ".table td.hidden-xxs");
         map.put("//mintmanga", ".table td.hidden-xxs");
         map.put("//readmanga", ".table td.hidden-xxs");
+    }
+
+    public interface ICompleteCallback {
+        void onComplete(int result, Date newDate);
     }
 
     public SiteUpdate(String site, Date last) {
@@ -53,24 +49,25 @@ public class SiteUpdate implements ISite {
         }
 
         if (linkUsers.contains("//soundcloud.com/")) {
-            infoOfSite = new ParsingSoundCloudThread();
+            infoOfSite = new SoundCloudParsing();
         } else if (linkUsers.contains("seria")) {
-            infoOfSite = new SerialMovieParsingThread();
+            infoOfSite = new SerialMovieParsing();
         } else {
-            infoOfSite = new FindAnimeParsingThread();
+            infoOfSite = new FindAnimeParsing();
             TAG_CLASS = ".table td.hidden-xxs";
         }
 
     }
 
-    public interface IComplete{
-        void onComplete(int result, Date newDate);
-    }
-
-    public void findUpDate(IComplete iComplete) {
+    /**
+     * Запускает парсинг страницы для поиска последней даты.
+     *
+     * @param iCompleteCallback отклик после выполнений методов для уведомлений пользователя
+     */
+    public void findUpDate(ICompleteCallback iCompleteCallback) {
         Observable.fromCallable(() -> {
             Document doc;
-          //  String date = "";
+            //  String date = "";
             try {
                 doc = Jsoup.connect(linkUsers)
                         .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
@@ -88,21 +85,26 @@ public class SiteUpdate implements ISite {
                             Log.i("@@@", date);
                             infoOfSite.setDate(date);
                             Date reqDate = infoOfSite.getDate();
-                            iComplete.onComplete(isUpdate(reqDate), reqDate);
+                            iCompleteCallback.onComplete(isUpdate(reqDate), reqDate);
                         },
                         error -> Log.e("@@@", error.getMessage())
                 );
     }
 
-    private int isUpdate(Date newDate){
+    /**
+     * Метод сравнивает сохраненную дату и пришедшую, чтобы выявить наличие обновления.
+     *
+     * @param newDate дата, которая только, что пришла с сайта
+     * @return 1 - значит обновление есть; -1 - дата не пришла; 0 - нет обновлений
+     */
+    private int isUpdate(Date newDate) {
         if (newDate != null) {
             if (newDate.after(lastDate)) {
-                return 1;
+                return 1; // обновление
             }
-        } else {
-            return -1; //ошибка
-        }
-        return 0;
+        } else return -1; // ошибка
+
+        return 0;         // нет обновления
     }
 
     @Override

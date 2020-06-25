@@ -41,7 +41,7 @@ public class TasksPresenter {
         if (theme.equals("dark")) {
             view.setBackground(view.getResources().getColor(R.color.background_dark), Color.WHITE);
         } else {
-            view.setBackground(Color.WHITE, Color.BLACK);
+            view.setBackground(view.getResources().getColor(R.color.background_light), Color.BLACK);
         }
     }
 
@@ -121,38 +121,31 @@ public class TasksPresenter {
                 loadingUpdate(task);
             }
         });
-
     }
 
     private void loadingUpdate(Task task) {
-        try {
-            ISite scu = new SiteUpdate(task.getLink(), task.getDate());
-            scu.findUpDate((result, newDate) -> {
-                switch (result) {
-                    case 1:
-                        task.setDate(newDate);
-                        task.setUpdate(true);
-                        flagUpdate = true;
-                        updateTask(task);
-
-                        Intent intent = new Intent(view.getApplicationContext(), NotifyService.class);
-                        view.startService(intent);
-                        break;
-
-                    case -1:
-                        String link = task.getLink();
-                        int index = link.indexOf('/', ((link.contains("https")) ? 8 : 7));
-                        String serverOff = link.substring(0, (index == -1) ? link.length() : index);
-                        view.showToast(view.getString(R.string.site_rip) + serverOff
-                                , R.drawable.ic_sentiment_dissatisfied_toast);
-                        break;
-
-                    default:
-                        break;
-                }
-            });
-        } catch (Exception e) {
-        }
+        ISite scu = new SiteUpdate(task.getLink(), task.getDate());
+        scu.findUpDate((result, newDate) -> {
+            switch (result) {
+                case 1:
+                    task.setDate(newDate);
+                    task.setUpdate(true);
+                    flagUpdate = true;
+                    updateTask(task);
+                    Intent intent = new Intent(view.getApplicationContext(), NotifyService.class);
+                    view.startService(intent);
+                    break;
+                case -1:
+//                    String link = task.getLink();
+//                    int index = link.indexOf('/', ((link.contains("https")) ? 8 : 7));
+//                    String serverOff = link.substring(0, (index == -1) ? link.length() : index);
+                    view.showToast(view.getString(R.string.site_rip) + task.getLink()
+                            ,R.drawable.ic_sentiment_dissatisfied_toast);
+                    break;
+                default:
+                    break;
+            }
+        });
     }
 
     private boolean checkConnecting() {
