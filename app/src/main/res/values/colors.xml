@@ -13,7 +13,7 @@
     <color name="colorMy">#0068e3</color>
 
 <!--    <color name="shape_off_color">#990068E3</color>-->
-    <color name="shape_off_color">#CCFFFFFD</color>
+    <color name="shape_off_color">#CCFEFEFE</color>
     <color name="shape_on_color">#00A86B</color>
 
     <color name="delete_btn_off">#990068E3</color>

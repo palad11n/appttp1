@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">WhenUPDATE</string>
     <string name="about_app">О приложении</string>
-    <string name="about_description">Проверяйте обновления своих любимых произведений/сериалов без открытия браузера и лищних телодвижений.</string>
+    <string name="about_description">Проверяйте обновления своих любимых произведений/сериалов без открытия браузера и лишних телодвижений.</string>
     <string name="appearance_header">Внешний вид</string>
     <string name="cancel">Отмена</string>
     <string name="done">OK</string>

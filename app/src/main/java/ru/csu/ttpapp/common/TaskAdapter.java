@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ru.csu.ttpapp.R;
@@ -54,11 +55,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     }
 
     static class TaskHolder extends RecyclerView.ViewHolder {
-        TextView title;
-        TextView lastCheck;
-        Button deleteBtn;
-        ImageButton syncImgBtn;
+        private TextView title;
+        private TextView lastCheck;
+        private Button deleteBtn;
+        private ImageButton syncImgBtn;
         private View itemView;
+        private CardView cardView;
 
         public TaskHolder(View itemView) {
             super(itemView);
@@ -67,6 +69,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             lastCheck = itemView.findViewById(R.id.lastCheck);
             deleteBtn = itemView.findViewById(R.id.delBtn);
             syncImgBtn = itemView.findViewById(R.id.syncBtn);
+            cardView = itemView.findViewById(R.id.cardView);
         }
 
         void bind(final Task task) {
@@ -100,7 +103,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 public void onClick(View v) {
                     MainActivity.presenter.loadUpdate(task);
                     if (task.isUpdate()) {
-                        itemView.setBackgroundResource(R.drawable.my_on_shape);
+                        cardView.setCardBackgroundColor(R.drawable.my_on_shape);
+                        // itemView.setBackgroundResource(R.drawable.my_on_shape);
                         lastCheck.setText(task.getSimpleDateFormat());
                         task.setUpdate(false);
                         MainActivity.presenter.updateTask(task);
@@ -117,8 +121,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 }
             });
 
-            if (task.isUpdate()){
-                itemView.setBackgroundResource(R.drawable.my_on_shape);
+            if (task.isUpdate()) {
+                cardView.setCardBackgroundColor(R.drawable.my_on_shape);
                 task.setUpdate(false);
                 MainActivity.presenter.updateTask(task);
             }
