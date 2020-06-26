@@ -10,7 +10,7 @@
     <item
         android:id="@+id/itemHelp"
         android:icon="@drawable/ic_help_24px"
-        android:title="@string/helper_menu"
+        android:title="@string/helper_title"
         app:showAsAction="ifRoom" />
 
     <item

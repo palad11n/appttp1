@@ -34,5 +34,7 @@
     <string name="supported_sites">Поддерживаемые сайты:</string>
     <string name="title_notify">Хорошие новости</string>
     <string name="after_rating">Позже</string>
-    <string name="text_rating">Может оцените это приложение? :)</string>
+    <string name="text_rating">Хотите оценить это приложение? :)</string>
+    <string name="rate_the_app">Оцените приложение?</string>
+    <string name="also_empty">Пока пусто...</string>
 </resources>

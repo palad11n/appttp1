@@ -93,7 +93,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     MainActivity.presenter.remove(task);
-                                    //removeItem(getAdapterPosition());
+                                    removeItem(getAdapterPosition());
                                     dialog.dismiss();
                                 }
                             })

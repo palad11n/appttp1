@@ -69,6 +69,7 @@ public class TasksPresenter {
 
         update.findUpDate((result, newDate) -> {
             task.setDate(newDate);
+            while (task.getTitle().equals("")){}
             saveTask(task);
         });
     }
