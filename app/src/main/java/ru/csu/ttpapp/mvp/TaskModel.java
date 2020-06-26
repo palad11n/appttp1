@@ -25,7 +25,7 @@ class TaskModel {
     private final static String database = "list_db";
     private final String LIST_TASKS_LOADSAVE = "ListTasks";
 
-    private final static String  maxSizeList = "list_size_db";
+    private final static String maxSizeList = "list_size_db";
     private final String LIST_MAX_SIZE = "MaxSize";
 
     private ListTasks listTasks;
@@ -109,7 +109,7 @@ class TaskModel {
         }
 
         private long getMaxSize() {
-            SharedPreferences  sharedPreferences =
+            SharedPreferences sharedPreferences =
                     mContext.getSharedPreferences(maxSizeList, Context.MODE_PRIVATE);
             String loadSize = sharedPreferences.getString(LIST_MAX_SIZE, "0");
 

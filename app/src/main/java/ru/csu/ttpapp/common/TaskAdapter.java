@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +53,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         notifyDataSetChanged();
     }
 
-    static class TaskHolder extends RecyclerView.ViewHolder {
+    private void removeItem(int position) {
+        data.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    private void restoreItem(Task item, int position) {
+        data.add(position, item);
+        notifyItemInserted(position);
+    }
+
+    class TaskHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private TextView lastCheck;
         private Button deleteBtn;
@@ -62,7 +71,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         private View itemView;
         private CardView cardView;
 
-        public TaskHolder(View itemView) {
+        TaskHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
             title = itemView.findViewById(R.id.nameLink);
@@ -78,12 +87,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.mContext);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
                     builder.setMessage(R.string.confirmation_of_delete)
                             .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     MainActivity.presenter.remove(task);
+                                    //removeItem(getAdapterPosition());
                                     dialog.dismiss();
                                 }
                             })
@@ -103,7 +113,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 public void onClick(View v) {
                     MainActivity.presenter.loadUpdate(task);
                     if (task.isUpdate()) {
-                        cardView.setCardBackgroundColor(R.drawable.my_on_shape);
+                        setColorTask();
                         // itemView.setBackgroundResource(R.drawable.my_on_shape);
                         lastCheck.setText(task.getSimpleDateFormat());
                         task.setUpdate(false);
@@ -116,16 +126,22 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 @Override
                 public boolean onLongClick(View v) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(task.getLink()));
-                    MainActivity.mContext.startActivity(browserIntent);
+                    itemView.getContext().startActivity(browserIntent);
                     return true;
                 }
             });
 
             if (task.isUpdate()) {
-                cardView.setCardBackgroundColor(R.drawable.my_on_shape);
+                setColorTask();
                 task.setUpdate(false);
                 MainActivity.presenter.updateTask(task);
             }
+        }
+
+        private void setColorTask() {
+            cardView.setCardBackgroundColor(itemView.getContext()
+                    .getResources()
+                    .getColor(R.color.shape_on_color));
         }
     }
 }

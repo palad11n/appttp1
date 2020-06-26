@@ -6,8 +6,6 @@ import android.graphics.Color;
 
 import androidx.preference.PreferenceManager;
 
-import java.util.Date;
-
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.common.NotifyService;
 import ru.csu.ttpapp.common.Task;
@@ -19,15 +17,15 @@ public class TasksPresenter {
     private final TaskModel model;
     private boolean flagUpdate = false;
 
-    public TasksPresenter(TaskModel model) {
+    TasksPresenter(TaskModel model) {
         this.model = model;
     }
 
-    public void attachView(MainActivity activity) {
+    void attachView(MainActivity activity) {
         view = activity;
     }
 
-    public void detachView() {
+    void detachView() {
         view = null;
     }
 
@@ -45,7 +43,7 @@ public class TasksPresenter {
         }
     }
 
-    public void loadTasks() {
+    private void loadTasks() {
         model.loadTasks(listTasks -> {
             if (listTasks != null) {
                 view.showTasks(listTasks);
@@ -56,34 +54,27 @@ public class TasksPresenter {
         });
     }
 
-    public void viewIsReady() {
+    void viewIsReady() {
         loadTasks();
     }
 
-    public void add() {
-        view.showProgress();
-        new Thread() {
-            @Override
-            public void run() {
-                Task task = view.getTaskFromDialog();
-                ISite update = new SiteUpdate(task.getLink(), task.getDate());
-                if (task.getTitle().equals("")) {
-                    if (checkConnecting()) {
-                        String title = update.getTitleSite();
-                        task.setTitle(title);
-                    } else task.setTitle(task.getLink());
-                }
+    void add() {
+        Task task = view.getTaskFromDialog();
+        ISite update = new SiteUpdate(task.getLink(), task.getDate());
+        if (task.getTitle().equals("")) {
+            if (checkConnecting()) {
+                update.getTitleSite(task::setTitle);
+            } else task.setTitle(task.getLink());
+        }
 
-                update.findUpDate((result, newDate) -> date1 = newDate);
-                task.setDate(date1);
-                saveTask(task);
-            }
-        }.start();
+        update.findUpDate((result, newDate) -> {
+            task.setDate(newDate);
+            saveTask(task);
+        });
     }
 
-    private Date date1;
-
     private void saveTask(Task task) {
+        view.showProgress();
         model.saveTask(task, () -> {
             view.hideProgress();
             loadTasks();
@@ -97,7 +88,12 @@ public class TasksPresenter {
     }
 
     public void remove(Task task) {
-        model.removeTask(task, () -> loadTasks());
+        model.removeTask(task, new TaskModel.ICompleteCallback() {
+            @Override
+            public void onComplete() {
+                loadTasks();
+            }
+        });
     }
 
     public boolean loadUpdate(Task task) {
@@ -136,11 +132,8 @@ public class TasksPresenter {
                     view.startService(intent);
                     break;
                 case -1:
-//                    String link = task.getLink();
-//                    int index = link.indexOf('/', ((link.contains("https")) ? 8 : 7));
-//                    String serverOff = link.substring(0, (index == -1) ? link.length() : index);
                     view.showToast(view.getString(R.string.site_rip) + task.getLink()
-                            ,R.drawable.ic_sentiment_dissatisfied_toast);
+                            , R.drawable.ic_sentiment_dissatisfied_toast);
                     break;
                 default:
                     break;

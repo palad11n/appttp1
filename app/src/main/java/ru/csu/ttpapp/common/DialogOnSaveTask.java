@@ -40,7 +40,7 @@ public class DialogOnSaveTask extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        TextView textView = new TextView(MainActivity.mContext);
+        TextView textView = new TextView(getContext());
         textView.setText(R.string.setting_row);
         textView.setPadding(50, 40, 0, 20);
         textView.setTextSize(25F);

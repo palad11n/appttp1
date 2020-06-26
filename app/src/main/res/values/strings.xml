@@ -48,6 +48,10 @@
     <string name="help_subtitle">You may not have known!</string>
     <string name="helper_title">Helper</string>
     <string name="title_notify">News for you</string>
+    <string name="after_rating">After</string>
+    <string name="text_rating">Can you rate this app? :)</string>
+    <string name="rate_the_app">Rate the app?</string>
+    <string name="helper_menu">Helper</string>
 
 
 </resources>

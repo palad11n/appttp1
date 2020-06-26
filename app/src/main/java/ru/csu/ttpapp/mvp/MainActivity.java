@@ -11,7 +11,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -33,7 +32,6 @@ import ru.csu.ttpapp.common.ListTasks;
 import ru.csu.ttpapp.common.Task;
 import ru.csu.ttpapp.common.TaskAdapter;
 import ru.csu.ttpapp.common.desing.ScrollFABBehavior;
-
 
 public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.DialogListener {
 
@@ -143,6 +141,23 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
             case R.id.itemHelp:
                 showDialogPref(R.layout.dialog_help);
                 return true;
+            case R.id.itemRating:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                View view = getLayoutInflater().inflate(R.layout.dialog_rating, null);
+                builder.setView(view)
+                        .setPositiveButton(R.string.done, (dialog, which) -> {
+                            Toast.makeText(this, "todo", Toast.LENGTH_SHORT).show();
+                            //                final String appPackageName = getPackageName();
+                            //                try {
+                            //                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                            //                } catch (android.content.ActivityNotFoundException anfe) {
+                            //                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                            //                }
+                        })
+                        .setNegativeButton(R.string.after_rating, (dialog, id) -> dialog.dismiss());
+                builder.create();
+                builder.show();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -244,4 +259,3 @@ public class MainActivity extends AppCompatActivity implements DialogOnSaveTask.
         textEmpty.setVisibility(View.GONE);
     }
 }
-

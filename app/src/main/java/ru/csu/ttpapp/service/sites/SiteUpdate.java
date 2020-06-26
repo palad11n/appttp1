@@ -14,9 +14,9 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import ru.csu.ttpapp.service.parsers.FindAnimeParsing;
-import ru.csu.ttpapp.service.parsers.SoundCloudParsing;
+import ru.csu.ttpapp.service.parsers.MangalibParsing;
 import ru.csu.ttpapp.service.parsers.SerialMovieParsing;
-import ru.csu.ttpapp.service.parsers.TitleParsingThread;
+import ru.csu.ttpapp.service.parsers.SoundCloudParsing;
 
 public class SiteUpdate implements ISite {
     private final String linkUsers;
@@ -32,10 +32,15 @@ public class SiteUpdate implements ISite {
         map.put("//findanime.me/", ".table td.hidden-xxs");
         map.put("//mintmanga", ".table td.hidden-xxs");
         map.put("//readmanga", ".table td.hidden-xxs");
+        map.put("//mangalib.me", ".chapter-item__date");
     }
 
     public interface ICompleteCallback {
         void onComplete(int result, Date newDate);
+    }
+
+    public interface ICompleteCallbackTitle {
+        void onComplete(String title);
     }
 
     public SiteUpdate(String site, Date last) {
@@ -52,11 +57,12 @@ public class SiteUpdate implements ISite {
             infoOfSite = new SoundCloudParsing();
         } else if (linkUsers.contains("seria")) {
             infoOfSite = new SerialMovieParsing();
+        } else if (linkUsers.contains("//mangalib.me")) {
+            infoOfSite = new MangalibParsing();
         } else {
             infoOfSite = new FindAnimeParsing();
             TAG_CLASS = ".table td.hidden-xxs";
         }
-
     }
 
     /**
@@ -67,7 +73,6 @@ public class SiteUpdate implements ISite {
     public void findUpDate(ICompleteCallback iCompleteCallback) {
         Observable.fromCallable(() -> {
             Document doc;
-            //  String date = "";
             try {
                 doc = Jsoup.connect(linkUsers)
                         .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
@@ -108,19 +113,31 @@ public class SiteUpdate implements ISite {
     }
 
     @Override
-    public String getTitleSite() {
-        parsingTitle();
-        return infoOfSite.getTitle();
-    }
+    public void getTitleSite(ICompleteCallbackTitle iCompleteCallback) {
+        Observable.fromCallable(() -> {
+            Document doc;
+            String title = "";
+            try {
+                doc = Jsoup.connect(linkUsers)
+                        .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
+                        .maxBodySize(0)
+                        .timeout(5000)
+                        .get();
+                title = doc.title();
+            } catch (Exception ex) {
+            }
 
-    private void parsingTitle() {
-        TitleParsingThread pt = new TitleParsingThread();
-        pt.execute(linkUsers);
-        try {
-            String title = pt.get();
-            infoOfSite.setTitle(title, linkUsers);
-        } catch (Exception e) {
-        }
+            return title;
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(title -> {
+                            Log.i("@@@", title);
+                            infoOfSite.setTitle(title, linkUsers);
+                            iCompleteCallback.onComplete(infoOfSite.getTitle());
+                        },
+                        error -> Log.e("@@@", error.getMessage())
+                );
     }
 }
 

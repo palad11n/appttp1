@@ -33,4 +33,6 @@
     <string name="link_for_problem">\@Life_not</string>
     <string name="supported_sites">Поддерживаемые сайты:</string>
     <string name="title_notify">Хорошие новости</string>
+    <string name="after_rating">Позже</string>
+    <string name="text_rating">Может оцените это приложение? :)</string>
 </resources>
