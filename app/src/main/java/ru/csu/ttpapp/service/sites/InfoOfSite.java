@@ -45,7 +45,7 @@ public abstract class InfoOfSite {
     public abstract String getLastDate(Elements rows);
 
     public void setTitle(String title, String link) {
-        if (title == null || title.isEmpty())
+        if (title == null || title.isEmpty() || title.equals(""))
             this.title = link;
         else this.title = title;
     }

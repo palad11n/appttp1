@@ -3,9 +3,15 @@ package ru.csu.ttpapp.mvp;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import ru.csu.ttpapp.R;
 import ru.csu.ttpapp.common.NotifyService;
 import ru.csu.ttpapp.common.Task;
@@ -59,23 +65,29 @@ public class TasksPresenter {
     }
 
     void add() {
-        Task task = view.getTaskFromDialog();
-        ISite update = new SiteUpdate(task.getLink(), task.getDate());
-        if (task.getTitle().equals("")) {
-            if (checkConnecting()) {
-                update.getTitleSite(task::setTitle);
-            } else task.setTitle(task.getLink());
-        }
+        view.showProgress();
+        Completable.fromAction(() -> {
+            Task task = view.getTaskFromDialog();
+            ISite update = new SiteUpdate(task.getLink(), task.getDate());
+            if (task.getTitle().equals("")) {
+                if (checkConnecting()) {
+                    update.getTitleSite(task::setTitle);
+                } else task.setTitle(task.getLink());
+            }
 
-        update.findUpDate((result, newDate) -> {
-            task.setDate(newDate);
-            while (task.getTitle().equals("")){}
-            saveTask(task);
-        });
+            update.findDate((result, newDate) -> {
+                task.setDate(newDate);
+                while (task.getTitle().equals("")) {
+                }
+                saveTask(task);
+            });
+        }).subscribe()
+        ;
+
     }
 
     private void saveTask(Task task) {
-        view.showProgress();
+
         model.saveTask(task, () -> {
             view.hideProgress();
             loadTasks();
@@ -89,12 +101,7 @@ public class TasksPresenter {
     }
 
     public void remove(Task task) {
-        model.removeTask(task, new TaskModel.ICompleteCallback() {
-            @Override
-            public void onComplete() {
-                loadTasks();
-            }
-        });
+        model.removeTask(task, null);
     }
 
     public boolean loadUpdate(Task task) {

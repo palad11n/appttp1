@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import ru.csu.ttpapp.service.parsers.FindAnimeParsing;
@@ -71,7 +72,21 @@ public class SiteUpdate implements ISite {
      * @param iCompleteCallback отклик после выполнений методов для уведомлений пользователя
      */
     public void findUpDate(ICompleteCallback iCompleteCallback) {
-        Observable.fromCallable(() -> {
+        getDateFromSite()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(date -> {
+                            Log.i("@@@", date);
+                            infoOfSite.setDate(date);
+                            Date reqDate = infoOfSite.getDate();
+                            iCompleteCallback.onComplete(isUpdate(reqDate), reqDate);
+                        },
+                        error -> Log.e("@@@", error.getMessage())
+                );
+    }
+
+    private Observable<String> getDateFromSite(){
+        return  Observable.fromCallable(() -> {
             Document doc;
             try {
                 doc = Jsoup.connect(linkUsers)
@@ -84,16 +99,7 @@ public class SiteUpdate implements ISite {
             } catch (Exception e) {
             }
             return "";
-        }).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(date -> {
-                            Log.i("@@@", date);
-                            infoOfSite.setDate(date);
-                            Date reqDate = infoOfSite.getDate();
-                            iCompleteCallback.onComplete(isUpdate(reqDate), reqDate);
-                        },
-                        error -> Log.e("@@@", error.getMessage())
-                );
+        });
     }
 
     /**
@@ -116,25 +122,38 @@ public class SiteUpdate implements ISite {
     public void getTitleSite(ICompleteCallbackTitle iCompleteCallback) {
         Observable.fromCallable(() -> {
             Document doc;
-            String title = "";
             try {
                 doc = Jsoup.connect(linkUsers)
                         .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
                         .maxBodySize(0)
                         .timeout(5000)
                         .get();
-                title = doc.title();
+                return doc.title();
             } catch (Exception ex) {
             }
-
-            return title;
+            return "";
         })
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.io())
                 .subscribe(title -> {
                             Log.i("@@@", title);
                             infoOfSite.setTitle(title, linkUsers);
                             iCompleteCallback.onComplete(infoOfSite.getTitle());
+                        },
+                        error -> Log.e("@@@", error.getMessage())
+                );
+    }
+
+    @Override
+    public void findDate(ICompleteCallback iCompleteCallback) {
+        getDateFromSite()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
+                .subscribe(date -> {
+                            Log.i("@@@", date);
+                            infoOfSite.setDate(date);
+                            Date reqDate = infoOfSite.getDate();
+                            iCompleteCallback.onComplete(isUpdate(reqDate), reqDate);
                         },
                         error -> Log.e("@@@", error.getMessage())
                 );

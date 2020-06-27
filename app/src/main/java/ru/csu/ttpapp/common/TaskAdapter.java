@@ -54,7 +54,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     }
 
     private void removeItem(int position) {
+        Task task = data.get(position);
         data.remove(position);
+        MainActivity.presenter.remove(task);
         notifyItemRemoved(position);
     }
 
@@ -92,7 +94,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                             .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
-                                    MainActivity.presenter.remove(task);
                                     removeItem(getAdapterPosition());
                                     dialog.dismiss();
                                 }
