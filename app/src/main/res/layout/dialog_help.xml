@@ -12,7 +12,7 @@
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="210dp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/margin_dialog"
             android:orientation="vertical"
@@ -40,20 +40,20 @@
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
-                app:srcCompat="@drawable/screenshot_click_long" />
+                app:srcCompat="@drawable/screen_long_click" />
         </LinearLayout>
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="88dp"
+            android:layout_width="80dp"
             android:layout_height="61dp"
-            android:layout_marginStart="32dp"
-            app:srcCompat="@drawable/ic_gestures"
+            android:layout_marginRight="90dp"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.84"
             app:layout_constraintStart_toStartOf="@+id/linearLayout2"
             app:layout_constraintTop_toTopOf="@+id/linearLayout2"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/ic_gestures" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

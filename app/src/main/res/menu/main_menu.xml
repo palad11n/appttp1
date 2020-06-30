@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/itemPreferences"
-        android:icon="@android:drawable/ic_menu_preferences"
-        app:showAsAction="never"
-        android:title="@string/setting_app"/>
-    <item
-        android:id="@+id/itemAbout"
-        android:icon="@android:drawable/ic_menu_preferences"
-        app:showAsAction="never"
-        android:title="@string/about_app"/>
+        android:id="@+id/itemRating"
+        android:icon="@drawable/ic_emoticon_black"
+        android:title="@string/rate_the_app"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/itemHelp"
         android:icon="@drawable/ic_help_24px"
-        app:showAsAction="ifRoom"
-        android:title="help"/>
+        android:title="@string/helper_title"
+        app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/itemPreferences"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/setting_app"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/itemAbout"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/about_app"
+        app:showAsAction="never" />
 </menu>

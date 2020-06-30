@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.csu.ttpapp">
+    package="com.whenupdate.tools">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -12,13 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".mvp.SettingsActivity"
-            android:configChanges="locale"
-            android:label="@string/title_activity_settings"></activity>
-        <activity
-            android:name=".mvp.MainActivity"
-            android:configChanges="locale">
+            android:name="com.whenupdate.tools.common.StartActivity"
+            android:theme="@style/StartLaunchTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,13 +24,27 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.whenupdate.tools.mvp.MainActivity"
+            android:configChanges="locale"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="com.whenupdate.tools.mvp.SettingsActivity"
+            android:configChanges="locale"
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="portrait">
+        </activity>
+
         <service
-            android:name=".common.NotifyService"
+            android:name="com.whenupdate.tools.common.NotifyService"
             android:enabled="true" />
 
-        <receiver android:name=".common.AppWidget">
+        <receiver android:name="com.whenupdate.tools.common.AppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.whenupdate.tools.common.ACTION_WIDGET_CLICKED" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"

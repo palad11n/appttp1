@@ -4,75 +4,85 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrolling_about"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-    <TextView
-        style="@style/StyleAbout.Title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/about_app"
-        android:textSize="25sp" />
-    <TextView
-        style="@style/StyleAbout.TextView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/about_description" />
-    <TextView
-        style="@style/StyleAbout.TextView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/supported_sites" />
-
-    <TextView
-        style="@style/StyleAbout.ListSite"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="✧ soundcloud.com" />
-
-    <TextView
-        style="@style/StyleAbout.ListSite"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="✧ findanime.me" />
-
-    <TextView
-        style="@style/StyleAbout.ListSite"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="✧ hdseria.tv" />
-
-    <TextView
-        style="@style/StyleAbout.ListSite"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""/>
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="bottom">
-        <TextView
-            style="@style/StyleAbout.Footer"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/wishes_or_problems"/>
-        <TextView
-            style="@style/StyleAbout.Footer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/write_to_telegram"/>
-        <TextView
-            style="@style/StyleAbout.Footer"
-            android:textIsSelectable="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/link_for_problem"/>
-    </LinearLayout>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/StyleAbout.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_app"
+                android:textSize="25sp" />
+
+            <TextView
+                style="@style/StyleAbout.TextView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_description" />
+
+            <TextView
+                style="@style/StyleAbout.TextView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/supported_sites" />
+
+            <TextView
+                style="@style/StyleAbout.ListSite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✧ soundcloud.com" />
+
+            <TextView
+                style="@style/StyleAbout.ListSite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✧ findanime.me" />
+
+            <TextView
+                style="@style/StyleAbout.ListSite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✧ readmanga.me" />
+
+            <TextView
+                style="@style/StyleAbout.ListSite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✧ mintmanga.live" />
+
+            <TextView
+                style="@style/StyleAbout.ListSite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✧ mangalib.me" />
+
+            <TextView
+                style="@style/StyleAbout.ListSite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✧ hdseria.tv" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/StyleAbout.Footer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

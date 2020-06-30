@@ -2,11 +2,11 @@
 <resources>
     <string name="app_name">WhenUPDATE</string>
     <string name="about_app">О приложении</string>
-    <string name="about_description">Проверяйте обновления своих любимых произведений/сериалов без открытия браузера и лищних телодвижений.</string>
+    <string name="about_description">Проверяйте обновления своих любимых произведений/сериалов без открытия браузера и лишних телодвижений.</string>
     <string name="appearance_header">Внешний вид</string>
     <string name="cancel">Отмена</string>
     <string name="done">OK</string>
-    <string name="confirmation_of_delete">Вы действительно хотите удалить задачу?</string>
+    <string name="text_conf_delete">Вы действительно хотите удалить задачу?</string>
     <string name="check_internet">Проверьте интернет соединение...</string>
     <string name="set_link">Ссылка на страницу*</string>
     <string name="help_long_click">Зажмите, чтобы перейти в браузер.</string>
@@ -33,4 +33,9 @@
     <string name="link_for_problem">\@Life_not</string>
     <string name="supported_sites">Поддерживаемые сайты:</string>
     <string name="title_notify">Хорошие новости</string>
+    <string name="after_rating">Позже</string>
+    <string name="text_rating">Хотите оценить это приложение? :)</string>
+    <string name="rate_the_app">Оцените приложение?</string>
+    <string name="also_empty">Пока пусто...</string>
+    <string name="text_error_link">Ссылка должна начинаться с http(s)://</string>
 </resources>

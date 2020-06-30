@@ -26,12 +26,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:lines="1"
+                android:singleLine="true"
                 android:imeOptions="actionNext"
                 android:hint="@string/set_link"
                 android:inputType="textUri"
-                android:singleLine="true"
+                android:minLines="8"
                 android:focusableInTouchMode="true"
-
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -46,10 +47,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:singleLine="true"
+                android:lines="1"
                 android:hint="@string/set_name"
                 android:inputType="text"
                 android:maxLength="128"
-                android:singleLine="true"
                 />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
