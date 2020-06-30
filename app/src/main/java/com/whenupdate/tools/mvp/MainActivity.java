@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
     private ConstraintLayout constraintLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView textEmpty;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(v -> {
             initDialogCreateTask();
+
         });
 
         taskAdapter = new TaskAdapter();
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         presenter.viewIsReady();
 
         initSwipeRefreshLayout();
+
     }
 
     private void initSwipeRefreshLayout() {
@@ -114,31 +117,34 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
     private void initDialogCreateTask() {
         DialogFragment dialog = new DialogCreateTask();
         dialog.show(getSupportFragmentManager(), "Create task - show");
-
+        dialog.setCancelable(false);
         getSupportFragmentManager().executePendingTransactions();
         inputTextTitle = dialog.getDialog().findViewById(R.id.textInputLayoutSetName);
-        editTextTitle = dialog.getDialog().getWindow().findViewById(R.id.setName);
-        inputTextLink = dialog.getDialog().getWindow().findViewById(R.id.textInputLayoutSetLink);
-        editTextLink = dialog.getDialog().getWindow().findViewById(R.id.setLink);
-        editTextLink.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+        editTextTitle = dialog.getDialog().findViewById(R.id.setName);
+        inputTextLink = dialog.getDialog().findViewById(R.id.textInputLayoutSetLink);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
+        inputTextLink.setHelperText(getString(R.string.helper_create_text));
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (validateLink(s.toString())) {
-                    inputTextLink.setErrorEnabled(false);
-                } else {
-                    inputTextLink.setErrorEnabled(true);
-                    inputTextLink.setError(getString(R.string.text_error_link));
+        editTextLink = dialog.getDialog().findViewById(R.id.setLink);
+        if (editTextLink != null)
+            editTextLink.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
-            }
-        });
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (validateLink(s.toString())) {
+                        inputTextLink.setError(null);
+                    } else {
+                        inputTextLink.setError(getString(R.string.text_error_link));
+                    }
+                }
+            });
     }
 
     private boolean validateLink(String textLink) {
@@ -270,12 +276,6 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         toast.setView(layout);
         toast.show();
     }
-
-    public void showLoadToast() {
-        showToast(getString(R.string.loading), R.drawable.ic_update_load);
-    }
-
-    private ProgressDialog progressDialog;
 
     public void showProgress() {
         progressDialog = ProgressDialog.show(this, "", getString(R.string.loading));

@@ -11,6 +11,9 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.whenupdate.tools.R;
+import com.whenupdate.tools.service.UpdateService;
+
+import io.reactivex.Completable;
 
 public class AppWidget extends AppWidgetProvider {
     private static final String ACTION_WIDGET_CLICKED = "ClickWidget";
@@ -51,16 +54,15 @@ public class AppWidget extends AppWidgetProvider {
 
             remoteViews = new RemoteViews(context.getPackageName(), R.layout.info_widget);
             watchWidget = new ComponentName(context, AppWidget.class);
-            remoteViews.setTextViewText(R.id.widget_btn, "Loading...");
+            remoteViews.setTextViewText(R.id.widget_btn, "Run app...");
             appWidgetManager.updateAppWidget(watchWidget, remoteViews);
             try {
                 Toast.makeText(context, context.getResources().getString(R.string.loading),
                         Toast.LENGTH_SHORT).show();
-                Thread t = new Thread(() -> {
+                Completable.fromAction(() -> {
                     UpdateService updateService = new UpdateService(context);
                     updateService.check();
-                });
-                t.start();
+                }).subscribe();
 
             } catch (Exception e) {
                 Log.e("@@@", e.getMessage());

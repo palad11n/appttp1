@@ -53,6 +53,7 @@
     <string name="rate_the_app">Rate the app?</string>
     <string name="also_empty">Also empty</string>
     <string name="text_error_link">Link must be start with http(s)://</string>
+    <string name="helper_create_text">Input link to your favorite work</string>
 
 
 </resources>
