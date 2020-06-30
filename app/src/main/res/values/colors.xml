@@ -10,7 +10,7 @@
 
     <!-- Актуальные цвета -->
     <color name="colorMy">#0068e3</color>
-    <color name="toast">@color/colorMy</color>
+    <color name="toast">#E60068E3</color>
     <color name="text_row">@color/colorMy</color>
 
     <!-- Цвет задач -->

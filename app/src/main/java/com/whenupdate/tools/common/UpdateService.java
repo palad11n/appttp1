@@ -1,0 +1,51 @@
+package com.whenupdate.tools.common;
+
+import android.content.Context;
+import android.content.Intent;
+import android.widget.Toast;
+
+import com.whenupdate.tools.R;
+import com.whenupdate.tools.mvp.TaskModel;
+import com.whenupdate.tools.service.sites.ISite;
+import com.whenupdate.tools.service.sites.SiteUpdate;
+
+public class UpdateService {
+    private Context context;
+
+    public UpdateService(Context context) {
+        this.context = context;
+    }
+
+    public void check() {
+        TaskModel taskModel = new TaskModel(context);
+        if (!taskModel.isNetworkAvailable()) {
+            Toast.makeText(context, context.getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        taskModel.loadTasks(listTasks -> {
+            for (Task task : listTasks) {
+                loadingUpdate(task);
+            }
+            Toast.makeText(context, context.getResources().getString(R.string.update_not), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void loadingUpdate(Task task) {
+        ISite scu = new SiteUpdate(task.getLink(), task.getDate());
+        scu.findUpDate((result, newDate) -> {
+            switch (result) {
+                case 1:
+                    Toast.makeText(context, context.getResources().getString(R.string.update_exist),
+                            Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context.getApplicationContext(), NotifyService.class);
+                    context.startService(intent);
+                    break;
+                case -1:
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+}

@@ -2,7 +2,7 @@
     <PreferenceCategory
         app:title="@string/appearance_header">
         <ListPreference
-            app:defaultValue="dark"
+            app:defaultValue="light"
             app:entries="@array/theme_entries"
             app:entryValues="@array/theme_values"
             app:key="theme"

@@ -23,7 +23,7 @@
     <string name="last_check">Last update: </string>
     <string name="title_activity_settings">Settings</string>
     <string name="link_empty_error">Link entered incorrectly or was not entered. Task is not save</string>
-    <string name="confirmation_of_delete">Are you sure you want to delete the task?</string>
+    <string name="text_conf_delete">Are you sure you want to delete the task?</string>
 
     <!-- Состояния задачи -->
     <string name="update_not">Update is not. Try again later</string>
@@ -52,6 +52,7 @@
     <string name="text_rating">Can you rate this app? :)</string>
     <string name="rate_the_app">Rate the app?</string>
     <string name="also_empty">Also empty</string>
+    <string name="text_error_link">Link must be start with http(s)://</string>
 
 
 </resources>

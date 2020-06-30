@@ -5,6 +5,10 @@
         <item name="colorAccent">@color/colorMy</item>
     </style>
 
+    <style name="StartLaunchTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/start_launch</item>
+    </style>
+
     <style name="DarkStyle">
         <item name="android:background">#000</item>
         <item name="android:textColor">#FFFFFF</item>
@@ -19,7 +23,6 @@
     <style name="StyleTaskForList">
         <item name="android:background">@drawable/my_off_shape</item>
         <item name="android:textColor">#FFFFFF</item>
-
     </style>
 
     <style name="TextView">
@@ -27,7 +30,6 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
     </style>
-
 
     <style name="StyleAbout">
         <item name="android:fontFamily">sans-serif-condensed</item>
