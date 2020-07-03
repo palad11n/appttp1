@@ -19,7 +19,7 @@
     <color name="shape_on_color">#4D00FF85</color>
     <color name="delete_btn_off">#990068E3</color>
     <color name="delete_btn_on">#4eb782</color>
-
+    <color name="info_row">#5A5A5A</color>
     <!-- Фон -->
     <color name="background_dark">#161616</color>
     <color name="background_light">#eceaec</color>

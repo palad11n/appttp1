@@ -1,5 +1,6 @@
 package com.whenupdate.tools.service.sites;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 import org.jsoup.Jsoup;
@@ -12,6 +13,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+
 import com.whenupdate.tools.service.parsers.FindAnimeParsing;
 import com.whenupdate.tools.service.parsers.MangalibParsing;
 import com.whenupdate.tools.service.parsers.SerialMovieParsing;
@@ -20,21 +22,26 @@ import com.whenupdate.tools.service.parsers.SoundCloudParsing;
 public class SiteUpdate implements ISite {
     private final String linkUsers;
     private final Date lastDate;
+    private final String lastChapter;
     private InfoOfSite infoOfSite;
     private String TAG_CLASS;
     private static final Map<String, String> map = Const.MAP_TAG_FOR_LINK;
 
     public interface ICompleteCallback {
-        void onComplete(int result, Date newDate);
+        void onComplete(int result, Date newDate, String chapter);
     }
 
     public interface ICompleteCallbackTitle {
         void onComplete(String title);
     }
 
-    public SiteUpdate(String site, Date last) {
+    public SiteUpdate(String site, Date last, String chapter) {
         linkUsers = site;
         lastDate = last;
+        if (chapter != null)
+            lastChapter = chapter;
+        else lastChapter = "";
+
         for (String i : map.keySet()) {
             if (site.contains(i)) {
                 TAG_CLASS = map.get(i);
@@ -50,7 +57,7 @@ public class SiteUpdate implements ISite {
             infoOfSite = new MangalibParsing();
         } else {
             infoOfSite = new FindAnimeParsing();
-            TAG_CLASS = ".table td.hidden-xxs";
+            TAG_CLASS = ".table tr";
         }
     }
 
@@ -59,23 +66,29 @@ public class SiteUpdate implements ISite {
      *
      * @param iCompleteCallback отклик после выполнений методов для уведомлений пользователя
      */
+    @SuppressLint("CheckResult")
     public void findUpDate(ICompleteCallback iCompleteCallback) {
         getDateFromSite()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(date -> {
-                            //Log.i("@@@", date);
-                            infoOfSite.setDate(date);
+                .subscribe(info -> {
+                            //Log.i("@@@", info[1]);
+                            infoOfSite.setDate(info[0]);
+                            infoOfSite.setTitle(info[1], "");
                             Date reqDate = infoOfSite.getDate();
-                            iCompleteCallback.onComplete(isUpdate(reqDate), reqDate);
+                            String chapter = infoOfSite.getTitle();
+                            iCompleteCallback.onComplete(isUpdate(reqDate, chapter), reqDate, chapter);
                         },
                         error -> Log.e("@@@", error.getMessage())
                 );
     }
 
-    private Observable<String> getDateFromSite(){
-        return  Observable.fromCallable(() -> {
+    private Observable<String[]> getDateFromSite() {
+        return Observable.fromCallable(() -> {
             Document doc;
+            String[] row = new String[2];
+            row[0] = "";
+            row[1] = "";
             try {
                 doc = Jsoup.connect(linkUsers)
                         .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
@@ -83,10 +96,12 @@ public class SiteUpdate implements ISite {
                         .timeout(5000)
                         .get();
                 Elements rows = doc.select(TAG_CLASS);
-                return infoOfSite.getLastDate(rows);
+                row[0] = infoOfSite.getLastDate(rows);
+                row[1] = infoOfSite.getLastChapter(rows);
+                return row;
             } catch (Exception e) {
             }
-            return "";
+            return row;
         });
     }
 
@@ -96,10 +111,13 @@ public class SiteUpdate implements ISite {
      * @param newDate дата, которая только, что пришла с сайта
      * @return 1 - значит обновление есть; -1 - дата не пришла; 0 - нет обновлений
      */
-    private int isUpdate(Date newDate) {
+    private int isUpdate(Date newDate, String chapter) {
         if (newDate != null) {
             if (newDate.after(lastDate)) {
                 return 1; // есть обновление
+            } else {
+                if (lastChapter != null && !chapter.equals(lastChapter))
+                    return 1;
             }
         } else return -1; // ошибка
 
@@ -111,6 +129,7 @@ public class SiteUpdate implements ISite {
      *
      * @param iCompleteCallback отклик после выполнений методов для уведомлений пользователя
      */
+    @SuppressLint("CheckResult")
     @Override
     public void getTitleSite(ICompleteCallbackTitle iCompleteCallback) {
         Observable.fromCallable(() -> {
@@ -129,7 +148,6 @@ public class SiteUpdate implements ISite {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .subscribe(title -> {
-                            //Log.i("@@@", title);
                             infoOfSite.setTitle(title, linkUsers);
                             iCompleteCallback.onComplete(infoOfSite.getTitle());
                         },
@@ -142,16 +160,19 @@ public class SiteUpdate implements ISite {
      *
      * @param iCompleteCallback отклик после выполнений методов для уведомлений пользователя
      */
+    @SuppressLint("CheckResult")
     @Override
     public void findDate(ICompleteCallback iCompleteCallback) {
         getDateFromSite()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
-                .subscribe(date -> {
-                            //Log.i("@@@", date);
-                            infoOfSite.setDate(date);
+                .subscribe(info -> {
+                            //Log.i("@@@", info[1]);
+                            infoOfSite.setDate(info[0]);
                             Date reqDate = infoOfSite.getDate();
-                            iCompleteCallback.onComplete(isUpdate(reqDate), reqDate);
+                            infoOfSite.setTitle(info[1], "");
+                            String chapter = infoOfSite.getTitle();
+                            iCompleteCallback.onComplete(isUpdate(reqDate, chapter), reqDate, chapter);
                         },
                         error -> Log.e("@@@", error.getMessage())
                 );

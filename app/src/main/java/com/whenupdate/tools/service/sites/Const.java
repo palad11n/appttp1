@@ -12,12 +12,12 @@ class Const {
 
     static {
         MAP_TAG_FOR_LINK = new HashMap<>();
-        MAP_TAG_FOR_LINK.put("//soundcloud.com/", "time");
+        MAP_TAG_FOR_LINK.put("//soundcloud.com/", "article.audible");
         MAP_TAG_FOR_LINK.put("seria", ".epscape_tr");
-        MAP_TAG_FOR_LINK.put("//findanime.me/", ".table td.hidden-xxs");
-        MAP_TAG_FOR_LINK.put("//mintmanga", ".table td.hidden-xxs");
-        MAP_TAG_FOR_LINK.put("//readmanga", ".table td.hidden-xxs");
-        MAP_TAG_FOR_LINK.put("//mangalib.me", ".chapter-item__date");
+        MAP_TAG_FOR_LINK.put("//findanime.me/", ".table tr");
+        MAP_TAG_FOR_LINK.put("//mintmanga", ".table tr");
+        MAP_TAG_FOR_LINK.put("//readmanga", ".table tr");
+        MAP_TAG_FOR_LINK.put("//mangalib.me", ".chapter-item");
     }
 
     static {

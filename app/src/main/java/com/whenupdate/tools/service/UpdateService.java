@@ -34,8 +34,8 @@ public class UpdateService {
     }
 
     private void loadingUpdate(Task task) {
-        ISite scu = new SiteUpdate(task.getLink(), task.getDate());
-        scu.findUpDate((result, newDate) -> {
+        ISite scu = new SiteUpdate(task.getLink(), task.getDate(), task.getChapter());
+        scu.findUpDate((result, newDate, chapter) -> {
             switch (result) {
                 case 1:
                     Toast.makeText(context, context.getResources().getString(R.string.update_exist),

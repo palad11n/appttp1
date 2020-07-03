@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,10 +66,10 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
 
         constraintLayout = (ConstraintLayout) findViewById(R.id.cl_main);
         textEmpty = findViewById(R.id.emptyId);
+
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(v -> {
             initDialogCreateTask();
-
         });
 
         taskAdapter = new TaskAdapter();
@@ -108,8 +109,9 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.postDelayed(() -> {
                 presenter.loadUpdate();
-                if (swipeRefreshLayout.isRefreshing())
+                if (swipeRefreshLayout.isRefreshing()){
                     swipeRefreshLayout.setRefreshing(false);
+                }
             }, 2000);
         });
     }
@@ -117,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
     private void initDialogCreateTask() {
         DialogFragment dialog = DialogCreateTask.newInstance();
         dialog.show(getSupportFragmentManager(), "Create task - show");
-        dialog.setCancelable(false);
         getSupportFragmentManager().executePendingTransactions();
 
         inputTextTitle = dialog.getDialog().findViewById(R.id.textInputLayoutSetName);

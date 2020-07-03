@@ -8,9 +8,10 @@ import java.util.Date;
 public class Task {
     @NonNull
     private long id;
-    private String title;
     @NonNull
     private String link;
+    private String title;
+    private String chapter;
     private Date date = new Date();
     private boolean isUpdate = false;
 
@@ -22,11 +23,12 @@ public class Task {
         this.id = id;
     }
 
+    @NonNull
     public String getLink() {
         return link;
     }
 
-    public void setLink(String link) {
+    public void setLink(@NonNull String link) {
         this.link = link;
     }
 
@@ -60,4 +62,13 @@ public class Task {
         String format = formatForDateNow.format(this.date);
         return format;
     }
+
+    public String getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(String chapter) {
+        this.chapter = chapter;
+    }
+
 }
