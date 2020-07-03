@@ -55,6 +55,7 @@
     <string name="text_error_link">Link must be start with http(s)://</string>
     <string name="helper_create_text">Input link to your favorite work</string>
     <string name="last_updated_all_text">Last updated:</string>
+    <string name="fail_save">Failed to get data from the site.</string>
 
 
 </resources>

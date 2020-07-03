@@ -64,9 +64,10 @@ public class TasksPresenter {
         view.showProgress();
         Completable.fromAction(() -> {
             Task task = view.getTaskFromDialog();
-            ISite update = new SiteUpdate(task.getLink(), task.getDate());
+            ISite update = new SiteUpdate(task.getLink(), task.getDate(), task.getChapter());
+            boolean isConnect = checkConnecting();
             if (task.getTitle().equals("")) {
-                if (checkConnecting()) {
+                if (isConnect) {
                     update.getTitleSite(task::setTitle);
                 } else task.setTitle(task.getLink());
             }
@@ -74,8 +75,16 @@ public class TasksPresenter {
             update.findDate((result, newDate, chapter) -> {
                 task.setDate(newDate);
                 task.setChapter(chapter);
-                while (task.getTitle().equals("")) {}
-                saveTask(task);
+                long start = System.currentTimeMillis();
+                long timeConsumedMillis = 0;
+                //30 секунд
+                while (task.getTitle().equals("") || timeConsumedMillis > 30000) {
+                    timeConsumedMillis = System.currentTimeMillis() - start;
+                }
+                if (!task.getTitle().equals(""))
+                    saveTask(task);
+                else view.showToast(view.getString(R.string.fail_save),
+                        R.drawable.ic_sentiment_dissatisfied_toast);
             });
         }).subscribe();
     }
@@ -123,11 +132,12 @@ public class TasksPresenter {
     }
 
     private void loadingUpdate(Task task, IUpdateCallback callback) {
-        ISite scu = new SiteUpdate(task.getLink(), task.getDate());
+        ISite scu = new SiteUpdate(task.getLink(), task.getDate(), task.getChapter());
         scu.findUpDate((result, newDate, chapter) -> {
             switch (result) {
                 case 1:
                     task.setDate(newDate);
+                    task.setChapter(chapter);
                     task.setUpdate(true);
                     updateTask(task);
                     Intent intent = new Intent(view.getApplicationContext(), NotifyService.class);

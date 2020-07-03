@@ -40,4 +40,5 @@
     <string name="text_error_link">Ссылка должна начинаться с http(s)://</string>
     <string name="helper_create_text">Введите отслеживаемую вами работу</string>
     <string name="last_updated_all_text">"Обновлялось: "</string>
+    <string name="fail_save">Не удалось получить данные с сайта.</string>
 </resources>

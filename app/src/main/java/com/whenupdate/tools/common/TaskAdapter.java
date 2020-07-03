@@ -144,6 +144,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 }
             });
 
+            textChapter.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return goToBrowser(task);
+                }
+            });
+
             if (task.isUpdate()) {
                 setColorTask();
                 lastCheck.setText(task.getSimpleDateFormat());
