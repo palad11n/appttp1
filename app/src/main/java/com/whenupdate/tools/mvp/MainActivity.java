@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         inputTextTitle = dialog.getDialog().findViewById(R.id.textInputLayoutSetName);
         editTextTitle = dialog.getDialog().findViewById(R.id.setName);
         inputTextLink = dialog.getDialog().findViewById(R.id.textInputLayoutSetLink);
-<<<<<<< HEAD
 
         editTextLink = dialog.getDialog().findViewById(R.id.setLink);
         if (editTextLink != null)
@@ -144,30 +143,6 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
                         inputTextLink.setError("https://link.on/creation/");
                     }
                 }
-=======
-
-        inputTextLink.setHelperText(getString(R.string.helper_create_text));
-
-        editTextLink = dialog.getDialog().findViewById(R.id.setLink);
-        if (editTextLink != null)
-            editTextLink.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (validateLink(s.toString())) {
-                        inputTextLink.setError(null);
-                    } else {
-                        inputTextLink.setError(getString(R.string.text_error_link));
-                    }
-                }
->>>>>>> task8
             });
     }
 
