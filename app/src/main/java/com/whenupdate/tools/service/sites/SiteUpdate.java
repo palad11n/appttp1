@@ -1,6 +1,7 @@
 package com.whenupdate.tools.service.sites;
 
 import android.util.Log;
+import android.util.Pair;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -25,7 +26,7 @@ public class SiteUpdate implements ISite {
     private static final Map<String, String> map = Const.MAP_TAG_FOR_LINK;
 
     public interface ICompleteCallback {
-        void onComplete(int result, Date newDate);
+        void onComplete(int result, Date newDate, String chapter);
     }
 
     public interface ICompleteCallbackTitle {
@@ -50,7 +51,7 @@ public class SiteUpdate implements ISite {
             infoOfSite = new MangalibParsing();
         } else {
             infoOfSite = new FindAnimeParsing();
-            TAG_CLASS = ".table td.hidden-xxs";
+            TAG_CLASS = ".table tr";
         }
     }
 
@@ -63,19 +64,20 @@ public class SiteUpdate implements ISite {
         getDateFromSite()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(date -> {
-                            //Log.i("@@@", date);
-                            infoOfSite.setDate(date);
+                .subscribe(info -> {
+                            Log.i("@@@1", info[1]);
+                            infoOfSite.setDate(info[0]);
                             Date reqDate = infoOfSite.getDate();
-                            iCompleteCallback.onComplete(isUpdate(reqDate), reqDate);
+                            iCompleteCallback.onComplete(isUpdate(reqDate), reqDate, info[1]);
                         },
-                        error -> Log.e("@@@", error.getMessage())
+                        error -> Log.e("@@@1", error.getMessage())
                 );
     }
 
-    private Observable<String> getDateFromSite(){
+    private Observable<String[]> getDateFromSite(){
         return  Observable.fromCallable(() -> {
             Document doc;
+            String[] row = new String[2];
             try {
                 doc = Jsoup.connect(linkUsers)
                         .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
@@ -83,10 +85,12 @@ public class SiteUpdate implements ISite {
                         .timeout(5000)
                         .get();
                 Elements rows = doc.select(TAG_CLASS);
-                return infoOfSite.getLastDate(rows);
+                row[0] = infoOfSite.getLastDate(rows);
+                row[1] = infoOfSite.getLastChapter(rows);
+                return row;
             } catch (Exception e) {
             }
-            return "";
+            return row;
         });
     }
 
@@ -129,7 +133,6 @@ public class SiteUpdate implements ISite {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .subscribe(title -> {
-                            //Log.i("@@@", title);
                             infoOfSite.setTitle(title, linkUsers);
                             iCompleteCallback.onComplete(infoOfSite.getTitle());
                         },
@@ -147,11 +150,11 @@ public class SiteUpdate implements ISite {
         getDateFromSite()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
-                .subscribe(date -> {
-                            //Log.i("@@@", date);
-                            infoOfSite.setDate(date);
+                .subscribe(info -> {
+                            Log.i("@@@", info[1]);
+                            infoOfSite.setDate(info[0]);
                             Date reqDate = infoOfSite.getDate();
-                            iCompleteCallback.onComplete(isUpdate(reqDate), reqDate);
+                            iCompleteCallback.onComplete(isUpdate(reqDate), reqDate, info[1]);
                         },
                         error -> Log.e("@@@", error.getMessage())
                 );

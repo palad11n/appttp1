@@ -63,6 +63,7 @@
                 android:textSize="16sp" />
 
             <LinearLayout
+                android:id="@+id/linearLayoutDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linearLayout"
@@ -72,24 +73,22 @@
                     style="@style/TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_start"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:padding="@dimen/field_task_padding"
                     android:singleLine="true"
-                    android:text="@string/last_check"
-                    android:textSize="@dimen/sizeText" />
+                    android:text="@string/last_check" />
 
                 <TextView
                     android:id="@+id/lastCheck"
-                    style="@style/TextView"
+                    style="@style/TextView.Extra"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:padding="5dip"
                     android:singleLine="true"
-                    android:text="dd.MM.yyyy HH:mm"
+                    android:text="dd.MM.yyyy"
                     android:textSize="@dimen/sizeText" />
 
                 <ImageButton
@@ -100,6 +99,30 @@
                     android:src="@drawable/img_btn_state" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/linearLayoutChapter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayoutDate"
+                android:layout_marginStart="5dp">
+
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/nameVolCh"
+                        style="@style/TextView.Extra"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_start"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:padding="@dimen/field_task_padding"
+                        android:singleLine="true"
+                        android:text="Volume 2 Ch 15" />
+                </HorizontalScrollView>
+            </LinearLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

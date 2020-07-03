@@ -25,9 +25,10 @@ public abstract class InfoOfSite {
     }
 
     public abstract String getLastDate(Elements rows);
+    public abstract String getLastChapter(Elements rows);
 
     public void setTitle(String title, String link) {
-        if (title == null || title.isEmpty() || title.equals(""))
+        if (title == null || title.isEmpty())
             this.title = link;
         else this.title = title;
     }

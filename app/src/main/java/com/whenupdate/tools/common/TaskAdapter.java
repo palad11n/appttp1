@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -69,6 +70,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         private ImageButton syncImgBtn;
         private View itemView;
         private CardView cardView;
+        private TextView textChapter;
+        private LinearLayout layoutChapter;
 
 
         TaskHolder(View itemView) {
@@ -79,12 +82,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             deleteBtn = itemView.findViewById(R.id.delBtn);
             syncImgBtn = itemView.findViewById(R.id.syncBtn);
             cardView = itemView.findViewById(R.id.cardView);
+            textChapter = itemView.findViewById(R.id.nameVolCh);
+            layoutChapter = itemView.findViewById(R.id.linearLayoutChapter);
             row_index = -1;
         }
 
         void bind(final Task task) {
             title.setText(task.getTitle());
             lastCheck.setText(task.getSimpleDateFormat());
+            setTextChapter(task.getChapter());
+
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -114,7 +121,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                     MainActivity.presenter.loadUpdate(task, new TasksPresenter.IUpdateCallback() {
                         @Override
                         public void onComplete(int result) {
-                            if (result == 1){
+                            if (result == 1) {
                                 row_index = getAdapterPosition();
                                 notifyItemChanged(row_index);
                             }
@@ -126,14 +133,21 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(task.getLink()));
-                    itemView.getContext().startActivity(browserIntent);
-                    return true;
+                    return goToBrowser(task);
+                }
+            });
+
+            title.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    return goToBrowser(task);
                 }
             });
 
             if (task.isUpdate()) {
                 setColorTask();
+                lastCheck.setText(task.getSimpleDateFormat());
+                setTextChapter(task.getChapter());
                 task.setUpdate(false);
                 MainActivity.presenter.updateTask(task);
             }
@@ -143,6 +157,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             cardView.setCardBackgroundColor(itemView.getContext()
                     .getResources()
                     .getColor(R.color.shape_on_color));
+        }
+
+        private void setTextChapter(String text) {
+            if (text != null && !text.isEmpty()) {
+                layoutChapter.setVisibility(View.VISIBLE);
+                textChapter.setText(text);
+            } else layoutChapter.setVisibility(View.GONE);
+        }
+
+        private boolean goToBrowser(Task task) {
+            try {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(task.getLink()));
+                itemView.getContext().startActivity(browserIntent);
+                return true;
+            } catch (Exception e) {
+            }
+            return false;
         }
     }
 }

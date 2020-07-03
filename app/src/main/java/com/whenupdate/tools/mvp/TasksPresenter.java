@@ -71,10 +71,10 @@ public class TasksPresenter {
                 } else task.setTitle(task.getLink());
             }
 
-            update.findDate((result, newDate) -> {
+            update.findDate((result, newDate, chapter) -> {
                 task.setDate(newDate);
-                while (task.getTitle().equals("")) {
-                }
+                task.setChapter(chapter);
+                while (task.getTitle().equals("")) {}
                 saveTask(task);
             });
         }).subscribe();
@@ -95,7 +95,6 @@ public class TasksPresenter {
 
     public void remove(Task task) {
         model.removeTask(task, () -> {
-
         });
     }
 
@@ -103,18 +102,17 @@ public class TasksPresenter {
         void onComplete(int result);
     }
 
-    public boolean loadUpdate(Task task, IUpdateCallback callback) {
+    public void loadUpdate(Task task, IUpdateCallback callback) {
         if (!checkConnecting())
-            return false;
+            return;
 
         loadingUpdate(task, callback);
-
-        return task.isUpdate();
     }
 
     public void loadUpdate() {
         if (!checkConnecting())
             return;
+
         model.loadTasks(listTasks -> {
             for (Task task : listTasks) {
                 loadingUpdate(task, null);
@@ -126,7 +124,7 @@ public class TasksPresenter {
 
     private void loadingUpdate(Task task, IUpdateCallback callback) {
         ISite scu = new SiteUpdate(task.getLink(), task.getDate());
-        scu.findUpDate((result, newDate) -> {
+        scu.findUpDate((result, newDate, chapter) -> {
             switch (result) {
                 case 1:
                     task.setDate(newDate);
