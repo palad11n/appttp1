@@ -16,7 +16,6 @@ import com.whenupdate.tools.service.sites.SiteUpdate;
 public class TasksPresenter {
     private MainActivity view;
     private final TaskModel model;
-    private boolean flagUpdate = false;
 
     TasksPresenter(TaskModel model) {
         this.model = model;
@@ -100,17 +99,17 @@ public class TasksPresenter {
         });
     }
 
-    public boolean loadUpdate(Task task) {
+    public interface IUpdateCallback {
+        void onComplete(int result);
+    }
+
+    public boolean loadUpdate(Task task, IUpdateCallback callback) {
         if (!checkConnecting())
             return false;
 
-        loadingUpdate(task);
+        loadingUpdate(task, callback);
 
-        boolean isNotify = flagUpdate;
-        flagUpdate = false;
-
-        view.isUpdate(task.isUpdate());
-        return isNotify;
+        return task.isUpdate();
     }
 
     public void loadUpdate() {
@@ -118,19 +117,20 @@ public class TasksPresenter {
             return;
         model.loadTasks(listTasks -> {
             for (Task task : listTasks) {
-                loadingUpdate(task);
+                loadingUpdate(task, null);
             }
+
+            loadTasks();
         });
     }
 
-    private void loadingUpdate(Task task) {
+    private void loadingUpdate(Task task, IUpdateCallback callback) {
         ISite scu = new SiteUpdate(task.getLink(), task.getDate());
         scu.findUpDate((result, newDate) -> {
             switch (result) {
                 case 1:
                     task.setDate(newDate);
                     task.setUpdate(true);
-                    flagUpdate = true;
                     updateTask(task);
                     Intent intent = new Intent(view.getApplicationContext(), NotifyService.class);
                     view.startService(intent);
@@ -141,6 +141,11 @@ public class TasksPresenter {
                     break;
                 default:
                     break;
+            }
+
+            if (callback != null) {
+                view.isUpdate(task.isUpdate());
+                callback.onComplete(result);
             }
         });
     }

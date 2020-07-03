@@ -8,7 +8,7 @@
     <string name="done">OK</string>
     <string name="text_conf_delete">Вы действительно хотите удалить задачу?</string>
     <string name="check_internet">Проверьте интернет соединение...</string>
-    <string name="set_link">Ссылка на страницу*</string>
+    <string name="set_link">Ссылка на творение*</string>
     <string name="help_long_click">Зажмите, чтобы перейти в браузер.</string>
     <string name="help_subtitle">Возможно, вы не знали!</string>
     <string name="helper_title">Помощь</string>
@@ -36,6 +36,11 @@
     <string name="after_rating">Позже</string>
     <string name="text_rating">Хотите оценить это приложение? :)</string>
     <string name="rate_the_app">Оцените приложение?</string>
-    <string name="also_empty">Пока пусто...</string>
+    <string name="also_empty">Добавьте задачу :)</string>
     <string name="text_error_link">Ссылка должна начинаться с http(s)://</string>
+<<<<<<< HEAD
+    <string name="helper_create_text">Введите отслеживаемую вами работу</string>
+=======
+    <string name="helper_create_text">Здесь отслеживаемая вами работа</string>
+>>>>>>> task8
 </resources>

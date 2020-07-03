@@ -1,5 +1,6 @@
 package com.whenupdate.tools.mvp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -83,6 +84,7 @@ public class TaskModel {
         return false;
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class AddTask extends AsyncTask<Task, Void, Void> {
 
         private final ICompleteCallback callback;
@@ -131,6 +133,7 @@ public class TaskModel {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class UpdateTask extends AsyncTask<Task, Void, Void> {
 
         private final ICompleteCallback callback;
@@ -169,6 +172,7 @@ public class TaskModel {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class LoadListTask extends AsyncTask<Void, Void, ListTasks> {
 
         private final ILoadCallback callback;
@@ -195,6 +199,7 @@ public class TaskModel {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class RemoveTask extends AsyncTask<Task, Void, Void> {
 
         private final ICompleteCallback callback;
