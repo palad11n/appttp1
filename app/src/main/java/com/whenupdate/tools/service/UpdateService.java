@@ -1,10 +1,12 @@
-package com.whenupdate.tools.common;
+package com.whenupdate.tools.service;
 
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
 import com.whenupdate.tools.R;
+import com.whenupdate.tools.common.NotifyService;
+import com.whenupdate.tools.common.Task;
 import com.whenupdate.tools.mvp.TaskModel;
 import com.whenupdate.tools.service.sites.ISite;
 import com.whenupdate.tools.service.sites.SiteUpdate;
@@ -42,6 +44,9 @@ public class UpdateService {
                     context.startService(intent);
                     break;
                 case -1:
+                    Toast.makeText(context, context.getResources().getString(R.string.site_rip)
+                                    + task.getLink(),
+                            Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;

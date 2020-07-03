@@ -17,9 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.mvp.MainActivity;
+import com.whenupdate.tools.mvp.TasksPresenter;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     private static ListTasks data = new ListTasks();
+    private int row_index;
 
     @NonNull
     @Override
@@ -33,12 +35,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     @Override
     public void onBindViewHolder(@NonNull final TaskHolder holder, int position) {
         holder.bind(data.get(position));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //todo смена названия
-            }
-        });
     }
 
     @Override
@@ -74,6 +70,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         private View itemView;
         private CardView cardView;
 
+
         TaskHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
@@ -82,6 +79,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             deleteBtn = itemView.findViewById(R.id.delBtn);
             syncImgBtn = itemView.findViewById(R.id.syncBtn);
             cardView = itemView.findViewById(R.id.cardView);
+            row_index = -1;
         }
 
         void bind(final Task task) {
@@ -113,14 +111,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             syncImgBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MainActivity.presenter.loadUpdate(task);
-                    if (task.isUpdate()) {
-                        setColorTask();
-                        // itemView.setBackgroundResource(R.drawable.my_on_shape);
-                        lastCheck.setText(task.getSimpleDateFormat());
-                        task.setUpdate(false);
-                        MainActivity.presenter.updateTask(task);
-                    }
+                    MainActivity.presenter.loadUpdate(task, new TasksPresenter.IUpdateCallback() {
+                        @Override
+                        public void onComplete(int result) {
+                            if (result == 1){
+                                row_index = getAdapterPosition();
+                                notifyItemChanged(row_index);
+                            }
+                        }
+                    });
                 }
             });
 

@@ -37,7 +37,7 @@ import com.whenupdate.tools.common.Task;
 import com.whenupdate.tools.common.TaskAdapter;
 import com.whenupdate.tools.common.desing.ScrollFABBehavior;
 
-
+@SuppressWarnings("all")
 public class MainActivity extends AppCompatActivity implements DialogCreateTask.DialogListener {
 
     public static Context mContext;
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
     private ConstraintLayout constraintLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView textEmpty;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         presenter.viewIsReady();
 
         initSwipeRefreshLayout();
+
     }
 
     private void initSwipeRefreshLayout() {
@@ -112,36 +114,39 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
     }
 
     private void initDialogCreateTask() {
-        DialogFragment dialog = new DialogCreateTask();
+        DialogFragment dialog = DialogCreateTask.newInstance();
         dialog.show(getSupportFragmentManager(), "Create task - show");
 
         getSupportFragmentManager().executePendingTransactions();
+
         inputTextTitle = dialog.getDialog().findViewById(R.id.textInputLayoutSetName);
-        editTextTitle = dialog.getDialog().getWindow().findViewById(R.id.setName);
-        inputTextLink = dialog.getDialog().getWindow().findViewById(R.id.textInputLayoutSetLink);
-        editTextLink = dialog.getDialog().getWindow().findViewById(R.id.setLink);
-        editTextLink.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+        editTextTitle = dialog.getDialog().findViewById(R.id.setName);
+        inputTextLink = dialog.getDialog().findViewById(R.id.textInputLayoutSetLink);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (validateLink(s.toString())) {
-                    inputTextLink.setErrorEnabled(false);
-                } else {
-                    inputTextLink.setErrorEnabled(true);
-                    inputTextLink.setError(getString(R.string.text_error_link));
+        editTextLink = dialog.getDialog().findViewById(R.id.setLink);
+        if (editTextLink != null)
+            editTextLink.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
-            }
-        });
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (validateLink(s.toString())) {
+                        inputTextLink.setError("");
+                    } else {
+                        inputTextLink.setError("https://link.on/creation/");
+                    }
+                }
+            });
     }
 
     private boolean validateLink(String textLink) {
+        textLink = textLink.trim();
         return (!textLink.isEmpty() && textLink.startsWith("http")
                 && Patterns.WEB_URL.matcher(textLink).matches());
     }
@@ -218,8 +223,8 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
 
     public Task getTaskFromDialog() {
         Task newTask = new Task();
-        newTask.setLink(inputTextLink.getEditText().getText().toString());
-        newTask.setTitle(inputTextTitle.getEditText().getText().toString());
+        newTask.setLink(inputTextLink.getEditText().getText().toString().trim());
+        newTask.setTitle(inputTextTitle.getEditText().getText().toString().trim());
         return newTask;
     }
 
@@ -270,12 +275,6 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         toast.setView(layout);
         toast.show();
     }
-
-    public void showLoadToast() {
-        showToast(getString(R.string.loading), R.drawable.ic_update_load);
-    }
-
-    private ProgressDialog progressDialog;
 
     public void showProgress() {
         progressDialog = ProgressDialog.show(this, "", getString(R.string.loading));

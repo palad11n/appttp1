@@ -25,6 +25,8 @@ public abstract class ScrollFABBehavior extends RecyclerView.OnScrollListener {
         if ((controlsVisible && dy > 0) || (!controlsVisible && dy < 0)) {
             scrolledDistance += dy;
         }
+
+        if (dy == recyclerView.getScrollY()) onShow();
     }
 
     public abstract void onHide();
