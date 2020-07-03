@@ -57,6 +57,7 @@ public class NotifyService extends Service {
                 .setContentTitle(getApplication().getString(R.string.title_notify))
                 .setContentText(getApplication().getString(R.string.update_exist))
                 .setAutoCancel(true)
+                .setPriority(Notification.PRIORITY_HIGH)
                 .setContentIntent(pIntent);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
