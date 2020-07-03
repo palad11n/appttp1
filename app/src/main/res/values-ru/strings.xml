@@ -38,5 +38,9 @@
     <string name="rate_the_app">Оцените приложение?</string>
     <string name="also_empty">Добавьте задачу :)</string>
     <string name="text_error_link">Ссылка должна начинаться с http(s)://</string>
+<<<<<<< HEAD
     <string name="helper_create_text">Введите отслеживаемую вами работу</string>
+=======
+    <string name="helper_create_text">Здесь отслеживаемая вами работа</string>
+>>>>>>> task8
 </resources>
