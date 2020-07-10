@@ -17,6 +17,14 @@ public class TasksPresenter {
     private MainActivity view;
     private final TaskModel model;
 
+    /**
+     * Обратный вызов для уведомления о получении ответа с сайта
+     */
+    public interface IUpdateCallback {
+        void onComplete(int result);
+    }
+
+
     TasksPresenter(TaskModel model) {
         this.model = model;
     }
@@ -107,10 +115,6 @@ public class TasksPresenter {
         });
     }
 
-    public interface IUpdateCallback {
-        void onComplete(int result);
-    }
-
     public void loadUpdate(Task task, IUpdateCallback callback) {
         if (!checkConnecting())
             return;
@@ -118,15 +122,22 @@ public class TasksPresenter {
         loadingUpdate(task, callback);
     }
 
-    public void loadUpdate() {
-        if (!checkConnecting())
+    public void loadUpdate(IUpdateCallback callback) {
+        if (!checkConnecting()){
+            callback.onComplete(0);
             return;
+        }
+
 
         model.loadTasks(listTasks -> {
             for (Task task : listTasks) {
+                if (!checkConnecting()){
+                    callback.onComplete(0);
+                    return;
+                }
                 loadingUpdate(task, null);
             }
-
+            callback.onComplete(0);
             loadTasks();
         });
     }

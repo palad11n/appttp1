@@ -41,4 +41,6 @@
     <string name="helper_create_text">Введите отслеживаемую вами работу</string>
     <string name="last_updated_all_text">"Обновлялось: "</string>
     <string name="fail_save">Не удалось получить данные с сайта.</string>
+    <string name="remove_task_title">Удалить</string>
+    <string name="update_task_title">Обновить</string>
 </resources>

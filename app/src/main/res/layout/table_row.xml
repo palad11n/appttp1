@@ -30,7 +30,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="5dp"
-                android:layout_toLeftOf="@id/delBtn">
+                android:layout_toLeftOf="@id/textViewOptions">
 
                 <HorizontalScrollView
                     android:layout_width="wrap_content"
@@ -46,38 +46,48 @@
                         android:maxLines="1"
                         android:padding="@dimen/field_task_padding"
                         android:scrollHorizontally="true"
-                        android:text="Name film" />
+                        android:text="Name film"
+                        />
                 </HorizontalScrollView>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/delBtn"
-                style="@style/TextView"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentTop="true"
+            <TextView
+                android:id="@+id/textViewOptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:background="#00000000"
-                android:stateListAnimator="@null"
-                android:text="✖"
-                android:textSize="16sp" />
+                android:layout_alignParentTop="true"
+                android:text="&#8942;"
+                android:textColor="@color/info_row"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textAppearance="?android:textAppearanceLarge" />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutChapter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout"
+                android:layout_marginStart="5dp"
+                >
+
+                <TextView
+                    android:id="@+id/nameVolCh"
+                    style="@style/TextView.Extra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_start"
+                    android:padding="@dimen/field_task_padding"
+                    android:text="Volume 2 Ch 15" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayoutDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linearLayout"
+                android:layout_below="@+id/linearLayoutChapter"
                 android:layout_marginStart="5dp">
-
-                <TextView
-                    style="@style/TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:padding="@dimen/field_task_padding"
-                    android:singleLine="true"
-                    android:text="@string/last_check" />
 
                 <TextView
                     android:id="@+id/lastCheck"
@@ -88,41 +98,20 @@
                     android:maxLines="1"
                     android:padding="5dip"
                     android:singleLine="true"
-                    android:text="dd.MM.yyyy"
-                    android:textSize="@dimen/sizeText" />
+                    android:text="dd.MM.yyyy" />
 
-                <ImageButton
-                    android:id="@+id/syncBtn"
-                    android:layout_width="37dp"
-                    android:layout_height="match_parent"
-                    android:background="#00000000"
-                    android:src="@drawable/img_btn_state" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayoutChapter"
+                android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linearLayoutDate"
-                android:layout_marginStart="5dp">
-
-                <HorizontalScrollView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/nameVolCh"
-                        style="@style/TextView.Extra"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_start"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:padding="@dimen/field_task_padding"
-                        android:singleLine="true"
-                        android:text="Volume 2 Ch 15" />
-                </HorizontalScrollView>
+                android:layout_below="@+id/linearLayoutChapter"
+                android:layout_marginStart="5dp"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp">
             </LinearLayout>
         </RelativeLayout>
+
     </androidx.cardview.widget.CardView>
 </LinearLayout>

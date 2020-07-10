@@ -108,10 +108,12 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.postDelayed(() -> {
-                presenter.loadUpdate();
-                if (swipeRefreshLayout.isRefreshing()){
-                    swipeRefreshLayout.setRefreshing(false);
-                }
+                presenter.loadUpdate(new TasksPresenter.IUpdateCallback() {
+                    @Override
+                    public void onComplete(int result) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
             }, 2000);
         });
     }

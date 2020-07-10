@@ -68,6 +68,8 @@ public class Task {
     }
 
     public void setChapter(String chapter) {
+        if (chapter == null)
+            chapter = "";
         this.chapter = chapter;
     }
 
