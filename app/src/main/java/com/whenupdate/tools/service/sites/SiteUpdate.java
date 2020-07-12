@@ -116,7 +116,9 @@ public class SiteUpdate implements ISite {
             if (newDate.after(lastDate)) {
                 return 1; // есть обновление
             } else {
-                if (lastChapter != null && !chapter.contains(lastChapter))
+                if (lastChapter != null
+                        && ((lastChapter.isEmpty() && !chapter.isEmpty())
+                        || !chapter.contains(lastChapter)))
                     return 1;
             }
         } else return -1; // ошибка

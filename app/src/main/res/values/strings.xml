@@ -58,6 +58,8 @@
     <string name="fail_save">Failed to get data from the site.</string>
     <string name="remove_task_title">Remove</string>
     <string name="update_task_title">Update</string>
+    <string name="copy_link_title">Copy link</string>
+    <string name="link_copied">Text copied</string>
 
 
 </resources>

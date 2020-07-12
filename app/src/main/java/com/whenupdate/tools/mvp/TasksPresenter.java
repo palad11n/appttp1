@@ -134,8 +134,7 @@ public class TasksPresenter {
                 if (!checkConnecting()){
                     callback.onComplete(0);
                     return;
-                }
-                loadingUpdate(task, null);
+                }                loadingUpdate(task, null);
             }
             callback.onComplete(0);
             loadTasks();

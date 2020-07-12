@@ -31,8 +31,9 @@
         <item name="android:textSize">16sp</item>
     </style>
     <style name="TextView.Extra">
-        <item name="android:textColor">@color/info_row</item>
-        <item name="android:textStyle">italic</item>
+<!--        <item name="android:textColor">@color/info_row</item>-->
+        <item name="android:alpha">0.62</item>
+        <item name="android:textStyle"></item>
         <item name="android:textSize">15sp</item>
     </style>
 

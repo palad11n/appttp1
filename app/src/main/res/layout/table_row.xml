@@ -4,19 +4,20 @@
     android:id="@+id/relativeLayout_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginRight="2dp"
+    android:layout_marginLeft="2dp">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginRight="8dp"
+        style="@style/Widget.MaterialComponents.CardView"
         android:layout_marginBottom="4dp"
-        app:cardBackgroundColor="@color/shape_off_color"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="2dp">
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -113,5 +114,5 @@
             </LinearLayout>
         </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

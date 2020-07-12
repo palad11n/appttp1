@@ -13,7 +13,7 @@ public class FindAnimeParsing extends InfoOfSite {
 
     @Override
     public String getLastChapter(Elements rows) {
-        rows = rows.select("td a");
+        rows = rows.select("td a:not(.person-link)");
         for (int i = 0; i < rows.size(); i++) {
             String td = rows.get(i).childNodes().get(0).outerHtml();
             if (td != null) {

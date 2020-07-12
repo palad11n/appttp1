@@ -30,7 +30,7 @@ public abstract class InfoOfSite {
     public void setTitle(String title, String link) {
         if (title == null || title.isEmpty())
             this.title = link;
-        else this.title = title;
+        else this.title = title.trim();
     }
 
     public void setDate(String date) {

@@ -9,8 +9,8 @@
     <color name="error">#B00020</color>
 
     <!-- Актуальные цвета -->
-    <color name="colorMy">#0068e3</color>
-    <color name="toast">#E60068E3</color>
+    <color name="colorMy">#7C4DFF</color>
+    <color name="toast">#E67C4DFF</color>
     <color name="text_row">@color/colorMy</color>
 
     <!-- Цвет задач -->

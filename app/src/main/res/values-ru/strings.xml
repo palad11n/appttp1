@@ -43,4 +43,6 @@
     <string name="fail_save">Не удалось получить данные с сайта.</string>
     <string name="remove_task_title">Удалить</string>
     <string name="update_task_title">Обновить</string>
+    <string name="copy_link_title">Копировать ссылку</string>
+    <string name="link_copied">Текст скопирован</string>
 </resources>
