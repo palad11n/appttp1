@@ -45,4 +45,8 @@
     <string name="update_task_title">Обновить</string>
     <string name="copy_link_title">Копировать ссылку</string>
     <string name="link_copied">Текст скопирован</string>
+    <string name="title_activity_view">Просмотр</string>
+    <string name="clean_cache_btn">Очистить кеш приложения</string>
+    <string name="cache_cleaned">Кеш очищен</string>
+    <string name="share_title">Поделиться</string>
 </resources>

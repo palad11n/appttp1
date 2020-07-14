@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.mvp.MainActivity;
 import com.whenupdate.tools.mvp.TasksPresenter;
+import com.whenupdate.tools.mvp.ViewActivity;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
@@ -107,6 +108,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 @Override
                 public boolean onLongClick(View v) {
                     return goToBrowser(task);
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    goToView(task.getLink());
                 }
             });
 
@@ -211,6 +219,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             } catch (Exception e) {
             }
             return false;
+        }
+
+        private void goToView(String linkTasks) {
+            Intent intentView = new Intent(itemView.getContext(), ViewActivity.class);
+            intentView.putExtra(ViewActivity.LINK_KEY, linkTasks);
+            itemView.getContext().startActivity(intentView);
         }
     }
 }

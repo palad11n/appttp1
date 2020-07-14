@@ -2,6 +2,7 @@ package com.whenupdate.tools.mvp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import androidx.preference.PreferenceManager;
 
@@ -43,7 +44,7 @@ public class TasksPresenter {
     }
 
     private void setTheme(SharedPreferences prefs) {
-        String theme = prefs.getString("theme", "dark");
+        String theme = prefs.getString("theme", "light");
         if (theme.equals("dark")) {
             view.setBackground(view.getResources().getColor(R.color.background_dark),
                     view.getResources().getColor(R.color.background_light));
@@ -123,7 +124,7 @@ public class TasksPresenter {
     }
 
     public void loadUpdate(IUpdateCallback callback) {
-        if (!checkConnecting()){
+        if (!checkConnecting()) {
             callback.onComplete(0);
             return;
         }
@@ -131,10 +132,11 @@ public class TasksPresenter {
 
         model.loadTasks(listTasks -> {
             for (Task task : listTasks) {
-                if (!checkConnecting()){
+                if (!checkConnecting()) {
                     callback.onComplete(0);
                     return;
-                }                loadingUpdate(task, null);
+                }
+                loadingUpdate(task, null);
             }
             callback.onComplete(0);
             loadTasks();
@@ -150,8 +152,12 @@ public class TasksPresenter {
                     task.setChapter(chapter);
                     task.setUpdate(true);
                     updateTask(task);
-                    Intent intent = new Intent(view.getApplicationContext(), NotifyService.class);
-                    view.startService(intent);
+                    Intent serviceIntent = new Intent(view.getApplicationContext(), NotifyService.class);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        view.startForegroundService(serviceIntent);
+                    } else {
+                        view.startService(serviceIntent);
+                    }
                     break;
                 case -1:
                     view.showToast(view.getString(R.string.site_rip) + task.getLink(),
@@ -169,7 +175,7 @@ public class TasksPresenter {
     }
 
     private boolean checkConnecting() {
-        if (!model.isNetworkAvailable()) {
+        if (!TaskModel.isNetworkAvailable()) {
             view.alertConnection();
             return false;
         }

@@ -60,6 +60,9 @@
     <string name="update_task_title">Update</string>
     <string name="copy_link_title">Copy link</string>
     <string name="link_copied">Text copied</string>
-
+    <string name="title_activity_view">View</string>
+    <string name="clean_cache_btn">Click to clean cache</string>
+    <string name="cache_cleaned">Cache cleaned</string>
+    <string name="share_title">Share</string>
 
 </resources>

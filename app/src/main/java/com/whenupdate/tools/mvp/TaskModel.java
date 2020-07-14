@@ -9,10 +9,14 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
 
 import com.whenupdate.tools.common.ListTasks;
 import com.whenupdate.tools.common.Task;
+
+import java.io.File;
 
 public class TaskModel {
     public interface ILoadCallback {
@@ -58,7 +62,7 @@ public class TaskModel {
         removeTask.execute(task);
     }
 
-    public boolean isNetworkAvailable() {
+    public static boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) MainActivity.mContext.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -82,6 +86,22 @@ public class TaskModel {
             }
         }
         return false;
+    }
+
+    public static boolean cleanCache(@NonNull File dir) {
+        if (dir.isDirectory()){
+            String[] children = dir.list();
+            if (children != null) {
+                for (int i = 0; i < children.length; i++) {
+                    boolean success = cleanCache(new File(dir, children[i]));
+                    if (!success) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return dir.delete();
     }
 
     @SuppressLint("StaticFieldLeak")
