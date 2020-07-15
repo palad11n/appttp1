@@ -9,7 +9,7 @@
     <string name="text_conf_delete">Вы действительно хотите удалить задачу?</string>
     <string name="check_internet">Проверьте интернет соединение...</string>
     <string name="set_link">Ссылка на творение*</string>
-    <string name="help_long_click">Зажмите, чтобы перейти в браузер.</string>
+    <string name="help_long_click">Зажмите задачу, чтобы перейти в браузер!</string>
     <string name="help_subtitle">Возможно, вы не знали!</string>
     <string name="helper_title">Помощь</string>
     <string name="lang_summary">Вы должны перезапустить приложение, чтобы принять изменения.</string>
@@ -49,4 +49,6 @@
     <string name="clean_cache_btn">Очистить кеш приложения</string>
     <string name="cache_cleaned">Кеш очищен</string>
     <string name="share_title">Поделиться</string>
+    <string name="or">или</string>
+    <string name="help_click">Нажмите на задачу, чтобы просмотреть страницу в приложении!</string>
 </resources>

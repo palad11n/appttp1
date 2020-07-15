@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +27,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -54,11 +56,53 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
     private TextView textEmpty;
     private ProgressDialog progressDialog;
 
+    private AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+        initAds();
+    }
+
+    private void initAds() {
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
     }
 
     private void init() {
@@ -82,12 +126,12 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         listView.addOnScrollListener(new ScrollFABBehavior() {
             @Override
             public void onHide() {
-                hideViews();
+                hideFAB();
             }
 
             @Override
             public void onShow() {
-                showViews();
+                showFAB();
             }
         });
 
@@ -116,6 +160,14 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
                 });
             }, 2000);
         });
+    }
+
+    public void hideSwipeRefreshLayout() {
+        swipeRefreshLayout.setVisibility(View.GONE);
+    }
+
+    public void showSwipeRefreshLayout() {
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
     }
 
     private void initDialogCreateTask() {
@@ -155,11 +207,11 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
                 && Patterns.WEB_URL.matcher(textLink).matches());
     }
 
-    private void hideViews() {
+    private void hideFAB() {
         floatingActionButton.hide();
     }
 
-    private void showViews() {
+    private void showFAB() {
         floatingActionButton.show();
     }
 

@@ -1,15 +1,12 @@
 package com.whenupdate.tools.mvp;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 
 import androidx.preference.PreferenceManager;
 
 import io.reactivex.Completable;
 
 import com.whenupdate.tools.R;
-import com.whenupdate.tools.common.NotifyService;
 import com.whenupdate.tools.common.Task;
 import com.whenupdate.tools.service.sites.ISite;
 import com.whenupdate.tools.service.sites.SiteUpdate;
@@ -58,9 +55,13 @@ public class TasksPresenter {
         model.loadTasks(listTasks -> {
             if (listTasks != null) {
                 view.showTasks(listTasks);
-                if (!listTasks.isEmpty())
+                if (!listTasks.isEmpty()) {
                     view.hideEmptyText();
-                else view.showEmptyText();
+                    view.showSwipeRefreshLayout();
+                } else {
+                    view.showEmptyText();
+                    view.hideSwipeRefreshLayout();
+                }
             }
         });
     }
@@ -119,27 +120,24 @@ public class TasksPresenter {
     public void loadUpdate(Task task, IUpdateCallback callback) {
         if (!checkConnecting())
             return;
-
         loadingUpdate(task, callback);
     }
 
     public void loadUpdate(IUpdateCallback callback) {
         if (!checkConnecting()) {
-            callback.onComplete(0);
+            callback.onComplete(-1);
             return;
         }
-
 
         model.loadTasks(listTasks -> {
             for (Task task : listTasks) {
                 if (!checkConnecting()) {
-                    callback.onComplete(0);
+                    callback.onComplete(-1);
                     return;
                 }
                 loadingUpdate(task, null);
             }
             callback.onComplete(0);
-            loadTasks();
         });
     }
 
@@ -152,12 +150,7 @@ public class TasksPresenter {
                     task.setChapter(chapter);
                     task.setUpdate(true);
                     updateTask(task);
-                    Intent serviceIntent = new Intent(view.getApplicationContext(), NotifyService.class);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        view.startForegroundService(serviceIntent);
-                    } else {
-                        view.startService(serviceIntent);
-                    }
+                    model.startNotifyService();
                     break;
                 case -1:
                     view.showToast(view.getString(R.string.site_rip) + task.getLink(),

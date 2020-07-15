@@ -2,6 +2,7 @@ package com.whenupdate.tools.mvp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 
 import com.whenupdate.tools.common.ListTasks;
+import com.whenupdate.tools.common.NotifyService;
 import com.whenupdate.tools.common.Task;
 
 import java.io.File;
@@ -60,6 +62,15 @@ public class TaskModel {
     void removeTask(Task task, ICompleteCallback callback) {
         RemoveTask removeTask = new RemoveTask(callback);
         removeTask.execute(task);
+    }
+
+    public void startNotifyService(){
+        Intent serviceIntent = new Intent(mContext, NotifyService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mContext.startForegroundService(serviceIntent);
+        } else {
+            mContext.startService(serviceIntent);
+        }
     }
 
     public static boolean isNetworkAvailable() {

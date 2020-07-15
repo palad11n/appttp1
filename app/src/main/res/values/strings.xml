@@ -64,5 +64,7 @@
     <string name="clean_cache_btn">Click to clean cache</string>
     <string name="cache_cleaned">Cache cleaned</string>
     <string name="share_title">Share</string>
+    <string name="or">or</string>
+    <string name="help_click">Click to view to page.</string>
 
 </resources>
