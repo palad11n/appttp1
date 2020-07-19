@@ -14,10 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8072450081468494~9569494060"/>
-
         <activity
             android:name=".common.StartActivity"
             android:screenOrientation="portrait"
@@ -40,11 +36,15 @@
 
         <activity
             android:name=".mvp.ViewActivity"
-            android:label="@string/title_activity_view">
+            android:label="@string/title_activity_view"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing"
+                android:value="true" />
         </activity>
 
         <service

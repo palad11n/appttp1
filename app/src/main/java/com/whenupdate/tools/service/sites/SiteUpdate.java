@@ -57,7 +57,7 @@ public class SiteUpdate implements ISite {
             infoOfSite = new MangalibParsing();
         } else {
             infoOfSite = new FindAnimeParsing();
-            TAG_CLASS = ".table tr";
+            //TAG_CLASS = ".table tr";
         }
     }
 
@@ -68,6 +68,7 @@ public class SiteUpdate implements ISite {
      */
     @SuppressLint("CheckResult")
     public void findUpDate(ICompleteCallback iCompleteCallback) {
+        if (TAG_CLASS == null) return;
         getDateFromSite()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -3,15 +3,11 @@ package com.whenupdate.tools.common;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -23,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.mvp.MainActivity;
-import com.whenupdate.tools.mvp.TasksPresenter;
 import com.whenupdate.tools.mvp.ViewActivity;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
@@ -78,8 +73,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         private final TextView title;
         private final TextView lastCheck;
         private final TextView options;
-        private Button deleteBtn;
-        private ImageButton syncImgBtn;
+//        private Button deleteBtn;
+//        private ImageButton syncImgBtn;
         private final View itemView;
         private final CardView cardView;
         private final TextView textChapter;
@@ -104,89 +99,48 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             lastCheck.setText(task.getSimpleDateFormat());
             setTextChapter(task.getChapter());
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    return goToBrowser(task);
-                }
-            });
+            setClickView(task.getLink());
+            setLongClick(task.getLink());
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    goToView(task.getLink());
-                }
-            });
-
-            options.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu popup = new PopupMenu(itemView.getContext(), options);
-                    popup.inflate(R.menu.menu_options);
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()) {
-                                case R.id.itemDelete:
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
-                                    builder.setMessage(R.string.text_conf_delete)
-                                            .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                    removeItem(getAdapterPosition());
-                                                    dialog.dismiss();
-                                                }
-                                            })
-                                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
-                                    builder.create();
-                                    AlertDialog alert = builder.create();
-                                    alert.show();
-                                    break;
-                                case R.id.itemUpdate:
-                                    MainActivity.presenter.loadUpdate(task, new TasksPresenter.IUpdateCallback() {
-                                        @Override
-                                        public void onComplete(int result) {
-                                            if (result == 1) {
-                                                row_index = getAdapterPosition();
-                                                notifyItemChanged(row_index);
-                                            }
-                                        }
-                                    });
-                                    break;
-                                case R.id.itemCopy:
-                                    ClipboardManager clipboard =
-                                            (ClipboardManager) itemView.getContext().getSystemService(CLIPBOARD_SERVICE);
-                                    String link = task.getLink();
-                                    ClipData clipData = ClipData.newPlainText("Link tasks", link);
-                                    clipboard.setPrimaryClip(clipData);
-                                    Toast.makeText(itemView.getContext(),
-                                            itemView.getContext().getString(R.string.link_copied),
-                                            Toast.LENGTH_SHORT).show();
-                                    break;
-                            }
-                            return false;
-                        }
-                    });
-                    popup.show();
-                }
-            });
-
-            title.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    return goToBrowser(task);
-                }
-            });
-
-            textChapter.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    return goToBrowser(task);
-                }
+            options.setOnClickListener(v -> {
+                PopupMenu popup = new PopupMenu(itemView.getContext(), options);
+                popup.inflate(R.menu.menu_options);
+                popup.setOnMenuItemClickListener(item -> {
+                    switch (item.getItemId()) {
+                        case R.id.itemDelete:
+                            AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
+                            builder.setMessage(R.string.text_conf_delete)
+                                    .setPositiveButton(R.string.done, (dialog, id) -> {
+                                        removeItem(getAdapterPosition());
+                                        dialog.dismiss();
+                                    })
+                                    .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                            builder.create();
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                            break;
+                        case R.id.itemUpdate:
+                            MainActivity.presenter.loadUpdate(task, result -> {
+                                if (result == 1) {
+                                    row_index = getAdapterPosition();
+                                    notifyItemChanged(row_index);
+                                }
+                            });
+                            break;
+                        case R.id.itemCopy:
+                            ClipboardManager clipboard =
+                                    (ClipboardManager) itemView.getContext().getSystemService(CLIPBOARD_SERVICE);
+                            String link = task.getLink();
+                            ClipData clipData = ClipData.newPlainText("Link tasks", link);
+                            clipboard.setPrimaryClip(clipData);
+                            Toast.makeText(itemView.getContext(),
+                                    itemView.getContext().getString(R.string.link_copied),
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                    return false;
+                });
+                popup.show();
             });
 
             if (task.isUpdate()) {
@@ -211,9 +165,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             } else layoutChapter.setVisibility(View.GONE);
         }
 
-        private boolean goToBrowser(Task task) {
+        private boolean goToBrowser(String link) {
             try {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(task.getLink()));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
                 itemView.getContext().startActivity(browserIntent);
                 return true;
             } catch (Exception e) {
@@ -225,6 +179,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             Intent intentView = new Intent(itemView.getContext(), ViewActivity.class);
             intentView.putExtra(ViewActivity.LINK_KEY, linkTasks);
             itemView.getContext().startActivity(intentView);
+        }
+
+        private void setClickView(String link) {
+            itemView.setOnClickListener(v -> goToView(link));
+            title.setOnClickListener(v -> goToView(link));
+            textChapter.setOnClickListener(v -> goToView(link));
+        }
+
+        private void setLongClick(String link) {
+            itemView.setOnLongClickListener(v -> goToBrowser(link));
+            title.setOnLongClickListener(v -> goToBrowser(link));
+            textChapter.setOnLongClickListener(v -> goToBrowser(link));
         }
     }
 }

@@ -9,6 +9,9 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -46,14 +49,23 @@ public class ViewActivity extends AppCompatActivity {
     private void init() {
         ProgressBar progressBar = findViewById(R.id.progressBar_horizontal);
         webView = (WebView) findViewById(R.id.webView);
+        WebSettings webSettings = webView.getSettings();
+
+        webSettings.setJavaScriptEnabled(true); //включение javascript
+        webSettings.setAllowFileAccess(false); //доступ к файловой системе
+        webSettings.setBuiltInZoomControls(true); //включить зум
+        webSettings.setSupportZoom(true);
+        webSettings.setDisplayZoomControls(false);
+
         SimpleWebViewClient webViewClient = new SimpleWebViewClient(this, progressBar);
         webView.setWebViewClient(webViewClient);
+
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             link = extras.getString(LINK_KEY);
             currentUrl = link;
-            webView.getSettings().setJavaScriptEnabled(true);
             webView.loadUrl(link);
         }
     }
@@ -119,8 +131,13 @@ public class ViewActivity extends AppCompatActivity {
                     return false;
                 }
             }
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            activity.startActivity(intent);
+
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                activity.startActivity(intent);
+                return true;
+            } catch (Exception ignored) {
+            }
             return true;
         }
 
@@ -129,6 +146,12 @@ public class ViewActivity extends AppCompatActivity {
             super.onPageFinished(view, url);
             progressBar.setVisibility(View.GONE);
             view.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+            super.onReceivedError(view, request, error);
+            progressBar.setVisibility(View.GONE);
         }
     }
 }
