@@ -20,6 +20,11 @@ public class InfoOfSiteTest {
         public String getLastDate(Elements rows) {
             return "";
         }
+
+        @Override
+        public String getLastChapter(Elements rows) {
+            return null;
+        }
     };
 
     @Rule
@@ -43,7 +48,7 @@ public class InfoOfSiteTest {
 
     @Test
     public void setDate() throws ParseException {
-        info.setDate("1 января, 2020");
+        info.setDate("1 Января, 2020");
         assertThat(getFormat(info.getDate()), is("01.01.2020"));
 
         info.setDate("1 февраля, 2020");

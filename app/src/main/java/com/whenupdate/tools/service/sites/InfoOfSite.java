@@ -25,6 +25,7 @@ public abstract class InfoOfSite {
     }
 
     public abstract String getLastDate(Elements rows);
+
     public abstract String getLastChapter(Elements rows);
 
     public void setTitle(String title, String link) {
@@ -54,7 +55,7 @@ public abstract class InfoOfSite {
         Date fromSite;
         SimpleDateFormat formatter;
         if (!date.contains("Z")) {
-            if (date.contains(" "))
+            if (date.contains(" ") || date.contains("oday"))
                 date = convertToMonth(date);
 
             fromSite = new SimpleDateFormat("dd.MM.yy").parse(date);
@@ -67,7 +68,32 @@ public abstract class InfoOfSite {
     }
 
     private String convertToMonth(String date) {
-        String[] dates = date.replaceAll(",", "").split(" ");
+        if (date.contains("oday")){
+            Date dateNow = new Date();
+            SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yy");
+            return formatForDateNow.format(dateNow);
+        }
+
+        String[] datesArr = date
+                .replaceAll(",", " ")
+                .replaceAll("\\s{2,}", " ")
+                .split(" ");
+        String[] dates = new String[3];
+        int index = 0;
+        for (int i = 0; i < 3; i++) {
+            String item = datesArr[i];
+            if (!isOnlyDigits(item)) {
+                index = i;
+                dates[1] = item.toLowerCase();
+                break;
+            }
+        }
+
+        if (index == 0)
+            dates[0] = datesArr[1];
+        else dates[0] = datesArr[0];
+
+        dates[2] = datesArr[2];
         for (String month : months.keySet()) {
             if (dates[1].contains(month)) {
                 Integer numMonth = months.get(month);
@@ -79,6 +105,8 @@ public abstract class InfoOfSite {
             throw new IllegalArgumentException("Invalid month format: " + dates[1]);
 
         dates[0] = Integer.parseInt(dates[0]) < 10 ? "0" + dates[0] : dates[0];
+
+        dates[2] = dates[2].contains(":") ? getCurrentYear() : dates[2];
         dates[2] = dates[2].length() == 4 ? dates[2].substring(2, 4) : dates[2];
 
         date = dates[0] + "." + dates[1] + "." + dates[2];
@@ -87,5 +115,11 @@ public abstract class InfoOfSite {
 
     private static boolean isOnlyDigits(String str) {
         return str.matches("[\\d]+");
+    }
+
+    private static String getCurrentYear() {
+        java.util.Calendar calendar = java.util.Calendar.getInstance(java.util.TimeZone.getDefault(), java.util.Locale.getDefault());
+        calendar.setTime(new java.util.Date());
+        return String.valueOf(calendar.get(java.util.Calendar.YEAR));
     }
 }

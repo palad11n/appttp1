@@ -14,7 +14,10 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import com.whenupdate.tools.service.parsers.FicbookParsing;
 import com.whenupdate.tools.service.parsers.FindAnimeParsing;
+import com.whenupdate.tools.service.parsers.MangaFoxParsing;
+import com.whenupdate.tools.service.parsers.MangaHubParsing;
 import com.whenupdate.tools.service.parsers.MangalibParsing;
 import com.whenupdate.tools.service.parsers.SerialMovieParsing;
 import com.whenupdate.tools.service.parsers.SoundCloudParsing;
@@ -55,9 +58,15 @@ public class SiteUpdate implements ISite {
             infoOfSite = new SerialMovieParsing();
         } else if (linkUsers.contains("//mangalib.me")) {
             infoOfSite = new MangalibParsing();
-        } else {
+        } else if (linkUsers.contains("//ficbook.net")){
+            infoOfSite = new FicbookParsing();
+        }else if (linkUsers.contains("//mangahub")){
+            infoOfSite = new MangaHubParsing();
+        } else if (linkUsers.contains("//mangafox") || linkUsers.contains("//fanfox.net")){
+            infoOfSite = new MangaFoxParsing();
+        }
+        else {
             infoOfSite = new FindAnimeParsing();
-            //TAG_CLASS = ".table tr";
         }
     }
 
