@@ -55,7 +55,7 @@ public abstract class InfoOfSite {
         Date fromSite;
         SimpleDateFormat formatter;
         if (!date.contains("Z")) {
-            if (date.contains(" ") || date.contains("oday"))
+            if (date.contains(" ") || date.contains("day"))
                 date = convertToMonth(date);
 
             fromSite = new SimpleDateFormat("dd.MM.yy").parse(date);
@@ -72,6 +72,13 @@ public abstract class InfoOfSite {
             Date dateNow = new Date();
             SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yy");
             return formatForDateNow.format(dateNow);
+        }
+
+        if (date.contains("esterday")){
+            final java.util.Calendar cal = java.util.Calendar.getInstance();
+            cal.add(java.util.Calendar.DATE, -1);
+            SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yy");
+            return formatForDateNow.format(cal.getTime());
         }
 
         String[] datesArr = date

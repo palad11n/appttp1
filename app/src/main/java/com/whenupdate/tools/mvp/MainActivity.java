@@ -2,12 +2,14 @@ package com.whenupdate.tools.mvp;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,7 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,7 +60,9 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TaskModel.setNewTheme(this);
         setContentView(R.layout.activity_main);
+
         init();
         //   initAds();
     }
@@ -173,7 +179,15 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.applySetting();
+     //   presenter.applySetting();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 1) {
+            recreate();
+        }
     }
 
     @Override
@@ -185,6 +199,25 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.itemSearch).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                taskAdapter.filter(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                taskAdapter.filter(newText);
+                return true;
+            }
+        });
+
+        searchView.setIconifiedByDefault(true);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -193,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         switch (item.getItemId()) {
             case R.id.itemPreferences:
                 Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
                 return true;
             case R.id.itemAbout:
                 showDialogPref(R.layout.dialog_about);

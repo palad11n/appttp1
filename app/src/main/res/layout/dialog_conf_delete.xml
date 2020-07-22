@@ -20,20 +20,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/helpTitle"
-                style="@style/StyleAbout.Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/helper_title" />
-
             <TextView
                 style="@style/StyleAbout.Footer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/help_click" />
+                android:text="@string/text_conf_delete" />
             <TextView
                 style="@style/StyleAbout.Footer"
                 android:layout_width="match_parent"

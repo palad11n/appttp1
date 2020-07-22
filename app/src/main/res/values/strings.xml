@@ -27,7 +27,7 @@
 
     <!-- Состояния задачи -->
     <string name="update_not">Update is not. Try again later</string>
-    <string name="update_exist">There is an update! Long click on the task to view</string>
+    <string name="update_exist">There is an update! Сlick on title to view</string>
     <string name="site_rip">"This server is not available: "</string>
 
     <!-- Загрузка -->
@@ -50,7 +50,7 @@
     <string name="title_notify">News for you</string>
     <string name="after_rating">After</string>
     <string name="text_rating">Can you rate this app? :)</string>
-    <string name="rate_the_app">Rate the app?</string>
+    <string name="rate_the_app">Rate app</string>
     <string name="also_empty">Add task :)</string>
     <string name="text_error_link">Link must be start with http(s)://</string>
     <string name="helper_create_text">Input link to your favorite work</string>
@@ -65,6 +65,6 @@
     <string name="cache_cleaned">Cache cleaned</string>
     <string name="share_title">Share</string>
     <string name="or">or</string>
-    <string name="help_click">Click to view to page!</string>
+    <string name="help_click">Click to title to open page!</string>
 
 </resources>

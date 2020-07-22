@@ -1,6 +1,7 @@
 package com.whenupdate.tools.mvp;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,12 +12,15 @@ import android.os.AsyncTask;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 
+import com.whenupdate.tools.R;
 import com.whenupdate.tools.common.ListTasks;
 import com.whenupdate.tools.common.NotifyService;
 import com.whenupdate.tools.common.Task;
+import com.whenupdate.tools.common.desing.IDesingTheme;
 
 import java.io.File;
 
@@ -64,7 +68,7 @@ public class TaskModel {
         removeTask.execute(task);
     }
 
-    public void startNotifyService(){
+    public void startNotifyService() {
         Intent serviceIntent = new Intent(mContext, NotifyService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mContext.startForegroundService(serviceIntent);
@@ -100,7 +104,7 @@ public class TaskModel {
     }
 
     public static boolean cleanCache(@NonNull File dir) {
-        if (dir.isDirectory()){
+        if (dir.isDirectory()) {
             String[] children = dir.list();
             if (children != null) {
                 for (int i = 0; i < children.length; i++) {
@@ -111,8 +115,18 @@ public class TaskModel {
                 }
             }
         }
-
         return dir.delete();
+    }
+
+    public static void setNewTheme(Activity context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String theme = prefs.getString("theme", "light");
+
+        if (theme.equals("dark")) {
+            context.getTheme().applyStyle(R.style.DarkStyle, true);
+        } else {
+            context.getTheme().applyStyle(R.style.LightStyle, false);
+        }
     }
 
     @SuppressLint("StaticFieldLeak")

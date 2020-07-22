@@ -1,9 +1,5 @@
 package com.whenupdate.tools.mvp;
 
-import android.content.SharedPreferences;
-
-import androidx.preference.PreferenceManager;
-
 import io.reactivex.Completable;
 
 import com.whenupdate.tools.R;
@@ -36,19 +32,7 @@ public class TasksPresenter {
     }
 
     void applySetting() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view);
-        setTheme(prefs);
-    }
-
-    private void setTheme(SharedPreferences prefs) {
-        String theme = prefs.getString("theme", "light");
-        if (theme.equals("dark")) {
-            view.setBackground(view.getResources().getColor(R.color.background_dark),
-                    view.getResources().getColor(R.color.background_light));
-        } else {
-            view.setBackground(view.getResources().getColor(R.color.background_light),
-                    view.getResources().getColor(R.color.background_dark));
-        }
+        //TaskModel.setNewTheme(view);
     }
 
     public void loadTasks() {

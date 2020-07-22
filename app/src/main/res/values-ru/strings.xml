@@ -26,7 +26,7 @@
     <string name="theme_summary">Выбор цвета фона приложения.</string>
     <string name="theme_title">Цвет фона</string>
     <string name="title_activity_settings">Настройки</string>
-    <string name="update_exist">Есть обновление! Зажмите задачу для просмотра</string>
+    <string name="update_exist">Есть обновление! Нажми на заголовок для просмотра</string>
     <string name="update_not">Обновления нет. Попробуйте позже</string>
     <string name="wishes_or_problems">Проблемы или предложения?</string>
     <string name="write_to_telegram">Пишите в Telegram:</string>
@@ -35,7 +35,7 @@
     <string name="title_notify">Хорошие новости</string>
     <string name="after_rating">Позже</string>
     <string name="text_rating">Хотите оценить это приложение? :)</string>
-    <string name="rate_the_app">Оцените приложение?</string>
+    <string name="rate_the_app">Оценить приложение</string>
     <string name="also_empty">Добавьте задачу :)</string>
     <string name="text_error_link">Ссылка должна начинаться с http(s)://</string>
     <string name="helper_create_text">Введите отслеживаемую вами работу</string>
@@ -50,5 +50,5 @@
     <string name="cache_cleaned">Кеш очищен</string>
     <string name="share_title">Поделиться</string>
     <string name="or">или</string>
-    <string name="help_click">Нажмите на задачу, чтобы просмотреть страницу в приложении!</string>
+    <string name="help_click">Нажмите на заголовок, чтобы открыть страницу в приложении!</string>
 </resources>

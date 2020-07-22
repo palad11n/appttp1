@@ -30,6 +30,7 @@ public class ViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TaskModel.setNewTheme(this);
         setContentView(R.layout.activity_view);
 
         ActionBar actionBar = getSupportActionBar();
@@ -60,14 +61,17 @@ public class ViewActivity extends AppCompatActivity {
         SimpleWebViewClient webViewClient = new SimpleWebViewClient(this, progressBar);
         webView.setWebViewClient(webViewClient);
 
-
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             link = extras.getString(LINK_KEY);
             currentUrl = link;
             webView.loadUrl(link);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -121,9 +125,12 @@ public class ViewActivity extends AppCompatActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String url) {
             if (link != null) {
-                int index = link.indexOf('/', ((link.contains("https")) ? 8 : 7));
+                int indexProtocol = ((link.contains("https")) ? 8 : 7);
+                int index = link.indexOf('/', indexProtocol);
+
                 String serverFull = link.substring(0, (index == -1) ? link.length() : index);
-                String server = serverFull.substring(0, serverFull.lastIndexOf('.'));
+                String server = serverFull.substring(indexProtocol, serverFull.lastIndexOf('.'))
+                        .replace("www.", "");
 
                 if (url.contains(server)) {
                     currentUrl = url;

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/itemRating"
-        android:icon="@drawable/ic_sentiment_smale_toast"
-        android:title="@string/rate_the_app"
-        app:showAsAction="ifRoom" />
+    <item android:id="@+id/itemSearch"
+        android:title="Search"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        />
 
     <item
         android:id="@+id/itemHelp"
@@ -18,6 +19,13 @@
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/setting_app"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/itemRating"
+        android:icon="@drawable/ic_sentiment_smale_toast"
+        android:title="@string/rate_the_app"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/itemAbout"
         android:icon="@android:drawable/ic_menu_preferences"

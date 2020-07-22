@@ -12,9 +12,5 @@
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="@string/update_task_title"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/itemDelete"
-        android:icon="@android:drawable/ic_menu_preferences"
-        android:title="@string/remove_task_title"
-        app:showAsAction="never" />
+
 </menu>
