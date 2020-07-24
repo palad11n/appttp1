@@ -1,14 +1,8 @@
 package com.whenupdate.tools.mvp;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-
-import androidx.preference.PreferenceManager;
-
 import io.reactivex.Completable;
 
 import com.whenupdate.tools.R;
-import com.whenupdate.tools.common.NotifyService;
 import com.whenupdate.tools.common.Task;
 import com.whenupdate.tools.service.sites.ISite;
 import com.whenupdate.tools.service.sites.SiteUpdate;
@@ -16,6 +10,14 @@ import com.whenupdate.tools.service.sites.SiteUpdate;
 public class TasksPresenter {
     private MainActivity view;
     private final TaskModel model;
+
+    /**
+     * Обратный вызов для уведомления о получении ответа с сайта
+     */
+    public interface IUpdateCallback {
+        void onComplete(int result);
+    }
+
 
     TasksPresenter(TaskModel model) {
         this.model = model;
@@ -30,28 +32,20 @@ public class TasksPresenter {
     }
 
     void applySetting() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view);
-        setTheme(prefs);
-    }
-
-    private void setTheme(SharedPreferences prefs) {
-        String theme = prefs.getString("theme", "dark");
-        if (theme.equals("dark")) {
-            view.setBackground(view.getResources().getColor(R.color.background_dark),
-                    view.getResources().getColor(R.color.background_light));
-        } else {
-            view.setBackground(view.getResources().getColor(R.color.background_light),
-                    view.getResources().getColor(R.color.background_dark));
-        }
+        //TaskModel.setNewTheme(view);
     }
 
     public void loadTasks() {
         model.loadTasks(listTasks -> {
             if (listTasks != null) {
                 view.showTasks(listTasks);
-                if (!listTasks.isEmpty())
+                if (!listTasks.isEmpty()) {
                     view.hideEmptyText();
-                else view.showEmptyText();
+                    view.showSwipeRefreshLayout();
+                } else {
+                    view.showEmptyText();
+                    view.hideSwipeRefreshLayout();
+                }
             }
         });
     }
@@ -107,27 +101,27 @@ public class TasksPresenter {
         });
     }
 
-    public interface IUpdateCallback {
-        void onComplete(int result);
-    }
-
     public void loadUpdate(Task task, IUpdateCallback callback) {
         if (!checkConnecting())
             return;
-
         loadingUpdate(task, callback);
     }
 
-    public void loadUpdate() {
-        if (!checkConnecting())
+    public void loadUpdate(IUpdateCallback callback) {
+        if (!checkConnecting()) {
+            callback.onComplete(-1);
             return;
+        }
 
         model.loadTasks(listTasks -> {
             for (Task task : listTasks) {
+                if (!checkConnecting()) {
+                    callback.onComplete(-1);
+                    return;
+                }
                 loadingUpdate(task, null);
             }
-
-            loadTasks();
+            callback.onComplete(0);
         });
     }
 
@@ -140,8 +134,7 @@ public class TasksPresenter {
                     task.setChapter(chapter);
                     task.setUpdate(true);
                     updateTask(task);
-                    Intent intent = new Intent(view.getApplicationContext(), NotifyService.class);
-                    view.startService(intent);
+                    model.startNotifyService();
                     break;
                 case -1:
                     view.showToast(view.getString(R.string.site_rip) + task.getLink(),
@@ -159,7 +152,7 @@ public class TasksPresenter {
     }
 
     private boolean checkConnecting() {
-        if (!model.isNetworkAvailable()) {
+        if (!TaskModel.isNetworkAvailable()) {
             view.alertConnection();
             return false;
         }

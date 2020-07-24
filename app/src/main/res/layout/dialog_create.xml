@@ -6,35 +6,56 @@
     android:id="@+id/clSetting"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
+        android:id="@+id/titleCreate"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/margin_dialog"
+        android:layout_height="50dp"
+        android:background="@color/text_row"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_dialog"
+            android:gravity="center_vertical"
+            android:text="@string/setting_row"
+            android:textColor="#fff"
+            android:textSize="25sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_dialog"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleCreate">
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutSetLink"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorEnabled="true"
-            >
+            app:errorEnabled="true">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/setLink"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:lines="1"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:hint="@string/set_link"
-                android:inputType="textUri"
-                android:minLines="8"
+                android:textColor="#000"
                 android:focusableInTouchMode="true"
-                />
+                android:hint="@string/set_link"
+                android:imeOptions="actionNext"
+                android:inputType="textUri"
+                android:lines="1"
+                android:minLines="8"
+                android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -42,19 +63,19 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorEnabled="true"
-            >
+            app:errorEnabled="true">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/setName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:singleLine="true"
-                android:lines="1"
+                android:textColor="#000"
                 android:hint="@string/set_name"
                 android:inputType="text"
+                android:lines="1"
                 android:maxLength="128"
-                />
+                android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 

@@ -11,7 +11,7 @@
             app:summary="@string/theme_summary"/>
     </PreferenceCategory>
 
-<!--    <PreferenceCategory app:title="@string/other_settings">-->
+    <PreferenceCategory app:title="@string/other_settings">
 <!--        <ListPreference-->
 <!--            app:defaultValue="default"-->
 <!--            app:entries="@array/lang_entries"-->
@@ -20,5 +20,10 @@
 <!--            app:title="@string/lang_title"-->
 <!--            app:summary="@string/lang_summary"-->
 <!--            app:useSimpleSummaryProvider="true" />-->
-<!--    </PreferenceCategory>-->
+        <Preference
+            app:title="@string/clean_cache_btn"
+            app:key="btnCleanCache"
+            />
+
+    </PreferenceCategory>
 </PreferenceScreen>

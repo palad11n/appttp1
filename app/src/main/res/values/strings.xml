@@ -27,7 +27,7 @@
 
     <!-- Состояния задачи -->
     <string name="update_not">Update is not. Try again later</string>
-    <string name="update_exist">There is an update! Long click on the task to view</string>
+    <string name="update_exist">There is an update! Сlick on title to view</string>
     <string name="site_rip">"This server is not available: "</string>
 
     <!-- Загрузка -->
@@ -44,18 +44,27 @@
     <string name="lang_title">Language</string>
     <string name="lang_summary">You must restart the application to accept the changes.</string>
     <string name="check_internet">Check your internet connection...</string>
-    <string name="help_long_click">Long click to go to browser.</string>
+    <string name="help_long_click">Long click to go to browser!</string>
     <string name="help_subtitle">You may not have known!</string>
     <string name="helper_title">Helper</string>
     <string name="title_notify">News for you</string>
     <string name="after_rating">After</string>
     <string name="text_rating">Can you rate this app? :)</string>
-    <string name="rate_the_app">Rate the app?</string>
+    <string name="rate_the_app">Rate app</string>
     <string name="also_empty">Add task :)</string>
     <string name="text_error_link">Link must be start with http(s)://</string>
     <string name="helper_create_text">Input link to your favorite work</string>
     <string name="last_updated_all_text">Last updated:</string>
     <string name="fail_save">Failed to get data from the site.</string>
-
+    <string name="remove_task_title">Remove</string>
+    <string name="update_task_title">Update</string>
+    <string name="copy_link_title">Copy link</string>
+    <string name="link_copied">Text copied</string>
+    <string name="title_activity_view">View</string>
+    <string name="clean_cache_btn">Click to clean cache</string>
+    <string name="cache_cleaned">Cache cleaned</string>
+    <string name="share_title">Share</string>
+    <string name="or">or</string>
+    <string name="help_click">Click to title to open page!</string>
 
 </resources>

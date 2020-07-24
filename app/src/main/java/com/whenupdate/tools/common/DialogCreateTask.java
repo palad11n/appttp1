@@ -4,12 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -50,14 +48,6 @@ public class DialogCreateTask extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = LayoutInflater.from(getContext());
 
-        TextView textView = new TextView(getContext());
-        textView.setText(R.string.setting_row);
-        textView.setPadding(50, 40, 0, 20);
-        textView.setTextSize(25F);
-        textView.setBackgroundColor(getResources().getColor(R.color.colorMy));
-        textView.setTextColor(Color.WHITE);
-
-        builder.setCustomTitle(textView);
         builder.setCancelable(false)
                 .setView(inflater.inflate(R.layout.dialog_create, null))
                 .setPositiveButton(R.string.done, (dialog, id) -> mListener.onDialogPositiveClick(DialogCreateTask.this))

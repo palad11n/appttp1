@@ -1,7 +1,9 @@
 package com.whenupdate.tools.mvp;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
@@ -9,10 +11,18 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
+
 import com.google.gson.Gson;
 
+import com.whenupdate.tools.R;
 import com.whenupdate.tools.common.ListTasks;
+import com.whenupdate.tools.common.NotifyService;
 import com.whenupdate.tools.common.Task;
+import com.whenupdate.tools.common.desing.IDesingTheme;
+
+import java.io.File;
 
 public class TaskModel {
     public interface ILoadCallback {
@@ -58,7 +68,16 @@ public class TaskModel {
         removeTask.execute(task);
     }
 
-    public boolean isNetworkAvailable() {
+    public void startNotifyService() {
+        Intent serviceIntent = new Intent(mContext, NotifyService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mContext.startForegroundService(serviceIntent);
+        } else {
+            mContext.startService(serviceIntent);
+        }
+    }
+
+    public static boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) MainActivity.mContext.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -82,6 +101,32 @@ public class TaskModel {
             }
         }
         return false;
+    }
+
+    public static boolean cleanCache(@NonNull File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            if (children != null) {
+                for (int i = 0; i < children.length; i++) {
+                    boolean success = cleanCache(new File(dir, children[i]));
+                    if (!success) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return dir.delete();
+    }
+
+    public static void setNewTheme(Activity context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String theme = prefs.getString("theme", "light");
+
+        if (theme.equals("dark")) {
+            context.getTheme().applyStyle(R.style.DarkStyle, true);
+        } else {
+            context.getTheme().applyStyle(R.style.LightStyle, false);
+        }
     }
 
     @SuppressLint("StaticFieldLeak")

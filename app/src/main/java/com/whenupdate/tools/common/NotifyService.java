@@ -57,7 +57,9 @@ public class NotifyService extends Service {
                 .setContentTitle(getApplication().getString(R.string.title_notify))
                 .setContentText(getApplication().getString(R.string.update_exist))
                 .setAutoCancel(true)
-                .setContentIntent(pIntent);
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setContentIntent(pIntent)
+                .setVibrate(new long[]{1000, 1000});
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mNotify.setChannelId(channel_WhenUPDATE_id);

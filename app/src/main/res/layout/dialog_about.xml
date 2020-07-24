@@ -38,19 +38,13 @@
                 style="@style/StyleAbout.ListSite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="✧ soundcloud.com" />
+                android:text="✧ findanime.net" />
 
             <TextView
                 style="@style/StyleAbout.ListSite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="✧ findanime.me" />
-
-            <TextView
-                style="@style/StyleAbout.ListSite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="✧ readmanga.me" />
+                android:text="✧ readmanga.live" />
 
             <TextView
                 style="@style/StyleAbout.ListSite"
@@ -69,6 +63,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="✧ hdseria.tv" />
+
+            <TextView
+                style="@style/StyleAbout.ListSite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✧ soundcloud.com" />
+
+            <TextView
+                style="@style/StyleAbout.ListSite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✧ ficbook.net" />
+
+            <TextView
+                style="@style/StyleAbout.ListSite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✧ mangafox" />
+
+            <TextView
+                style="@style/StyleAbout.ListSite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✧ mangahub.ru" />
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"

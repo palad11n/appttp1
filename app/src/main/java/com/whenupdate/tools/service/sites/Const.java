@@ -18,6 +18,10 @@ class Const {
         MAP_TAG_FOR_LINK.put("//mintmanga", ".table tr");
         MAP_TAG_FOR_LINK.put("//readmanga", ".table tr");
         MAP_TAG_FOR_LINK.put("//mangalib.me", ".chapter-item");
+        MAP_TAG_FOR_LINK.put("//ficbook.net", ".part-info");
+        MAP_TAG_FOR_LINK.put("//mangahub", ".d-flex.py-2.px-3.border-bottom");
+        MAP_TAG_FOR_LINK.put("//fanfox.net", ".detail-main-list-main");
+        MAP_TAG_FOR_LINK.put("//mangafox", ".detail-main-list-main");
     }
 
     static {
@@ -34,5 +38,18 @@ class Const {
         MONTHS.put("окт", 10);
         MONTHS.put("ноя", 11);
         MONTHS.put("дек", 12);
+
+        MONTHS.put("jan", 1);
+        MONTHS.put("feb", 2);
+        MONTHS.put("mar", 3);
+        MONTHS.put("apr", 4);
+        MONTHS.put("may", 5);
+        MONTHS.put("jun", 6);
+        MONTHS.put("jul", 7);
+        MONTHS.put("aug", 8);
+        MONTHS.put("sept", 9);
+        MONTHS.put("oct", 10);
+        MONTHS.put("nov", 11);
+        MONTHS.put("dec", 12);
     }
 }

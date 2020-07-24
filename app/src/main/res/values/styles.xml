@@ -1,23 +1,24 @@
 <resources>
+
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
         <item name="colorPrimary">@color/colorMy</item>
-        <item name="colorPrimaryDark">#000</item>
+        <item name="colorPrimaryDark">@color/colorMyDark</item>
         <item name="colorAccent">@color/colorMy</item>
+        <item name="colorSurface">@color/cardview_light_background</item>
+    </style>
+
+    <style name="DarkStyle" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="colorPrimary">@color/colorMy</item>
+        <item name="colorPrimaryDark">@color/colorMyDark</item>
+        <item name="colorAccent">@color/colorMy</item>
+        <item name="colorSurface">@color/background_dark</item>
+    </style>
+
+    <style name="LightStyle" parent="AppTheme">
     </style>
 
     <style name="StartLaunchTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/start_launch</item>
-    </style>
-
-    <style name="DarkStyle">
-        <item name="android:background">#000</item>
-        <item name="android:textColor">#FFFFFF</item>
-    </style>
-
-    <style name="LightStyle">
-        <item name="android:background">#FFFFFF</item>
-        <item name="android:textColor">#000</item>
-        <item name="android:color">#000</item>
     </style>
 
     <style name="StyleTaskForList">
@@ -30,10 +31,12 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
     </style>
+
     <style name="TextView.Extra">
-        <item name="android:textColor">@color/info_row</item>
-        <item name="android:textStyle">italic</item>
-        <item name="android:textSize">16sp</item>
+        <!--        <item name="android:textColor">@color/info_row</item>-->
+        <item name="android:alpha">0.62</item>
+        <item name="android:textStyle"></item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="StyleAbout">
@@ -64,5 +67,14 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorMy</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

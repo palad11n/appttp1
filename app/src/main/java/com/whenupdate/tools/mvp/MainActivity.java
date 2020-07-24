@@ -2,12 +2,14 @@ package com.whenupdate.tools.mvp;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,12 +18,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -57,8 +60,11 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TaskModel.setNewTheme(this);
         setContentView(R.layout.activity_main);
+
         init();
+        //   initAds();
     }
 
     private void init() {
@@ -82,12 +88,12 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         listView.addOnScrollListener(new ScrollFABBehavior() {
             @Override
             public void onHide() {
-                hideViews();
+                hideFAB();
             }
 
             @Override
             public void onShow() {
-                showViews();
+                showFAB();
             }
         });
 
@@ -98,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         presenter.viewIsReady();
 
         initSwipeRefreshLayout();
-
     }
 
     private void initSwipeRefreshLayout() {
@@ -108,12 +113,22 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.postDelayed(() -> {
-                presenter.loadUpdate();
-                if (swipeRefreshLayout.isRefreshing()){
-                    swipeRefreshLayout.setRefreshing(false);
-                }
+                presenter.loadUpdate(new TasksPresenter.IUpdateCallback() {
+                    @Override
+                    public void onComplete(int result) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
             }, 2000);
         });
+    }
+
+    public void hideSwipeRefreshLayout() {
+        swipeRefreshLayout.setVisibility(View.GONE);
+    }
+
+    public void showSwipeRefreshLayout() {
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
     }
 
     private void initDialogCreateTask() {
@@ -153,18 +168,26 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
                 && Patterns.WEB_URL.matcher(textLink).matches());
     }
 
-    private void hideViews() {
+    private void hideFAB() {
         floatingActionButton.hide();
     }
 
-    private void showViews() {
+    private void showFAB() {
         floatingActionButton.show();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.applySetting();
+     //   presenter.applySetting();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 1) {
+            recreate();
+        }
     }
 
     @Override
@@ -176,6 +199,25 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.itemSearch).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                taskAdapter.filter(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                taskAdapter.filter(newText);
+                return true;
+            }
+        });
+
+        searchView.setIconifiedByDefault(true);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -184,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         switch (item.getItemId()) {
             case R.id.itemPreferences:
                 Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
                 return true;
             case R.id.itemAbout:
                 showDialogPref(R.layout.dialog_about);

@@ -1,27 +1,34 @@
 package com.whenupdate.tools.common;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.mvp.MainActivity;
-import com.whenupdate.tools.mvp.TasksPresenter;
+import com.whenupdate.tools.mvp.ViewActivity;
+
+import static android.content.Context.CLIPBOARD_SERVICE;
+
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     private static ListTasks data = new ListTasks();
+    private static ListTasks dataCopy = new ListTasks();
     private int row_index;
 
     @NonNull
@@ -35,7 +42,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final TaskHolder holder, int position) {
-        holder.bind(data.get(position));
+        Task task = data.get(position);
+        holder.bind(task);
     }
 
     @Override
@@ -43,10 +51,27 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         return data.size();
     }
 
+    public void filter(String text) {
+        data.clear();
+        if (text.isEmpty()) {
+            data.addAll(dataCopy);
+        } else {
+            text = text.toLowerCase();
+            for (Task item : dataCopy) {
+                if (item.getTitle().toLowerCase().contains(text) || item.getTitle().toLowerCase().contains(text)) {
+                    data.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
 
     public void setData(ListTasks listTasks) {
         data.clear();
         data.addAll(listTasks);
+
+        dataCopy.clear();
+        dataCopy.addAll(listTasks);
         notifyDataSetChanged();
     }
 
@@ -63,28 +88,31 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         notifyItemInserted(position);
     }
 
-    class TaskHolder extends RecyclerView.ViewHolder {
-        private TextView title;
-        private TextView lastCheck;
-        private Button deleteBtn;
-        private ImageButton syncImgBtn;
-        private View itemView;
-        private CardView cardView;
-        private TextView textChapter;
-        private LinearLayout layoutChapter;
 
+    class TaskHolder extends RecyclerView.ViewHolder {
+        private final TextView title;
+        private final TextView lastCheck;
+        private final TextView options;
+        //        private Button deleteBtn;
+//        private ImageButton syncImgBtn;
+        private final View itemView;
+        private final CardView cardView;
+        private final TextView textChapter;
+        private final LinearLayout layoutChapter;
+        SwipeLayout swipeLayout;
 
         TaskHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
             title = itemView.findViewById(R.id.nameLink);
             lastCheck = itemView.findViewById(R.id.lastCheck);
-            deleteBtn = itemView.findViewById(R.id.delBtn);
-            syncImgBtn = itemView.findViewById(R.id.syncBtn);
+            options = itemView.findViewById(R.id.textViewOptions);
             cardView = itemView.findViewById(R.id.cardView);
             textChapter = itemView.findViewById(R.id.nameVolCh);
             layoutChapter = itemView.findViewById(R.id.linearLayoutChapter);
             row_index = -1;
+            swipeLayout = itemView.findViewById(R.id.simp);
+
         }
 
         void bind(final Task task) {
@@ -92,63 +120,37 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             lastCheck.setText(task.getSimpleDateFormat());
             setTextChapter(task.getChapter());
 
-            deleteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext());
-                    builder.setMessage(R.string.text_conf_delete)
-                            .setPositiveButton(R.string.done, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int id) {
-                                    removeItem(getAdapterPosition());
-                                    dialog.dismiss();
-                                }
-                            })
-                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.dismiss();
+            setClickView(task.getLink());
+            setSwipeLayoutLeft(task.getLink());
+            //setLongClick(task.getLink());
+
+            options.setOnClickListener(v -> {
+                PopupMenu popup = new PopupMenu(itemView.getContext(), options);
+                popup.inflate(R.menu.menu_options);
+                popup.setOnMenuItemClickListener(item -> {
+                    switch (item.getItemId()) {
+                        case R.id.itemUpdate:
+                            MainActivity.presenter.loadUpdate(task, result -> {
+                                if (result == 1) {
+                                    row_index = getAdapterPosition();
+                                    notifyItemChanged(row_index);
                                 }
                             });
-                    builder.create();
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                }
-            });
-
-            syncImgBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MainActivity.presenter.loadUpdate(task, new TasksPresenter.IUpdateCallback() {
-                        @Override
-                        public void onComplete(int result) {
-                            if (result == 1) {
-                                row_index = getAdapterPosition();
-                                notifyItemChanged(row_index);
-                            }
-                        }
-                    });
-                }
-            });
-
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    return goToBrowser(task);
-                }
-            });
-
-            title.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    return goToBrowser(task);
-                }
-            });
-
-            textChapter.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    return goToBrowser(task);
-                }
+                            break;
+                        case R.id.itemCopy:
+                            ClipboardManager clipboard =
+                                    (ClipboardManager) itemView.getContext().getSystemService(CLIPBOARD_SERVICE);
+                            String link = task.getLink();
+                            ClipData clipData = ClipData.newPlainText("Link tasks", link);
+                            clipboard.setPrimaryClip(clipData);
+                            Toast.makeText(itemView.getContext(),
+                                    itemView.getContext().getString(R.string.link_copied),
+                                    Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                    return false;
+                });
+                popup.show();
             });
 
             if (task.isUpdate()) {
@@ -173,14 +175,88 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             } else layoutChapter.setVisibility(View.GONE);
         }
 
-        private boolean goToBrowser(Task task) {
+        private boolean goToBrowser(String link) {
             try {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(task.getLink()));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
                 itemView.getContext().startActivity(browserIntent);
                 return true;
             } catch (Exception e) {
             }
             return false;
+        }
+
+        private void goToView(String linkTasks) {
+            Intent intentView = new Intent(itemView.getContext(), ViewActivity.class);
+            intentView.putExtra(ViewActivity.LINK_KEY, linkTasks);
+            itemView.getContext().startActivity(intentView);
+        }
+
+        private void setClickView(String link) {
+            // itemView.setOnClickListener(v -> goToView(link));
+            title.setOnClickListener(v -> goToView(link));
+            textChapter.setOnClickListener(v -> goToView(link));
+        }
+
+        private void setLongClick(String link) {
+            itemView.setOnLongClickListener(v -> goToBrowser(link));
+            title.setOnLongClickListener(v -> goToBrowser(link));
+            textChapter.setOnLongClickListener(v -> goToBrowser(link));
+        }
+
+        private void setSwipeLayoutLeft(String link) {
+            swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
+            //   swipeLayout.addDrag(SwipeLayout.DragEdge.Left, itemView.findViewById(R.id.bottom_wrapper));
+
+            swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
+                @Override
+                public void onClose(SwipeLayout layout) {
+                    //when the SurfaceView totally cover the BottomView.
+                }
+
+                @Override
+                public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
+                    //you are swiping.
+                }
+
+                @Override
+                public void onStartOpen(SwipeLayout layout) {
+
+                }
+
+                @Override
+                public void onOpen(SwipeLayout layout) {
+                    //when the BottomView totally show.
+                    layout.findViewById(R.id.swipeDelete).setOnClickListener(v -> {
+                        Context context = itemView.getContext();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        View view = LayoutInflater.from(context).inflate(R.layout.dialog_rating, null);
+
+                        builder.setView(view)
+                                .setPositiveButton(R.string.done, (dialog, id) -> {
+                                    removeItem(getAdapterPosition());
+                                    dialog.dismiss();
+                                })
+                                .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                        builder.create();
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    });
+
+                    layout.findViewById(R.id.swipeGo).setOnClickListener(v -> {
+                        goToBrowser(link);
+                    });
+                }
+
+                @Override
+                public void onStartClose(SwipeLayout layout) {
+
+                }
+
+                @Override
+                public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
+                    //when user's hand released.
+                }
+            });
         }
     }
 }

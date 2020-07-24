@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "628823960689",
+    "firebase_url": "https://ttpapp-9123c.firebaseio.com",
+    "project_id": "ttpapp-9123c",
+    "storage_bucket": "ttpapp-9123c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628823960689:android:8779bbab74d3875a1dbfd0",
+        "android_client_info": {
+          "package_name": "com.whenupdate.tools"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "628823960689-vifeb48q080825jugmnjl74oqdd7f27e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.whenupdate.tools",
+            "certificate_hash": "69ef8b22ccca432624e34d0fbdbbc612f4107e93"
+          }
+        },
+        {
+          "client_id": "628823960689-rjgko9vd3nn3sehgno0gnjmaobqvts15.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGqhr0FbLOtC8G_2cYAwQcBG1cCSG44cs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "628823960689-rjgko9vd3nn3sehgno0gnjmaobqvts15.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
