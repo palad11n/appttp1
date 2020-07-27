@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.whenupdate.tools.R;
-import com.whenupdate.tools.mvp.MainActivity;
+import com.whenupdate.tools.mvp.TasksPresenter;
 import com.whenupdate.tools.mvp.ViewActivity;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
@@ -30,6 +31,25 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     private static ListTasks data = new ListTasks();
     private static ListTasks dataCopy = new ListTasks();
     private int row_index;
+
+    @NonNull
+    private IAdapterCallback callback;
+
+    public interface IAdapterCallback {
+        void onDelete(Task task);
+
+        void onMove(Task task);
+
+        void onShowEmpty();
+
+        void onLoadUpdate(Task task, TasksPresenter.IUpdateCallback callback);
+
+        void onUpdateTask(Task task);
+    }
+
+    public void setCallback(@NonNull IAdapterCallback callback) {
+        this.callback = callback;
+    }
 
     @NonNull
     @Override
@@ -79,8 +99,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         Task task = data.get(position);
         data.remove(position);
         notifyItemRemoved(position);
-        MainActivity.presenter.remove(task);
-        if (getItemCount() == 0) MainActivity.presenter.loadTasks();
+        callback.onDelete(task);
+        if (getItemCount() == 0)
+            callback.onShowEmpty();
+
+    }
+
+    private void moveItemInDB(int position) {
+        Task task = data.get(position);
+        data.remove(position);
+        notifyItemRemoved(position);
+        callback.onMove(task);
+        if (getItemCount() == 0)
+            callback.onShowEmpty();
     }
 
     private void restoreItem(Task item, int position) {
@@ -88,13 +119,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         notifyItemInserted(position);
     }
 
-
     class TaskHolder extends RecyclerView.ViewHolder {
         private final TextView title;
         private final TextView lastCheck;
         private final TextView options;
-        //        private Button deleteBtn;
-//        private ImageButton syncImgBtn;
         private final View itemView;
         private final CardView cardView;
         private final TextView textChapter;
@@ -130,10 +158,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.itemUpdate:
-                            MainActivity.presenter.loadUpdate(task, result -> {
-                                if (result == 1) {
-                                    row_index = getAdapterPosition();
-                                    notifyItemChanged(row_index);
+                            callback.onLoadUpdate(task, new TasksPresenter.IUpdateCallback() {
+                                @Override
+                                public void onComplete(int result) {
+                                    if (result == 1) {
+                                        row_index = getAdapterPosition();
+                                        notifyItemChanged(row_index);
+                                    }
                                 }
                             });
                             break;
@@ -158,7 +189,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 lastCheck.setText(task.getSimpleDateFormat());
                 setTextChapter(task.getChapter());
                 task.setUpdate(false);
-                MainActivity.presenter.updateTask(task);
+                callback.onUpdateTask(task);
+                //MainActivity.presenter.updateTask(task);
             }
         }
 
@@ -205,7 +237,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
         private void setSwipeLayoutLeft(String link) {
             swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
-            //   swipeLayout.addDrag(SwipeLayout.DragEdge.Left, itemView.findViewById(R.id.bottom_wrapper));
+            swipeLayout.addDrag(SwipeLayout.DragEdge.Left, itemView.findViewById(R.id.bottom_wrapper_deferred));
 
             swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
                 @Override
@@ -216,20 +248,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 @Override
                 public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
                     //you are swiping.
+                    if (leftOffset > 0 && layout.getOpenStatus() == SwipeLayout.Status.Open) {
+                        int position = getAdapterPosition();
+                        if (position != -1)
+                            moveItemInDB(getAdapterPosition());
+                    }
                 }
 
                 @Override
                 public void onStartOpen(SwipeLayout layout) {
-
                 }
 
                 @Override
                 public void onOpen(SwipeLayout layout) {
-                    //when the BottomView totally show.
                     layout.findViewById(R.id.swipeDelete).setOnClickListener(v -> {
                         Context context = itemView.getContext();
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        View view = LayoutInflater.from(context).inflate(R.layout.dialog_rating, null);
+                        View view = LayoutInflater.from(context).inflate(R.layout.dialog_conf_delete, null);
 
                         builder.setView(view)
                                 .setPositiveButton(R.string.done, (dialog, id) -> {
@@ -249,7 +284,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
                 @Override
                 public void onStartClose(SwipeLayout layout) {
-
                 }
 
                 @Override

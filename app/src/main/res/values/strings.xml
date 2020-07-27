@@ -66,5 +66,8 @@
     <string name="share_title">Share</string>
     <string name="or">or</string>
     <string name="help_click">Click to title to open page!</string>
+    <string name="to_move">To move</string>
+    <string name="move_text1">Move here what</string>
+    <string name="move_text2">you want to watch later !</string>
 
 </resources>

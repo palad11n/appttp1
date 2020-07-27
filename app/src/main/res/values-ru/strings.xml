@@ -51,4 +51,7 @@
     <string name="share_title">Поделиться</string>
     <string name="or">или</string>
     <string name="help_click">Нажмите на заголовок, чтобы открыть страницу в приложении!</string>
+    <string name="to_move">Переместить в другую вкладку</string>
+    <string name="move_text1">Перемещайте сюда то,</string>
+    <string name="move_text2">что желаете посмотреть позже !</string>
 </resources>

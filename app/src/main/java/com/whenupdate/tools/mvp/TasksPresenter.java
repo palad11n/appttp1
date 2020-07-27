@@ -2,28 +2,20 @@ package com.whenupdate.tools.mvp;
 
 import io.reactivex.Completable;
 
-import com.whenupdate.tools.R;
+import com.whenupdate.tools.common.ListTasks;
 import com.whenupdate.tools.common.Task;
 import com.whenupdate.tools.service.sites.ISite;
 import com.whenupdate.tools.service.sites.SiteUpdate;
 
 public class TasksPresenter {
-    private MainActivity view;
+    private IMainContract view;
     private final TaskModel model;
-
-    /**
-     * Обратный вызов для уведомления о получении ответа с сайта
-     */
-    public interface IUpdateCallback {
-        void onComplete(int result);
-    }
-
 
     TasksPresenter(TaskModel model) {
         this.model = model;
     }
 
-    void attachView(MainActivity activity) {
+    void attachView(IMainContract activity) {
         view = activity;
     }
 
@@ -38,6 +30,7 @@ public class TasksPresenter {
     public void loadTasks() {
         model.loadTasks(listTasks -> {
             if (listTasks != null) {
+                if (view == null) return;
                 view.showTasks(listTasks);
                 if (!listTasks.isEmpty()) {
                     view.hideEmptyText();
@@ -54,10 +47,10 @@ public class TasksPresenter {
         loadTasks();
     }
 
-    void add() {
-        view.showProgress();
+    void add(Task task) {
+        //view.showProgress();
         Completable.fromAction(() -> {
-            Task task = view.getTaskFromDialog();
+            //Task task = view.getTaskFromDialog();
             ISite update = new SiteUpdate(task.getLink(), task.getDate(), task.getChapter());
             boolean isConnect = checkConnecting();
             if (task.getTitle().equals("")) {
@@ -71,21 +64,23 @@ public class TasksPresenter {
                 task.setChapter(chapter);
                 long start = System.currentTimeMillis();
                 long timeConsumedMillis = 0;
-                //30 секунд
-                while (task.getTitle().equals("") || timeConsumedMillis > 30000) {
+                // 30 секунд
+                while (task.getTitle().equals("") && timeConsumedMillis < 30000) {
                     timeConsumedMillis = System.currentTimeMillis() - start;
                 }
                 if (!task.getTitle().equals(""))
                     saveTask(task);
-                else view.showToast(view.getString(R.string.fail_save),
-                        R.drawable.ic_sentiment_dissatisfied_toast);
+                else {
+                    //view.hideProgress();
+                    view.showToastSaveFailed();
+                }
             });
         }).subscribe();
     }
 
     private void saveTask(Task task) {
         model.saveTask(task, () -> {
-            view.hideProgress();
+            //view.hideProgress();
             loadTasks();
         });
     }
@@ -137,8 +132,7 @@ public class TasksPresenter {
                     model.startNotifyService();
                     break;
                 case -1:
-                    view.showToast(view.getString(R.string.site_rip) + task.getLink(),
-                            R.drawable.ic_sentiment_dissatisfied_toast);
+                    view.showToastSiteRip(task.getLink());
                     break;
                 default:
                     break;
@@ -156,8 +150,48 @@ public class TasksPresenter {
             view.alertConnection();
             return false;
         }
-
         return true;
     }
 
+    public void moveTask(Task task, String from, String to) {
+        if (from == HomeFragment.DATABASE) {
+            FavoritesFragment.presenter.saveTask(task);
+        } else {
+            HomeFragment.presenter.saveTask(task);
+        }
+        model.removeTask(task, this::loadTasks);
+    }
+
+    interface IMainContract {
+        void showTasks(ListTasks listTasks);
+
+        void hideEmptyText();
+
+        void showEmptyText();
+
+        void showSwipeRefreshLayout();
+
+        void hideSwipeRefreshLayout();
+
+        void showProgress();
+
+        void hideProgress();
+
+        void showToast(String textToast, int resIdIcon);
+
+        void isUpdate(boolean isExistUpdate);
+
+        void alertConnection();
+
+        void showToastSiteRip(String link);
+
+        void showToastSaveFailed();
+    }
+
+    /**
+     * Обратный вызов для уведомления о получении ответа с сайта
+     */
+    public interface IUpdateCallback {
+        void onComplete(int result);
+    }
 }

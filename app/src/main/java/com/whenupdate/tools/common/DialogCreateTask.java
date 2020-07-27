@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,21 +24,24 @@ public class DialogCreateTask extends DialogFragment {
 
     private DialogListener mListener;
 
-    public void onAttach(@NonNull Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (DialogListener) activity;
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
 
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement DialogListener");
-        }
+    @Override
+    public void onStart() {
+        super.onStart();
+//        try {
+//            mListener = (DialogListener) getActivity();
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException(getActivity().toString()
+//                    + " must implement DialogListener");
+//        }
     }
 
     public static DialogCreateTask newInstance(){
         DialogCreateTask dialogCreateTask = new DialogCreateTask();
-//        Bundle args = new Bundle();
-//        args.putString("title", title);
-//        dialogCreateTask.setArguments(args);
         return dialogCreateTask;
     }
 
@@ -50,8 +54,8 @@ public class DialogCreateTask extends DialogFragment {
 
         builder.setCancelable(false)
                 .setView(inflater.inflate(R.layout.dialog_create, null))
-                .setPositiveButton(R.string.done, (dialog, id) -> mListener.onDialogPositiveClick(DialogCreateTask.this))
-                .setNegativeButton(R.string.cancel, (dialog, id) -> mListener.onDialogNegativeClick(DialogCreateTask.this));
+                .setPositiveButton(R.string.done, (dialog, id) -> getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, getActivity().getIntent()))
+                .setNegativeButton(R.string.cancel, (dialog, id) -> getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, getActivity().getIntent()));
         return builder.create();
     }
 

@@ -15,12 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
-
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.common.ListTasks;
 import com.whenupdate.tools.common.NotifyService;
 import com.whenupdate.tools.common.Task;
-import com.whenupdate.tools.common.desing.IDesingTheme;
 
 import java.io.File;
 
@@ -33,7 +31,7 @@ public class TaskModel {
         void onComplete();
     }
 
-    private final static String database = "list_db";
+    private final String database; // "list_db"
     private final String LIST_TASKS_LOADSAVE = "ListTasks";
 
     private final static String maxSizeList = "list_size_db";
@@ -42,8 +40,9 @@ public class TaskModel {
     private ListTasks listTasks;
     private Context mContext;
 
-    public TaskModel(Context context) {
-        mContext = context;
+    public TaskModel(Context context, String database) {
+        this.mContext = context;
+        this.database = database;
         if (listTasks == null)
             this.listTasks = new ListTasks();
     }
@@ -141,8 +140,11 @@ public class TaskModel {
         @Override
         protected Void doInBackground(Task... tasks) {
             Task task = tasks[0];
-            long max = getMaxSize();
-            task.setId(max);
+            if (task.getId() == -1L){
+                long max = getMaxSize();
+                task.setId(max);
+            }
+
             listTasks.add(task);
 
             SharedPreferences sharedPreferences =

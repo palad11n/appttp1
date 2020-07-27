@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.common.NotifyService;
 import com.whenupdate.tools.common.Task;
+import com.whenupdate.tools.mvp.MainActivity;
 import com.whenupdate.tools.mvp.TaskModel;
 import com.whenupdate.tools.service.sites.ISite;
 import com.whenupdate.tools.service.sites.SiteUpdate;
@@ -19,7 +20,7 @@ public class UpdateService {
     }
 
     public void check() {
-        TaskModel taskModel = new TaskModel(context);
+        TaskModel taskModel = new TaskModel(context, MainActivity.DATABASE);
         if (!TaskModel.isNetworkAvailable()) {
             Toast.makeText(context, context.getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
             return;

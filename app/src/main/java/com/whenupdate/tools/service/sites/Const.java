@@ -19,7 +19,7 @@ class Const {
         MAP_TAG_FOR_LINK.put("//readmanga", ".table tr");
         MAP_TAG_FOR_LINK.put("//mangalib.me", ".chapter-item");
         MAP_TAG_FOR_LINK.put("//ficbook.net", ".part-info");
-        MAP_TAG_FOR_LINK.put("//mangahub", ".d-flex.py-2.px-3.border-bottom");
+        MAP_TAG_FOR_LINK.put("//mangahub", ".d-flex.flex-column");
         MAP_TAG_FOR_LINK.put("//fanfox.net", ".detail-main-list-main");
         MAP_TAG_FOR_LINK.put("//mangafox", ".detail-main-list-main");
     }

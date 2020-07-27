@@ -68,7 +68,7 @@ public abstract class InfoOfSite {
     }
 
     private String convertToMonth(String date) {
-        if (date.contains("oday")){
+        if (date.contains("oday") || date.contains("ago")){
             Date dateNow = new Date();
             SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yy");
             return formatForDateNow.format(dateNow);

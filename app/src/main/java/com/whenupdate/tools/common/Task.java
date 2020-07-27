@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Task {
     @NonNull
-    private long id;
+    private long id = -1L;
     @NonNull
     private String link;
     private String title;

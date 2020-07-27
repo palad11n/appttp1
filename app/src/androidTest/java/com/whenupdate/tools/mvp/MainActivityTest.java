@@ -87,8 +87,8 @@ public class MainActivityTest {
             onView(new RecyclerViewMatcher(this.id_list_view)
                     .atPositionOnView(this.itemCount - 1, R.id.nameLink))
                     .check(matches(withText("https://127.0.0.1/")));
-            onView(new RecyclerViewMatcher(this.id_list_view)
-                    .atPositionOnView(this.itemCount - 1, R.id.delBtn)).perform(click());
+//            onView(new RecyclerViewMatcher(this.id_list_view)
+//                    .atPositionOnView(this.itemCount - 1, R.id.delBtn)).perform(click());
             onView(withText(R.string.text_conf_delete))
                     .check(matches(isDisplayed()));
             onView(withText(R.string.done)).perform(click());
