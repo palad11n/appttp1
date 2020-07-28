@@ -1,15 +1,9 @@
 package com.whenupdate.tools.mvp;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,18 +17,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.whenupdate.tools.R;
-import com.whenupdate.tools.common.DialogCreateTask;
 import com.whenupdate.tools.common.ListTasks;
 import com.whenupdate.tools.common.Task;
 import com.whenupdate.tools.common.TaskAdapter;
@@ -50,6 +38,7 @@ public class FavoritesFragment extends Fragment implements TasksPresenter.IMainC
     private TextView textEmpty1;
     private ProgressDialog progressDialog;
     private View view;
+    private BottomNavigationView nav;
 
     private TaskAdapter.IAdapterCallback callback = new TaskAdapter.IAdapterCallback() {
         @Override
@@ -84,7 +73,6 @@ public class FavoritesFragment extends Fragment implements TasksPresenter.IMainC
         super.onCreate(savedInstanceState);
         TaskModel.setNewTheme(getActivity());
         setHasOptionsMenu(true);
-        // init();
     }
 
     @Nullable
@@ -106,11 +94,17 @@ public class FavoritesFragment extends Fragment implements TasksPresenter.IMainC
         presenter.detachView();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     private void init() {
         textEmpty = view.findViewById(R.id.emptyId);
         textEmpty1 = view.findViewById(R.id.emptyId1);
         imgEmpty = view.findViewById(R.id.emptyIdImage);
         taskAdapter = new TaskAdapter();
+        nav = getActivity().findViewById(R.id.bottom_nav);
 
         final RecyclerView listView = view.findViewById(R.id.listView);
         listView.setHasFixedSize(true);
@@ -135,6 +129,7 @@ public class FavoritesFragment extends Fragment implements TasksPresenter.IMainC
         presenter.attachView(this);
         presenter.viewIsReady();
         taskAdapter.setCallback(callback);
+
     }
 
     @Override
@@ -171,7 +166,7 @@ public class FavoritesFragment extends Fragment implements TasksPresenter.IMainC
     }
 
     private void hideFAB() {
-       // floatingActionButton.hide();
+        // floatingActionButton.hide();
     }
 
     private void showFAB() {
@@ -238,11 +233,13 @@ public class FavoritesFragment extends Fragment implements TasksPresenter.IMainC
         textEmpty.setVisibility(View.VISIBLE);
         textEmpty1.setVisibility(View.VISIBLE);
         imgEmpty.setVisibility(View.VISIBLE);
+        nav.getOrCreateBadge(R.id.itemFavorites).setVisible(false);
     }
 
     public void hideEmptyText() {
         textEmpty.setVisibility(View.GONE);
         textEmpty1.setVisibility(View.GONE);
         imgEmpty.setVisibility(View.GONE);
+        nav.getOrCreateBadge(R.id.itemFavorites).setVisible(true);
     }
 }

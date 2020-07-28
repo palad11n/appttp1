@@ -20,7 +20,7 @@
     <string name="other_settings">Другие настройки</string>
     <string name="set_name">Название (необязательно)</string>
     <string name="setting_app">Настройки</string>
-    <string name="setting_row">Создание задачи</string>
+    <string name="setting_row">Создание закладки</string>
     <string name="signature_title">Твоя подпись</string>
     <string name="site_rip">"Сайт не доступен: "</string>
     <string name="theme_summary">Выбор цвета фона приложения.</string>
@@ -36,7 +36,7 @@
     <string name="after_rating">Позже</string>
     <string name="text_rating">Хотите оценить это приложение? :)</string>
     <string name="rate_the_app">Оценить приложение</string>
-    <string name="also_empty">Добавьте задачу :)</string>
+    <string name="also_empty">Добавьте закладку :)</string>
     <string name="text_error_link">Ссылка должна начинаться с http(s)://</string>
     <string name="helper_create_text">Введите отслеживаемую вами работу</string>
     <string name="last_updated_all_text">"Обновлялось: "</string>
@@ -51,7 +51,10 @@
     <string name="share_title">Поделиться</string>
     <string name="or">или</string>
     <string name="help_click">Нажмите на заголовок, чтобы открыть страницу в приложении!</string>
-    <string name="to_move">Переместить в другую вкладку</string>
+    <string name="to_move">Переместить</string>
     <string name="move_text1">Перемещайте сюда то,</string>
     <string name="move_text2">что желаете посмотреть позже !</string>
+    <string name="edit_task_title">Редактировать</string>
+    <string name="edit_not_empty">Не может быть пустым</string>
+    <string name="set_new_name">Новое название</string>
 </resources>

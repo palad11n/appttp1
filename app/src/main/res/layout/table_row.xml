@@ -16,13 +16,13 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/swipeDelete"
-            android:layout_width="50dp"
+            android:layout_width="90dp"
             android:layout_height="50dp"
             android:layout_margin="10dp"
             android:backgroundTint="@color/error"
             android:clickable="true"
-            android:paddingLeft="5dp"
-            app:icon="@android:drawable/ic_menu_delete"
+            android:paddingLeft="6dp"
+            app:icon="@drawable/ic_delete_forever"
             app:iconGravity="textStart" />
 
         <com.google.android.material.button.MaterialButton
@@ -31,10 +31,9 @@
             android:layout_height="50dp"
             android:layout_margin="10dp"
             android:clickable="true"
-            android:paddingLeft="5dp"
-            app:icon="@android:drawable/ic_menu_send"
+            android:paddingLeft="6dp"
+            app:icon="@drawable/ic_open_in_browser"
             app:iconGravity="textStart" />
-        <!--What you want to show-->
     </LinearLayout>
     <!-- Bottom View End-->
     <!-- Bottom View Start-->
@@ -63,8 +62,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/to_move"/>
         </LinearLayout>
-
-        <!--What you want to show-->
     </LinearLayout>
     <!-- Bottom View End-->
 

@@ -6,6 +6,11 @@
     <string name="set_name">Your title (optional)</string>
     <string name="set_link">Link of creation*</string>
 
+    <!-- Редактирование задачи -->
+    <string name="set_new_name">Your new title</string>
+    <string name="edit_task_title">Edit</string>
+    <string name="edit_not_empty">Can\'t be empty</string>
+
     <!-- Основные кнопки -->
     <string name="done">OK</string>
     <string name="cancel">CANCEL</string>

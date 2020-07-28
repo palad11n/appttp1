@@ -27,12 +27,7 @@ public class DialogCreateTask extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-//        try {
+        //        try {
 //            mListener = (DialogListener) getActivity();
 //        } catch (ClassCastException e) {
 //            throw new ClassCastException(getActivity().toString()
@@ -57,12 +52,5 @@ public class DialogCreateTask extends DialogFragment {
                 .setPositiveButton(R.string.done, (dialog, id) -> getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, getActivity().getIntent()))
                 .setNegativeButton(R.string.cancel, (dialog, id) -> getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_CANCELED, getActivity().getIntent()));
         return builder.create();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_create, container);
-        return view;
     }
 }

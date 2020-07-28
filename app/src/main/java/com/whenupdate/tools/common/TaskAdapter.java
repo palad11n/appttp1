@@ -6,7 +6,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.daimajia.swipe.SwipeLayout;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.mvp.TasksPresenter;
 import com.whenupdate.tools.mvp.ViewActivity;
@@ -158,16 +159,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.itemUpdate:
-                            callback.onLoadUpdate(task, new TasksPresenter.IUpdateCallback() {
-                                @Override
-                                public void onComplete(int result) {
-                                    if (result == 1) {
-                                        row_index = getAdapterPosition();
-                                        notifyItemChanged(row_index);
-                                    }
+                            callback.onLoadUpdate(task, result -> {
+                                if (result == 1) {
+                                    row_index = getAdapterPosition();
+                                    notifyItemChanged(row_index);
                                 }
                             });
-                            break;
+                            return true;
                         case R.id.itemCopy:
                             ClipboardManager clipboard =
                                     (ClipboardManager) itemView.getContext().getSystemService(CLIPBOARD_SERVICE);
@@ -177,7 +175,31 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                             Toast.makeText(itemView.getContext(),
                                     itemView.getContext().getString(R.string.link_copied),
                                     Toast.LENGTH_SHORT).show();
-                            break;
+                            return true;
+                        case R.id.itemEdit:
+                            Context context = itemView.getContext();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            View view = LayoutInflater.from(context).inflate(R.layout.dialog_edit_task, null);
+                            TextInputEditText editTitle = view.findViewById(R.id.editName);
+                            editTitle.setText(task.getTitle());
+                            TextInputLayout inputEditTitle = view.findViewById(R.id.textInputLayoutEditName);
+                            inputEditTitle.setHelperText(context.getString(R.string.edit_not_empty));
+
+                            builder.setView(view)
+                                    .setPositiveButton(R.string.done, (dialog, id) -> {
+                                        String newTitle = editTitle.getText().toString().trim();
+                                        if (!newTitle.isEmpty()) {
+                                            task.setTitle(newTitle);
+                                            callback.onUpdateTask(task);
+                                            notifyItemChanged(getAdapterPosition());
+                                        }
+                                        dialog.dismiss();
+                                    })
+                                    .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                            builder.create();
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                            return true;
                     }
                     return false;
                 });

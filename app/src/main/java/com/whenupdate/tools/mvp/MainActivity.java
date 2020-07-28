@@ -24,9 +24,6 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.common.TaskAdapter;
 
@@ -38,12 +35,8 @@ public class MainActivity extends AppCompatActivity {
     public static TasksPresenter presenter;
     private TaskAdapter taskAdapter;
 
-    private TextInputLayout inputTextTitle, inputTextLink;
-    private TextInputEditText editTextTitle, editTextLink;
-    private FloatingActionButton floatingActionButton;
     private RelativeLayout constraintLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView textEmpty;
     private ProgressDialog progressDialog;
     private BottomNavigationView bottomNav;
 
