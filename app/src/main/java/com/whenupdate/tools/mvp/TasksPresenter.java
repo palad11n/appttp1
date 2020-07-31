@@ -116,6 +116,7 @@ public class TasksPresenter {
                 }
                 loadingUpdate(task, null);
             }
+            loadTasks();
             callback.onComplete(0);
         });
     }
@@ -154,7 +155,7 @@ public class TasksPresenter {
     }
 
     public void moveTask(Task task, String from, String to) {
-        if (from == HomeFragment.DATABASE) {
+        if (from.equals(HomeFragment.DATABASE)) {
             FavoritesFragment.presenter.saveTask(task);
         } else {
             HomeFragment.presenter.saveTask(task);

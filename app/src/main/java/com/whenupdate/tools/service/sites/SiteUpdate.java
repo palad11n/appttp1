@@ -16,6 +16,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import com.whenupdate.tools.service.parsers.FicbookParsing;
 import com.whenupdate.tools.service.parsers.FindAnimeParsing;
+import com.whenupdate.tools.service.parsers.MangaReaderParsing;
 import com.whenupdate.tools.service.parsers.MangaFoxParsing;
 import com.whenupdate.tools.service.parsers.MangaHubParsing;
 import com.whenupdate.tools.service.parsers.MangalibParsing;
@@ -39,7 +40,7 @@ public class SiteUpdate implements ISite {
     }
 
     public SiteUpdate(String site, Date last, String chapter) {
-        linkUsers = site;
+        linkUsers = site.toLowerCase();
         lastDate = last;
         if (chapter != null)
             lastChapter = chapter;
@@ -64,6 +65,9 @@ public class SiteUpdate implements ISite {
             infoOfSite = new MangaHubParsing();
         } else if (linkUsers.contains("//mangafox") || linkUsers.contains("//fanfox.net")){
             infoOfSite = new MangaFoxParsing();
+        }
+        else if (linkUsers.contains("mangareader")){
+            infoOfSite = new MangaReaderParsing();
         }
         else {
             infoOfSite = new FindAnimeParsing();

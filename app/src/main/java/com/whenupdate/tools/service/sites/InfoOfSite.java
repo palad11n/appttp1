@@ -55,6 +55,14 @@ public abstract class InfoOfSite {
         Date fromSite;
         SimpleDateFormat formatter;
         if (!date.contains("Z")) {
+            if (!date.contains(" ")) {
+                if (date.contains("-"))
+                    return new SimpleDateFormat("yyyy-MM-dd").parse(date);
+
+                if (date.contains("/"))
+                    return new SimpleDateFormat("MM/dd/yyyy").parse(date);
+            }
+
             if (date.contains(" ") || date.contains("day"))
                 date = convertToMonth(date);
 
@@ -68,13 +76,13 @@ public abstract class InfoOfSite {
     }
 
     private String convertToMonth(String date) {
-        if (date.contains("oday") || date.contains("ago")){
+        if (date.contains("oday") || date.contains("ago")) {
             Date dateNow = new Date();
             SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yy");
             return formatForDateNow.format(dateNow);
         }
 
-        if (date.contains("esterday")){
+        if (date.contains("esterday")) {
             final java.util.Calendar cal = java.util.Calendar.getInstance();
             cal.add(java.util.Calendar.DATE, -1);
             SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yy");

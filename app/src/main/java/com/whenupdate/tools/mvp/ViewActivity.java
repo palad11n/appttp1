@@ -3,6 +3,7 @@ package com.whenupdate.tools.mvp;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -18,7 +19,13 @@ import android.widget.ProgressBar;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
+import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewFeature;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.whenupdate.tools.R;
 
 public class ViewActivity extends AppCompatActivity {
@@ -26,6 +33,7 @@ public class ViewActivity extends AppCompatActivity {
     private String link;
     private WebView webView;
     private String currentUrl;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +46,27 @@ public class ViewActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         init();
+        initAd();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_view_task, menu);
         return true;
+    }
+
+    private void initAd() {
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-8072450081468494/4654845202");
+        AdRequest request = new AdRequest.Builder().build();
+        mInterstitialAd.loadAd(request);
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                onBackPressed();
+            }
+        });
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -60,6 +83,16 @@ public class ViewActivity extends AppCompatActivity {
 
         SimpleWebViewClient webViewClient = new SimpleWebViewClient(this, progressBar);
         webView.setWebViewClient(webViewClient);
+
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String theme = prefs.getString("theme", "light");
+            if (theme.equals("dark")) {
+                WebSettingsCompat.setForceDark(webSettings, WebSettingsCompat.FORCE_DARK_ON);
+            } else {
+                WebSettingsCompat.setForceDark(webSettings, WebSettingsCompat.FORCE_DARK_OFF);
+            }
+        }
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -87,7 +120,9 @@ public class ViewActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                super.onBackPressed();
+                if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else super.onBackPressed();
                 return true;
             case R.id.itemShare:
                 Intent sendIntent = new Intent();

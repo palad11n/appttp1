@@ -172,12 +172,10 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
                 getResources().getColor(R.color.delete_btn_on));
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
+
             swipeRefreshLayout.postDelayed(() -> {
-                presenter.loadUpdate(new TasksPresenter.IUpdateCallback() {
-                    @Override
-                    public void onComplete(int result) {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
+                presenter.loadUpdate(result -> {
+                    swipeRefreshLayout.setRefreshing(false);
                 });
             }, 2000);
         });
