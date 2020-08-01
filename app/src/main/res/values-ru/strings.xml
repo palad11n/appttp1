@@ -23,14 +23,13 @@
     <string name="setting_row">Создание закладки</string>
     <string name="signature_title">Твоя подпись</string>
     <string name="site_rip">"Сайт не доступен: "</string>
-    <string name="theme_summary">Выбор цвета фона приложения.</string>
-    <string name="theme_title">Цвет фона</string>
+    <string name="theme_summary">Выбор темы приложения</string>
+    <string name="theme_title">Тема</string>
     <string name="title_activity_settings">Настройки</string>
     <string name="update_exist">Есть обновление! Нажми на заголовок для просмотра</string>
     <string name="update_not">Обновления нет. Попробуйте позже</string>
     <string name="wishes_or_problems">Проблемы или предложения?</string>
     <string name="write_to_telegram">Пишите в Telegram:</string>
-    <string name="link_for_problem">\@Life_not</string>
     <string name="supported_sites">Поддерживаемые сайты:</string>
     <string name="title_notify">Хорошие новости</string>
     <string name="after_rating">Позже</string>
@@ -57,4 +56,9 @@
     <string name="edit_task_title">Редактировать</string>
     <string name="edit_not_empty">Не может быть пустым</string>
     <string name="set_new_name">Новое название</string>
+    <string name="version_title">Версия</string>
+    <string name="share_app_summary">Расскажите о WhenUPDATE своим друзьям</string>
+    <string name="share_app_recommend">"Мне удалось найти потрясающее приложение для отслеживания обновлений определенной манги, аниме или сериала на нужных тебе сайтах! Скачивай из Google Play: "</string>
+    <string name="more_setting">Ещё</string>
+    <string name="rate_app_summary">Оцените WhenUPDATE, чтобы сделать нас лучше</string>
 </resources>

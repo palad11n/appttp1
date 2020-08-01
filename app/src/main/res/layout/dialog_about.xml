@@ -74,6 +74,12 @@
                 style="@style/StyleAbout.ListSite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="✧ mangareader.net" />
+
+            <TextView
+                style="@style/StyleAbout.ListSite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="✧ ficbook.net" />
 
             <TextView

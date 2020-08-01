@@ -44,6 +44,7 @@
         app:srcCompat="@drawable/ic_add_circle"
         android:layout_above="@id/emptyId"
         android:layout_centerInParent="true"
+        android:visibility="invisible"
         />
 
     <TextView
@@ -53,5 +54,5 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/also_empty"
-        tools:visibility="visible" />
+        android:visibility="invisible" />
 </RelativeLayout>

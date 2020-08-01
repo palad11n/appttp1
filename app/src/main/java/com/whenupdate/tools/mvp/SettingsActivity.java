@@ -1,5 +1,7 @@
 package com.whenupdate.tools.mvp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -10,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.whenupdate.tools.BuildConfig;
 import com.whenupdate.tools.R;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -50,20 +53,59 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
-            findPreference("theme").setOnPreferenceChangeListener((preference, newValue) -> {
-                if (getActivity() != null){
-                    getActivity().setResult(1);
-                    getActivity().finish();
-                    return true;
-                }
-               return false;
-            });
+
+            Preference theme = findPreference("theme");
+            if (theme != null) {
+                theme.setOnPreferenceChangeListener((preference, newValue) -> {
+                    if (getActivity() != null) {
+                        getActivity().setResult(1);
+                        getActivity().finish();
+                        return true;
+                    }
+                    return false;
+                });
+            }
 
             Preference cleanCache = findPreference("btnCleanCache");
             if (cleanCache != null) {
                 cleanCache.setOnPreferenceClickListener(preference -> {
                     TaskModel.cleanCache(MainActivity.mContext.getCacheDir());
                     Toast.makeText(getContext(), R.string.cache_cleaned, Toast.LENGTH_SHORT).show();
+                    return true;
+                });
+            }
+
+            Preference version = findPreference("version");
+            if (version != null) {
+                try {
+                    version.setSummary(BuildConfig.VERSION_NAME);
+                } catch (Exception ignored) { }
+            }
+            final String appPackageName = "com.whenupdate.tools";
+            Preference shareApp = findPreference("share_app");
+            if (shareApp != null) {
+                shareApp.setOnPreferenceClickListener(preference -> {
+                    String recommend = getString(R.string.share_app_recommend);
+
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.setType("text/plain");
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, recommend + " https://play.google.com/store/apps/details?id=" + appPackageName);
+                    startActivity(Intent.createChooser(sendIntent, getString(R.string.share_app_summary)));
+                    return true;
+                });
+            }
+
+            Preference rateApp= findPreference("rate_app");
+            if (rateApp != null) {
+                rateApp.setOnPreferenceClickListener(preference -> {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                Uri.parse("market://details?id=" + appPackageName)));
+                    } catch (android.content.ActivityNotFoundException ex) {
+                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                    }
                     return true;
                 });
             }

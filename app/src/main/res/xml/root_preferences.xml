@@ -12,18 +12,29 @@
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/other_settings">
-<!--        <ListPreference-->
-<!--            app:defaultValue="default"-->
-<!--            app:entries="@array/lang_entries"-->
-<!--            app:entryValues="@array/theme_values"-->
-<!--            app:key="lang"-->
-<!--            app:title="@string/lang_title"-->
-<!--            app:summary="@string/lang_summary"-->
-<!--            app:useSimpleSummaryProvider="true" />-->
         <Preference
             app:title="@string/clean_cache_btn"
-            app:key="btnCleanCache"
-            />
+            app:key="btnCleanCache"/>
+    </PreferenceCategory>
 
+    <PreferenceCategory app:title="@string/more_setting">
+        <PreferenceScreen
+            app:title="@string/share_title"
+            app:key="share_app"
+            app:summary="@string/share_app_summary"
+            >
+        </PreferenceScreen>
+        <PreferenceScreen
+            app:title="@string/rate_the_app"
+            app:key="rate_app"
+            app:summary="@string/rate_app_summary"
+            >
+        </PreferenceScreen>
+        <PreferenceScreen
+            app:title="@string/version_title"
+            app:key="version"
+            app:summary="1.0"
+            >
+        </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>

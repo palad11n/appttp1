@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/set_name"
+                android:hint="@string/set_new_name"
                 android:inputType="text"
                 android:lines="1"
                 android:maxLength="128"

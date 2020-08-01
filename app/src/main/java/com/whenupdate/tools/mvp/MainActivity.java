@@ -116,24 +116,24 @@ public class MainActivity extends AppCompatActivity {
             case R.id.itemHelp:
                 showDialogPref(R.layout.dialog_help);
                 return true;
-            case R.id.itemRating:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                View view = getLayoutInflater().inflate(R.layout.dialog_rating, null);
-                builder.setView(view)
-                        .setPositiveButton(R.string.done, (dialog, which) -> {
-                            final String appPackageName = getPackageName();
-                            try {
-                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse("market://details?id=" + appPackageName)));
-                            } catch (android.content.ActivityNotFoundException ex) {
-                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                            }
-                        })
-                        .setNegativeButton(R.string.after_rating, (dialog, id) -> dialog.dismiss());
-                builder.create();
-                builder.show();
-                return true;
+//            case R.id.itemRating:
+//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                View view = getLayoutInflater().inflate(R.layout.dialog_rating, null);
+//                builder.setView(view)
+//                        .setPositiveButton(R.string.done, (dialog, which) -> {
+//                            final String appPackageName = getPackageName();
+//                            try {
+//                                startActivity(new Intent(Intent.ACTION_VIEW,
+//                                        Uri.parse("market://details?id=" + appPackageName)));
+//                            } catch (android.content.ActivityNotFoundException ex) {
+//                                startActivity(new Intent(Intent.ACTION_VIEW,
+//                                        Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+//                            }
+//                        })
+//                        .setNegativeButton(R.string.after_rating, (dialog, id) -> dialog.dismiss());
+//                builder.create();
+//                builder.show();
+//                return true;
         }
         return super.onOptionsItemSelected(item);
     }

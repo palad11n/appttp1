@@ -186,6 +186,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                             inputEditTitle.setHelperText(context.getString(R.string.edit_not_empty));
 
                             builder.setView(view)
+                                    .setCancelable(false)
                                     .setPositiveButton(R.string.done, (dialog, id) -> {
                                         String newTitle = editTitle.getText().toString().trim();
                                         if (!newTitle.isEmpty()) {

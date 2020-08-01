@@ -20,11 +20,11 @@
         android:title="@string/setting_app"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/itemRating"
-        android:icon="@drawable/ic_sentiment_smale_toast"
-        android:title="@string/rate_the_app"
-        app:showAsAction="never" />
+<!--    <item-->
+<!--        android:id="@+id/itemRating"-->
+<!--        android:icon="@drawable/ic_sentiment_smale_toast"-->
+<!--        android:title="@string/rate_the_app"-->
+<!--        app:showAsAction="never" />-->
 
     <item
         android:id="@+id/itemAbout"
