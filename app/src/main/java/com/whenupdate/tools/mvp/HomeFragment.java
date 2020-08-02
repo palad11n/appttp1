@@ -87,7 +87,6 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
         super.onCreate(savedInstanceState);
         TaskModel.setNewTheme(getActivity());
         setHasOptionsMenu(true);
-        // init();
     }
 
     @Nullable
@@ -101,6 +100,12 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
         init();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 
     private void init() {

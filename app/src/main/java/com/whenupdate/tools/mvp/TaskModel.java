@@ -76,8 +76,8 @@ public class TaskModel {
         }
     }
 
-    public static boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) MainActivity.mContext.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
@@ -123,7 +123,7 @@ public class TaskModel {
 
         if (theme.equals("dark")) {
             context.getTheme().applyStyle(R.style.DarkStyle, true);
-        } else {
+        } else  {
             context.getTheme().applyStyle(R.style.LightStyle, false);
         }
     }

@@ -21,7 +21,7 @@ public class UpdateService {
 
     public void check() {
         TaskModel taskModel = new TaskModel(context, MainActivity.DATABASE);
-        if (!TaskModel.isNetworkAvailable()) {
+        if (!TaskModel.isNetworkAvailable(context)) {
             Toast.makeText(context, context.getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
             return;
         }

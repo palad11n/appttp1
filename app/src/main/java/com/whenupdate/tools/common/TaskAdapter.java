@@ -19,9 +19,11 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.daimajia.swipe.SwipeLayout;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.whenupdate.tools.R;
+import com.whenupdate.tools.mvp.MainActivity;
 import com.whenupdate.tools.mvp.TasksPresenter;
 import com.whenupdate.tools.mvp.ViewActivity;
 
@@ -46,6 +48,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         void onLoadUpdate(Task task, TasksPresenter.IUpdateCallback callback);
 
         void onUpdateTask(Task task);
+    }
+
+    public interface IAd {
+        void showView(String link);
     }
 
     public void setCallback(@NonNull IAdapterCallback callback) {
@@ -119,6 +125,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         data.add(position, item);
         notifyItemInserted(position);
     }
+
+//    public void showViewMod(String linkTasks) {
+//        Context context = MainActivity.mContext;
+//        Intent intentView = new Intent(context, ViewActivity.class);
+//        intentView.putExtra(ViewActivity.LINK_KEY, linkTasks);
+//        context.startActivity(intentView);
+//    }
 
     class TaskHolder extends RecyclerView.ViewHolder {
         private final TextView title;
@@ -213,7 +226,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 setTextChapter(task.getChapter());
                 task.setUpdate(false);
                 callback.onUpdateTask(task);
-                //MainActivity.presenter.updateTask(task);
             }
         }
 
@@ -235,7 +247,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
                 itemView.getContext().startActivity(browserIntent);
                 return true;
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
             return false;
         }
@@ -247,15 +259,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         }
 
         private void setClickView(String link) {
-            // itemView.setOnClickListener(v -> goToView(link));
             title.setOnClickListener(v -> goToView(link));
             textChapter.setOnClickListener(v -> goToView(link));
-        }
-
-        private void setLongClick(String link) {
-            itemView.setOnLongClickListener(v -> goToBrowser(link));
-            title.setOnLongClickListener(v -> goToBrowser(link));
-            textChapter.setOnLongClickListener(v -> goToBrowser(link));
         }
 
         private void setSwipeLayoutLeft(String link) {

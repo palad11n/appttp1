@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,22 +20,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.whenupdate.tools.R;
-import com.whenupdate.tools.common.TaskAdapter;
 
 @SuppressWarnings("all")
 public class MainActivity extends AppCompatActivity {
     public final static String DATABASE = "list_db";
     public static Context mContext;
 
-    public static TasksPresenter presenter;
-    private TaskAdapter taskAdapter;
-
     private RelativeLayout constraintLayout;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressDialog progressDialog;
     private BottomNavigationView bottomNav;
 
@@ -49,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        if (mContext == null) mContext = MainActivity.this;
+        if (mContext == null)
+            mContext = MainActivity.this;
         constraintLayout = findViewById(R.id.cl_main);
         initBottomNavigation();
     }
 
     private void initBottomNavigation() {
         bottomNav = findViewById(R.id.bottom_nav);
-        //bottomNav.getOrCreateBadge(R.id.itemFavorites).isVisible();
         bottomNav.setOnNavigationItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             switch (item.getItemId()) {
@@ -95,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //presenter.detachView();
     }
 
     @Override
@@ -116,24 +108,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.itemHelp:
                 showDialogPref(R.layout.dialog_help);
                 return true;
-//            case R.id.itemRating:
-//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//                View view = getLayoutInflater().inflate(R.layout.dialog_rating, null);
-//                builder.setView(view)
-//                        .setPositiveButton(R.string.done, (dialog, which) -> {
-//                            final String appPackageName = getPackageName();
-//                            try {
-//                                startActivity(new Intent(Intent.ACTION_VIEW,
-//                                        Uri.parse("market://details?id=" + appPackageName)));
-//                            } catch (android.content.ActivityNotFoundException ex) {
-//                                startActivity(new Intent(Intent.ACTION_VIEW,
-//                                        Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-//                            }
-//                        })
-//                        .setNegativeButton(R.string.after_rating, (dialog, id) -> dialog.dismiss());
-//                builder.create();
-//                builder.show();
-//                return true;
         }
         return super.onOptionsItemSelected(item);
     }

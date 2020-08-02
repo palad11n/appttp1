@@ -147,7 +147,7 @@ public class TasksPresenter {
     }
 
     private boolean checkConnecting() {
-        if (!TaskModel.isNetworkAvailable()) {
+        if (!TaskModel.isNetworkAvailable(MainActivity.mContext)) {
             view.alertConnection();
             return false;
         }
