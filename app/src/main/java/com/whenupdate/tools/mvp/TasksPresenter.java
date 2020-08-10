@@ -65,7 +65,7 @@ public class TasksPresenter {
                 long start = System.currentTimeMillis();
                 long timeConsumedMillis = 0;
                 // 30 секунд
-                while (task.getTitle().equals("") && timeConsumedMillis < 30000) {
+                while (task.getTitle().equals("") && timeConsumedMillis < 15000) {
                     timeConsumedMillis = System.currentTimeMillis() - start;
                 }
                 if (!task.getTitle().equals(""))
@@ -126,7 +126,8 @@ public class TasksPresenter {
         scu.findUpDate((result, newDate, chapter) -> {
             switch (result) {
                 case 1:
-                    task.setDate(newDate);
+                    if (newDate != null)
+                        task.setDate(newDate);
                     task.setChapter(chapter);
                     task.setUpdate(true);
                     updateTask(task);

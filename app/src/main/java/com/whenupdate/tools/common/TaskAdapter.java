@@ -19,11 +19,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.daimajia.swipe.SwipeLayout;
-import com.google.android.gms.ads.AdListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.whenupdate.tools.R;
-import com.whenupdate.tools.mvp.MainActivity;
 import com.whenupdate.tools.mvp.TasksPresenter;
 import com.whenupdate.tools.mvp.ViewActivity;
 

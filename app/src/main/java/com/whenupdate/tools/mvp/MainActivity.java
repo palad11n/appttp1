@@ -46,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
             mContext = MainActivity.this;
         constraintLayout = findViewById(R.id.cl_main);
         initBottomNavigation();
+
+        TaskModel taskModel = new TaskModel(this, FavoritesFragment.DATABASE);
+        taskModel.loadTasks(listTasks -> {
+            if (listTasks.size() > 0) {
+                bottomNav.getOrCreateBadge(R.id.itemFavorites).setVisible(true);
+            } else bottomNav.getOrCreateBadge(R.id.itemFavorites).setVisible(false);
+        });
     }
 
     private void initBottomNavigation() {
