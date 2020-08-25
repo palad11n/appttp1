@@ -14,6 +14,8 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import com.whenupdate.tools.service.parsers.ArchiveOfOurOwnParsing;
+import com.whenupdate.tools.service.parsers.FanfictionParsing;
 import com.whenupdate.tools.service.parsers.FicbookParsing;
 import com.whenupdate.tools.service.parsers.FindAnimeParsing;
 import com.whenupdate.tools.service.parsers.MangaReaderParsing;
@@ -62,18 +64,21 @@ public class SiteUpdate implements ISite {
             infoOfSite = new SerialMovieParsing();
         } else if (linkUsers.contains("mangalib.me")) {
             infoOfSite = new MangalibParsing();
-        } else if (linkUsers.contains("ficbook.net")){
+        } else if (linkUsers.contains("ficbook.net")) {
             infoOfSite = new FicbookParsing();
-        }else if (linkUsers.contains("mangahub")){
+        } else if (linkUsers.contains("mangahub")) {
             infoOfSite = new MangaHubParsing();
-        } else if (linkUsers.contains("//mangafox") || linkUsers.contains("//fanfox.net")){
+        } else if (linkUsers.contains("//mangafox") || linkUsers.contains("//fanfox.net")) {
             infoOfSite = new MangaFoxParsing();
-        }else if (linkUsers.contains("mangareader")){
+        } else if (linkUsers.contains("mangareader")) {
             infoOfSite = new MangaReaderParsing();
-        }else if (linkUsers.contains("sovetromantica")){
+        } else if (linkUsers.contains("sovetromantica")) {
             infoOfSite = new SovetromanticaParsing();
-        }
-        else {
+        } else if (linkUsers.contains("fanfiction.")) {
+            infoOfSite = new FanfictionParsing();
+        } else if (linkUsers.contains("archiveofourown.org/")) {
+            infoOfSite = new ArchiveOfOurOwnParsing();
+        } else {
             infoOfSite = new FindAnimeParsing();
         }
     }

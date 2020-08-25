@@ -48,10 +48,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         void onUpdateTask(Task task);
     }
 
-    public interface IAd {
-        void showView(String link);
-    }
-
     public void setCallback(@NonNull IAdapterCallback callback) {
         this.callback = callback;
     }

@@ -34,7 +34,7 @@
     <string name="title_notify">Хорошие новости</string>
     <string name="after_rating">Позже</string>
     <string name="text_rating">Хотите оценить это приложение? :)</string>
-    <string name="rate_the_app">Оценить приложение</string>
+    <string name="rate_the_app">Оценить нас</string>
     <string name="also_empty">Добавьте закладку :)</string>
     <string name="text_error_link">Ссылка должна начинаться с http(s)://</string>
     <string name="helper_create_text">Введите отслеживаемую вами работу</string>

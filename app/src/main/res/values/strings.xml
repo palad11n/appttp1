@@ -54,7 +54,7 @@
     <string name="title_notify">News for you</string>
     <string name="after_rating">After</string>
     <string name="text_rating">Can you rate this app? :)</string>
-    <string name="rate_the_app">Rate app</string>
+    <string name="rate_the_app">Rate us</string>
     <string name="also_empty">Add task :)</string>
     <string name="text_error_link">Link must be start with http(s)://</string>
     <string name="helper_create_text">Input link to your favorite work</string>

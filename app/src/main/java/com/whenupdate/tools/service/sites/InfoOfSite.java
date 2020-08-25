@@ -4,6 +4,7 @@ import org.jsoup.select.Elements;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -52,11 +53,21 @@ public abstract class InfoOfSite {
 
     private Date convertToDate(String date) throws ParseException {
         if (date.equals("")) return null;
+        if (isOnlyDigits(date)) {
+            java.util.Calendar cal =  java.util.Calendar.getInstance();
+            cal.setTimeInMillis(Long.parseLong(date) * 1000L);
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            return cal.getTime();
+        }
+
         Date fromSite;
         SimpleDateFormat formatter;
         if (!date.contains("Z")) {
             if (!date.contains(" ")) {
-                if (date.contains("-"))
+                if (date.contains("-") && !date.contains(" "))
                     return new SimpleDateFormat("yyyy-MM-dd").parse(date);
 
                 if (date.contains("/"))
