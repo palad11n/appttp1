@@ -117,7 +117,7 @@ public class SiteUpdate implements ISite {
                         .userAgent(USER_AGENT)
                         .referrer(REFERRER)
                         .maxBodySize(0)
-                        .timeout(5000)
+                        .timeout(10000)
                         .get();
                 Elements rows = doc.select(TAG_CLASS);
                 row[0] = infoOfSite.getLastDate(rows);
@@ -166,7 +166,7 @@ public class SiteUpdate implements ISite {
                 doc = Jsoup.connect(linkUsers)
                         .userAgent(USER_AGENT)
                         .referrer(REFERRER)
-                        .timeout(5000)
+                        .timeout(10000)
                         .ignoreHttpErrors(true)
                         .get();
                 String title = doc.title();

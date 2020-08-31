@@ -25,6 +25,8 @@ import com.whenupdate.tools.R;
 import com.whenupdate.tools.mvp.TasksPresenter;
 import com.whenupdate.tools.mvp.ViewActivity;
 
+import java.util.Collections;
+
 import static android.content.Context.CLIPBOARD_SERVICE;
 
 
@@ -55,8 +57,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     @NonNull
     @Override
     public TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RecyclerView d = parent.findViewById(R.id.listView);
-        d.setVisibility(View.VISIBLE);
+        RecyclerView recyclerView = parent.findViewById(R.id.listView);
+        recyclerView.setVisibility(View.VISIBLE);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.table_row, parent, false);
         return new TaskHolder(view);
     }
@@ -96,6 +98,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         notifyDataSetChanged();
     }
 
+    private void swapeItem(int fromPosition, int toPosition) {
+        int size = getItemCount();
+        if (size > 1) {
+            for (int j = fromPosition; j > toPosition; j--) {
+                Collections.swap(data, j, j - 1);
+            }
+
+            notifyItemMoved(fromPosition, toPosition);
+            notifyDataSetChanged();
+        }
+    }
+
     private void removeItem(int position) {
         Task task = data.get(position);
         data.remove(position);
@@ -103,7 +117,30 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         callback.onDelete(task);
         if (getItemCount() == 0)
             callback.onShowEmpty();
+    }
 
+    public void addItem(Task task) {
+        data.add(task);
+        notifyItemInserted(getItemCount());
+    }
+
+    /***
+     * Обновление задачи в разработке
+     * @param task
+     */
+    public void updateItem(Task task) {
+        int pos = -1;
+        for (int i = 0; i < getItemCount(); i++) {
+            pos = i;
+            if (task.getId() == data.get(i).getId())
+                break;
+        }
+        if (task.isUpdate() && pos != -1) {
+            data.remove(pos);
+            data.add(pos, task);
+            notifyItemChanged(pos);
+            swapeItem(pos, 0);
+        }
     }
 
     private void moveItemInDB(int position) {
@@ -119,13 +156,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         data.add(position, item);
         notifyItemInserted(position);
     }
-
-//    public void showViewMod(String linkTasks) {
-//        Context context = MainActivity.mContext;
-//        Intent intentView = new Intent(context, ViewActivity.class);
-//        intentView.putExtra(ViewActivity.LINK_KEY, linkTasks);
-//        context.startActivity(intentView);
-//    }
 
     class TaskHolder extends RecyclerView.ViewHolder {
         private final TextView title;
@@ -220,6 +250,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 setTextChapter(task.getChapter());
                 task.setUpdate(false);
                 callback.onUpdateTask(task);
+
             }
         }
 

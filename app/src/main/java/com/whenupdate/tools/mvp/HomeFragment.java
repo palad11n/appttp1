@@ -25,6 +25,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -37,6 +38,7 @@ import com.whenupdate.tools.common.DialogCreateTask;
 import com.whenupdate.tools.common.ListTasks;
 import com.whenupdate.tools.common.Task;
 import com.whenupdate.tools.common.TaskAdapter;
+import com.whenupdate.tools.common.desing.DiffUtilCallback;
 import com.whenupdate.tools.common.desing.ScrollFABBehavior;
 
 public class HomeFragment extends Fragment implements TasksPresenter.IMainContract {
@@ -143,7 +145,6 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
         presenter.viewIsReady();
         taskAdapter.setCallback(callback);
 
-
         initSwipeRefreshLayout();
     }
 
@@ -196,7 +197,7 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
 
     private void initDialogCreateTask() {
         DialogCreateTask dialog = DialogCreateTask.newInstance();
-        dialog.setTargetFragment(this,0);
+        dialog.setTargetFragment(this, 0);
         FragmentManager fm = getParentFragmentManager();
 
         dialog.show(fm.beginTransaction(), "Create task - show");
@@ -238,13 +239,13 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode) {
             case 0:
-                if (resultCode == Activity.RESULT_OK){
+                if (resultCode == Activity.RESULT_OK) {
                     if (validateLink(editTextLink.getText().toString()))
                         presenter.add(getTaskFromDialog());
                     else
                         showToast(getString(R.string.link_empty_error), R.drawable.ic_sentiment_dissatisfied_toast);
-                   // dialog.dismiss();
-                }else {
+                    // dialog.dismiss();
+                } else {
 
                 }
         }
@@ -258,12 +259,20 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
         floatingActionButton.show();
     }
 
+    @Override
+    public void addedTask(Task task) {
+        taskAdapter.addItem(task);
+    }
+
+    @Override
+    public void updatedTask(Task task) {
+        taskAdapter.updateItem(task);
+    }
 
     @Override
     public void showTasks(ListTasks listTasks) {
         taskAdapter.setData(listTasks);
     }
-
 
     public void onDialogPositiveClick(DialogFragment dialog) {
         if (validateLink(editTextLink.getText().toString()))

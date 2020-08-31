@@ -194,6 +194,16 @@ public class FavoritesFragment extends Fragment implements TasksPresenter.IMainC
                 R.drawable.ic_sentiment_dissatisfied_toast);
     }
 
+    @Override
+    public void addedTask(Task task) {
+        taskAdapter.addItem(task);
+    }
+
+    @Override
+    public void updatedTask(Task task) {
+        taskAdapter.updateItem(task);
+    }
+
     public void showToastSiteRip(String link) {
         showToast(getString(R.string.site_rip) + link,
                 R.drawable.ic_sentiment_dissatisfied_toast);

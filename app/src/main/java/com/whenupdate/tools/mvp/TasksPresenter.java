@@ -60,11 +60,12 @@ public class TasksPresenter {
             }
 
             update.findDate((result, newDate, chapter) -> {
-                task.setDate(newDate);
+                if (newDate != null)
+                    task.setDate(newDate);
                 task.setChapter(chapter);
                 long start = System.currentTimeMillis();
                 long timeConsumedMillis = 0;
-                // 30 секунд
+                // 15 секунд
                 while (task.getTitle().equals("") && timeConsumedMillis < 15000) {
                     timeConsumedMillis = System.currentTimeMillis() - start;
                 }
@@ -81,29 +82,31 @@ public class TasksPresenter {
     private void saveTask(Task task) {
         model.saveTask(task, () -> {
             //view.hideProgress();
-            loadTasks();
+            //loadTasks();
+            if (view != null)
+                view.addedTask(task);
         });
     }
 
-    public void updateTask(Task task) {
+    void updateTask(Task task) {
         model.updateTask(task, () -> {
-            // loadTasks();
+            view.updatedTask(task);
         });
     }
 
-    public void remove(Task task) {
+    void remove(Task task) {
         model.removeTask(task, () -> {
         });
     }
 
-    public void loadUpdate(Task task, IUpdateCallback callback) {
+    void loadUpdate(Task task, IUpdateCallback callback) {
         if (!checkConnecting())
             return;
         loadingUpdate(task, callback);
     }
 
-    public void loadUpdate(IUpdateCallback callback) {
-        if (!checkConnecting()) {
+    void loadUpdate(IUpdateCallback callback) {
+        if (!checkConnecting() && callback != null) {
             callback.onComplete(-1);
             return;
         }
@@ -111,13 +114,17 @@ public class TasksPresenter {
         model.loadTasks(listTasks -> {
             for (Task task : listTasks) {
                 if (!checkConnecting()) {
-                    callback.onComplete(-1);
+                    if (callback != null) {
+                        callback.onComplete(-1);
+                    }
                     return;
                 }
                 loadingUpdate(task, null);
             }
-            loadTasks();
-            callback.onComplete(0);
+
+            if (callback != null) {
+               callback.onComplete(0);
+            }
         });
     }
 
@@ -155,7 +162,7 @@ public class TasksPresenter {
         return true;
     }
 
-    public void moveTask(Task task, String from, String to) {
+    void moveTask(Task task, String from, String to) {
         if (from.equals(HomeFragment.DATABASE)) {
             FavoritesFragment.presenter.saveTask(task);
         } else {
@@ -188,6 +195,10 @@ public class TasksPresenter {
         void showToastSiteRip(String link);
 
         void showToastSaveFailed();
+
+        void addedTask(Task task);
+
+        void updatedTask(Task task);
     }
 
     /**

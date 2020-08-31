@@ -12,6 +12,7 @@ public class Task {
     private String link;
     private String title;
     private String chapter;
+    @NonNull
     private Date date = new Date();
     private boolean isUpdate = false;
 
@@ -49,17 +50,18 @@ public class Task {
         isUpdate = update;
     }
 
+    @NonNull
     public Date getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(@NonNull Date date) {
         this.date = date;
     }
 
     public String getSimpleDateFormat() {
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
-        String format = formatForDateNow.format(this.date);
+        String format = formatForDateNow.format(date);
         return format;
     }
 

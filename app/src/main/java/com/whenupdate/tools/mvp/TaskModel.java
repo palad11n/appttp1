@@ -21,6 +21,7 @@ import com.whenupdate.tools.common.NotifyService;
 import com.whenupdate.tools.common.Task;
 
 import java.io.File;
+import java.util.Collections;
 
 public class TaskModel {
     public interface ILoadCallback {
@@ -117,13 +118,13 @@ public class TaskModel {
         return dir.delete();
     }
 
-    public static void setNewTheme(Activity context){
+    public static void setNewTheme(Activity context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String theme = prefs.getString("theme", "light");
 
         if (theme.equals("dark")) {
             context.getTheme().applyStyle(R.style.DarkStyle, true);
-        } else  {
+        } else {
             context.getTheme().applyStyle(R.style.LightStyle, false);
         }
     }
@@ -140,7 +141,7 @@ public class TaskModel {
         @Override
         protected Void doInBackground(Task... tasks) {
             Task task = tasks[0];
-            if (task.getId() == -1L){
+            if (task.getId() == -1L) {
                 long max = getMaxSize();
                 task.setId(max);
             }
@@ -192,14 +193,20 @@ public class TaskModel {
         @Override
         protected Void doInBackground(Task... tasks) {
             Task newTask = tasks[0];
-            for (int i = 0; i < listTasks.size(); i++) {
+            int size = listTasks.size();
+            for (int i = 0; i < size; i++) {
                 Task oldTask = listTasks.get(i);
                 if (newTask.getId() == oldTask.getId()) {
-                    // Task findOldTask = oldTask;
                     listTasks.set(i, newTask);
+                    if (size > 1) {
+                        for (int j = i; j > 0; j--) {
+                            Collections.swap(listTasks, j, j - 1);
+                        }
+                    }
                     break;
                 }
             }
+
             SharedPreferences sharedPreferences =
                     mContext.getSharedPreferences(database, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
