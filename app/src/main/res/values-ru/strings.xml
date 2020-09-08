@@ -58,7 +58,8 @@
     <string name="set_new_name">Новое название</string>
     <string name="version_title">Версия</string>
     <string name="share_app_summary">Расскажите о WhenUPDATE своим друзьям</string>
-    <string name="share_app_recommend">"Мне удалось найти потрясающее приложение для отслеживания обновлений определенной манги, аниме или сериала на нужных тебе сайтах! Скачивай из Google Play: "</string>
+    <string name="share_app_recommend">"WhenUPDATE - приложение для отслеживания обновлений определенной манги, аниме или сериала на разных сайтах! Скачивай из Google Play: "</string>
     <string name="more_setting">Ещё</string>
     <string name="rate_app_summary">Оцените WhenUPDATE, чтобы сделать нас лучше</string>
+    <string name="license_title">Лицензии на ПО с открытым кодом</string>
 </resources>

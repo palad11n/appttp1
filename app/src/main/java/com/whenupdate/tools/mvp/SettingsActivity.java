@@ -14,6 +14,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.whenupdate.tools.BuildConfig;
 import com.whenupdate.tools.R;
+import com.whenupdate.tools.common.LicenseActivity;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -79,7 +80,8 @@ public class SettingsActivity extends AppCompatActivity {
             if (version != null) {
                 try {
                     version.setSummary(BuildConfig.VERSION_NAME);
-                } catch (Exception ignored) { }
+                } catch (Exception ignored) {
+                }
             }
             final String appPackageName = "com.whenupdate.tools";
             Preference shareApp = findPreference("share_app");
@@ -96,7 +98,7 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
 
-            Preference rateApp= findPreference("rate_app");
+            Preference rateApp = findPreference("rate_app");
             if (rateApp != null) {
                 rateApp.setOnPreferenceClickListener(preference -> {
                     try {
@@ -109,6 +111,14 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 });
             }
+            Preference licenses = findPreference("open_source_license");
+            if (licenses != null) {
+                licenses.setOnPreferenceClickListener(preference -> {
+                    startActivity(new Intent(getActivity(), LicenseActivity.class));
+                    return true;
+                });
+            }
+
         }
     }
 

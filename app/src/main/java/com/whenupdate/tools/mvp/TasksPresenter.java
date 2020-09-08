@@ -48,7 +48,6 @@ public class TasksPresenter {
     }
 
     void add(Task task) {
-        //view.showProgress();
         Completable.fromAction(() -> {
             //Task task = view.getTaskFromDialog();
             ISite update = new SiteUpdate(task.getLink(), task.getDate(), task.getChapter());
@@ -58,24 +57,25 @@ public class TasksPresenter {
                     update.getTitleSite(task::setTitle);
                 } else task.setTitle(task.getLink());
             }
-
-            update.findDate((result, newDate, chapter) -> {
-                if (newDate != null)
-                    task.setDate(newDate);
-                task.setChapter(chapter);
-                long start = System.currentTimeMillis();
-                long timeConsumedMillis = 0;
-                // 15 секунд
-                while (task.getTitle().equals("") && timeConsumedMillis < 15000) {
-                    timeConsumedMillis = System.currentTimeMillis() - start;
-                }
-                if (!task.getTitle().equals(""))
-                    saveTask(task);
-                else {
-                    //view.hideProgress();
-                    view.showToastSaveFailed();
-                }
-            });
+            if (checkConnecting())
+                update.findDate((result, newDate, chapter) -> {
+                    if (newDate != null)
+                        task.setDate(newDate);
+                    task.setChapter(chapter);
+                    long start = System.currentTimeMillis();
+                    long timeConsumedMillis = 0;
+                    // 15 секунд
+                    while (task.getTitle().equals("") && timeConsumedMillis < 15000) {
+                        timeConsumedMillis = System.currentTimeMillis() - start;
+                    }
+                    if (!task.getTitle().equals(""))
+                        saveTask(task);
+                    else {
+                        //view.hideProgress();
+                        view.showToastSaveFailed();
+                    }
+                });
+            else saveTask(task);
         }).subscribe();
     }
 
@@ -102,8 +102,10 @@ public class TasksPresenter {
     void loadUpdate(Task task, IUpdateCallback callback) {
         if (!checkConnecting())
             return;
-        loadingUpdate(task, callback);
+        loadingUpdate(task, callback, null);
     }
+
+    private int size = 0;
 
     void loadUpdate(IUpdateCallback callback) {
         if (!checkConnecting() && callback != null) {
@@ -119,16 +121,21 @@ public class TasksPresenter {
                     }
                     return;
                 }
-                loadingUpdate(task, null);
-            }
 
-            if (callback != null) {
-               callback.onComplete(0);
+                loadingUpdate(task, null, () -> {
+                    size++;
+                    if (size == listTasks.size()) {
+                        size = 0;
+                        if (callback != null) {
+                            callback.onComplete(0);
+                        }
+                    }
+                });
             }
         });
     }
 
-    private void loadingUpdate(Task task, IUpdateCallback callback) {
+    private void loadingUpdate(Task task, IUpdateCallback callback, ICompleteCallback callbackPrivate) {
         ISite scu = new SiteUpdate(task.getLink(), task.getDate(), task.getChapter());
         scu.findUpDate((result, newDate, chapter) -> {
             switch (result) {
@@ -150,6 +157,10 @@ public class TasksPresenter {
             if (callback != null) {
                 view.isUpdate(task.isUpdate());
                 callback.onComplete(result);
+            }
+
+            if (callbackPrivate != null) {
+                callbackPrivate.onComplete();
             }
         });
     }
@@ -206,5 +217,9 @@ public class TasksPresenter {
      */
     public interface IUpdateCallback {
         void onComplete(int result);
+    }
+
+    public interface ICompleteCallback {
+        void onComplete();
     }
 }

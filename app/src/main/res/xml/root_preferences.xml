@@ -31,6 +31,11 @@
             >
         </PreferenceScreen>
         <PreferenceScreen
+            app:title="@string/license_title"
+            app:key="open_source_license"
+            >
+        </PreferenceScreen>
+        <PreferenceScreen
             app:title="@string/version_title"
             app:key="version"
             app:summary="1.0"

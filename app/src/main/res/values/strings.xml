@@ -75,8 +75,9 @@
     <string name="move_text2">you want to watch later !</string>
     <string name="version_title">Version</string>
     <string name="share_app_summary">Tell about WhenUPDATE to your friends</string>
-    <string name="share_app_recommend">I managed to find an amazing app for tracking updates of a particular manga, anime, or series on the sites you need! Download from Google Play: </string>
+    <string name="share_app_recommend">"WhenUPDATE is an app for tracking updates of a specific manga, anime or series on different sites! Download from Google Play: "</string>
     <string name="more_setting">More</string>
     <string name="rate_app_summary">Rate WhenUPDATE to make us better</string>
+    <string name="license_title">Open Source Licenses</string>
 
 </resources>

@@ -106,7 +106,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             }
 
             notifyItemMoved(fromPosition, toPosition);
-            notifyDataSetChanged();
         }
     }
 

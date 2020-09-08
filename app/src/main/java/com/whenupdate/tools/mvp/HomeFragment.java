@@ -25,7 +25,6 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -38,7 +37,6 @@ import com.whenupdate.tools.common.DialogCreateTask;
 import com.whenupdate.tools.common.ListTasks;
 import com.whenupdate.tools.common.Task;
 import com.whenupdate.tools.common.TaskAdapter;
-import com.whenupdate.tools.common.desing.DiffUtilCallback;
 import com.whenupdate.tools.common.desing.ScrollFABBehavior;
 
 public class HomeFragment extends Fragment implements TasksPresenter.IMainContract {
@@ -178,12 +176,11 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
                 getResources().getColor(R.color.delete_btn_on));
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
-
             swipeRefreshLayout.postDelayed(() -> {
                 presenter.loadUpdate(result -> {
                     swipeRefreshLayout.setRefreshing(false);
                 });
-            }, 2000);
+            }, 1000);
         });
     }
 

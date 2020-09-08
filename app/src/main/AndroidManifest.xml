@@ -16,14 +16,18 @@
         android:theme="@style/AppTheme">
 
         <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
-
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8072450081468494~9569494060"/>
+            android:value="ca-app-pub-8072450081468494~9569494060" />
 
-        <activity android:name="com.google.android.gms.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+        <activity
+            android:name=".common.LicenseActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="locale"/>
 
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
         <activity
             android:name=".common.StartActivity"
             android:screenOrientation="portrait"
@@ -41,26 +45,28 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
-        </activity>
 
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
         <activity
             android:name=".mvp.SettingsActivity"
             android:configChanges="locale"
             android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ViewActivity"
             android:label="@string/title_activity_view"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing"
+
+            <meta-data
+                android:name="android.webkit.WebView.EnableSafeBrowsing"
                 android:value="true" />
         </activity>
 
