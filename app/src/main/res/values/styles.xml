@@ -8,7 +8,7 @@
     </style>
 
     <style name="DarkStyle" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
-        <item name="colorPrimary">@color/colorMy</item>
+        <item name="colorPrimary">@color/colorMyDark</item>
         <item name="colorPrimaryDark">@color/colorMyDark</item>
         <item name="colorAccent">@color/colorMy</item>
         <item name="colorSurface">@color/background_dark</item>

@@ -4,18 +4,15 @@ import com.whenupdate.tools.service.sites.InfoOfSite;
 
 import org.jsoup.select.Elements;
 
-public class FicbookParsing extends InfoOfSite {
+public class SovetromanticaParsing extends InfoOfSite {
     @Override
     public String getLastDate(Elements rows) {
-        return findElement(rows.select(".small-text.text-muted span"));
+        return "";
     }
 
     @Override
     public String getLastChapter(Elements rows) {
-        return findElement(rows.select(".visit-link"));
-    }
-
-    private String findElement(Elements rows) {
-        return rows.last().text();
+        String episode = rows.select("a > div > span").last().text();
+        return episode;
     }
 }

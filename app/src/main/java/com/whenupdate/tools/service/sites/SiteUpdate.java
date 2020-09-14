@@ -14,15 +14,21 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import com.whenupdate.tools.service.parsers.ArchiveOfOurOwnParsing;
+import com.whenupdate.tools.service.parsers.FanfictionParsing;
 import com.whenupdate.tools.service.parsers.FicbookParsing;
 import com.whenupdate.tools.service.parsers.FindAnimeParsing;
+import com.whenupdate.tools.service.parsers.MangaReaderParsing;
 import com.whenupdate.tools.service.parsers.MangaFoxParsing;
 import com.whenupdate.tools.service.parsers.MangaHubParsing;
 import com.whenupdate.tools.service.parsers.MangalibParsing;
 import com.whenupdate.tools.service.parsers.SerialMovieParsing;
 import com.whenupdate.tools.service.parsers.SoundCloudParsing;
+import com.whenupdate.tools.service.parsers.SovetromanticaParsing;
 
 public class SiteUpdate implements ISite {
+    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0";
+    private static final String REFERRER = "https://www.google.com";
     private final String linkUsers;
     private final Date lastDate;
     private final String lastChapter;
@@ -52,20 +58,27 @@ public class SiteUpdate implements ISite {
             }
         }
 
-        if (linkUsers.contains("//soundcloud.com/")) {
+        if (linkUsers.contains("soundcloud.com/")) {
             infoOfSite = new SoundCloudParsing();
         } else if (linkUsers.contains("seria")) {
             infoOfSite = new SerialMovieParsing();
-        } else if (linkUsers.contains("//mangalib.me")) {
+        } else if (linkUsers.contains("mangalib.me")) {
             infoOfSite = new MangalibParsing();
-        } else if (linkUsers.contains("//ficbook.net")){
+        } else if (linkUsers.contains("ficbook.net")) {
             infoOfSite = new FicbookParsing();
-        }else if (linkUsers.contains("//mangahub")){
+        } else if (linkUsers.contains("mangahub")) {
             infoOfSite = new MangaHubParsing();
-        } else if (linkUsers.contains("//mangafox") || linkUsers.contains("//fanfox.net")){
+        } else if (linkUsers.contains("//mangafox") || linkUsers.contains("//fanfox.net")) {
             infoOfSite = new MangaFoxParsing();
-        }
-        else {
+        } else if (linkUsers.contains("mangareader")) {
+            infoOfSite = new MangaReaderParsing();
+        } else if (linkUsers.contains("sovetromantica")) {
+            infoOfSite = new SovetromanticaParsing();
+        } else if (linkUsers.contains("fanfiction.")) {
+            infoOfSite = new FanfictionParsing();
+        } else if (linkUsers.contains("archiveofourown.org/")) {
+            infoOfSite = new ArchiveOfOurOwnParsing();
+        } else {
             infoOfSite = new FindAnimeParsing();
         }
     }
@@ -101,9 +114,10 @@ public class SiteUpdate implements ISite {
             row[1] = "";
             try {
                 doc = Jsoup.connect(linkUsers)
-                        .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
+                        .userAgent(USER_AGENT)
+                        .referrer(REFERRER)
                         .maxBodySize(0)
-                        .timeout(5000)
+                        .timeout(10000)
                         .get();
                 Elements rows = doc.select(TAG_CLASS);
                 row[0] = infoOfSite.getLastDate(rows);
@@ -122,8 +136,8 @@ public class SiteUpdate implements ISite {
      * @return 1 - значит обновление есть; -1 - дата не пришла; 0 - нет обновлений
      */
     private int isUpdate(Date newDate, String chapter) {
-        if (newDate != null) {
-            if (newDate.after(lastDate)) {
+        if (newDate != null || chapter != null) {
+            if (newDate != null && newDate.after(lastDate)) {
                 return 1; // есть обновление
             } else {
                 if (lastChapter != null
@@ -144,16 +158,21 @@ public class SiteUpdate implements ISite {
     @SuppressLint("CheckResult")
     @Override
     public void getTitleSite(ICompleteCallbackTitle iCompleteCallback) {
+        //WebDriver driver =new FirefoxDriver();
+        //Builder request = new Request.Builder().url(url);
         Observable.fromCallable(() -> {
-            Document doc;
+            final Document doc;
             try {
                 doc = Jsoup.connect(linkUsers)
-                        .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0")
-                        .maxBodySize(0)
-                        .timeout(5000)
+                        .userAgent(USER_AGENT)
+                        .referrer(REFERRER)
+                        .timeout(10000)
+                        .ignoreHttpErrors(true)
                         .get();
-                return doc.title();
+                String title = doc.title();
+                return title;
             } catch (Exception ex) {
+                ex.printStackTrace();
             }
             return "";
         })

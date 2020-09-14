@@ -2,15 +2,9 @@ package com.whenupdate.tools.mvp;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,168 +12,76 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.fragment.app.Fragment;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.whenupdate.tools.R;
-import com.whenupdate.tools.common.DialogCreateTask;
-import com.whenupdate.tools.common.ListTasks;
-import com.whenupdate.tools.common.Task;
-import com.whenupdate.tools.common.TaskAdapter;
-import com.whenupdate.tools.common.desing.ScrollFABBehavior;
 
 @SuppressWarnings("all")
-public class MainActivity extends AppCompatActivity implements DialogCreateTask.DialogListener {
-
+public class MainActivity extends AppCompatActivity {
+    public final static String DATABASE = "list_db";
     public static Context mContext;
 
-    public static TasksPresenter presenter;
-    private TaskAdapter taskAdapter;
-
-    private TextInputLayout inputTextTitle, inputTextLink;
-    private TextInputEditText editTextTitle, editTextLink;
-    private FloatingActionButton floatingActionButton;
-    private ConstraintLayout constraintLayout;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView textEmpty;
+    private RelativeLayout constraintLayout;
     private ProgressDialog progressDialog;
+    private BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TaskModel.setNewTheme(this);
         setContentView(R.layout.activity_main);
-
         init();
-        //   initAds();
     }
 
     private void init() {
-        if (mContext == null) mContext = MainActivity.this;
+        if (mContext == null)
+            mContext = MainActivity.this;
+        constraintLayout = findViewById(R.id.cl_main);
+        initBottomNavigation();
 
-        constraintLayout = (ConstraintLayout) findViewById(R.id.cl_main);
-        textEmpty = findViewById(R.id.emptyId);
-
-        floatingActionButton = findViewById(R.id.floatingActionButton);
-        floatingActionButton.setOnClickListener(v -> {
-            initDialogCreateTask();
+        TaskModel taskModel = new TaskModel(this, FavoritesFragment.DATABASE);
+        taskModel.loadTasks(listTasks -> {
+            if (listTasks.size() > 0) {
+                bottomNav.getOrCreateBadge(R.id.itemFavorites).setVisible(true);
+            } else bottomNav.getOrCreateBadge(R.id.itemFavorites).setVisible(false);
         });
+    }
 
-        taskAdapter = new TaskAdapter();
+    private void initBottomNavigation() {
+        bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setOnNavigationItemSelectedListener(item -> {
+            Fragment selectedFragment = null;
+            switch (item.getItemId()) {
+                case R.id.itemHome:
+                    selectedFragment = new HomeFragment();
 
-        final RecyclerView listView = findViewById(R.id.listView);
-        listView.setHasFixedSize(true);
-        listView.setLayoutManager(new LinearLayoutManager(this));
-        listView.setAdapter(taskAdapter);
-        listView.setVisibility(View.VISIBLE);
-        listView.addOnScrollListener(new ScrollFABBehavior() {
-            @Override
-            public void onHide() {
-                hideFAB();
+                    break;
+                case R.id.itemFavorites:
+                    selectedFragment = new FavoritesFragment();
+                    break;
             }
-
-            @Override
-            public void onShow() {
-                showFAB();
-            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    selectedFragment).commit();
+            return true;
         });
-
-        TaskModel taskModel = new TaskModel(mContext);
-
-        presenter = new TasksPresenter(taskModel);
-        presenter.attachView(this);
-        presenter.viewIsReady();
-
-        initSwipeRefreshLayout();
-    }
-
-    private void initSwipeRefreshLayout() {
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorMy),
-                getResources().getColor(R.color.delete_btn_on));
-
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            swipeRefreshLayout.postDelayed(() -> {
-                presenter.loadUpdate(new TasksPresenter.IUpdateCallback() {
-                    @Override
-                    public void onComplete(int result) {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                });
-            }, 2000);
-        });
-    }
-
-    public void hideSwipeRefreshLayout() {
-        swipeRefreshLayout.setVisibility(View.GONE);
-    }
-
-    public void showSwipeRefreshLayout() {
-        swipeRefreshLayout.setVisibility(View.VISIBLE);
-    }
-
-    private void initDialogCreateTask() {
-        DialogFragment dialog = DialogCreateTask.newInstance();
-        dialog.show(getSupportFragmentManager(), "Create task - show");
-        getSupportFragmentManager().executePendingTransactions();
-
-        inputTextTitle = dialog.getDialog().findViewById(R.id.textInputLayoutSetName);
-        editTextTitle = dialog.getDialog().findViewById(R.id.setName);
-        inputTextLink = dialog.getDialog().findViewById(R.id.textInputLayoutSetLink);
-
-        editTextLink = dialog.getDialog().findViewById(R.id.setLink);
-        if (editTextLink != null)
-            editTextLink.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (validateLink(s.toString())) {
-                        inputTextLink.setError("");
-                    } else {
-                        inputTextLink.setError("https://link.on/creation/");
-                    }
-                }
-            });
-    }
-
-    private boolean validateLink(String textLink) {
-        textLink = textLink.trim();
-        return (!textLink.isEmpty() && textLink.startsWith("http")
-                && Patterns.WEB_URL.matcher(textLink).matches());
-    }
-
-    private void hideFAB() {
-        floatingActionButton.hide();
-    }
-
-    private void showFAB() {
-        floatingActionButton.show();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-     //   presenter.applySetting();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new FavoritesFragment()).commit();
+        bottomNav.setSelectedItemId(R.id.itemHome);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new HomeFragment()).commit();
     }
 
     @Override
@@ -193,31 +95,10 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.detachView();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.itemSearch).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                taskAdapter.filter(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                taskAdapter.filter(newText);
-                return true;
-            }
-        });
-
-        searchView.setIconifiedByDefault(true);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -234,24 +115,6 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
             case R.id.itemHelp:
                 showDialogPref(R.layout.dialog_help);
                 return true;
-            case R.id.itemRating:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                View view = getLayoutInflater().inflate(R.layout.dialog_rating, null);
-                builder.setView(view)
-                        .setPositiveButton(R.string.done, (dialog, which) -> {
-                            final String appPackageName = getPackageName();
-                            try {
-                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse("market://details?id=" + appPackageName)));
-                            } catch (android.content.ActivityNotFoundException ex) {
-                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                            }
-                        })
-                        .setNegativeButton(R.string.after_rating, (dialog, id) -> dialog.dismiss());
-                builder.create();
-                builder.show();
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -265,31 +128,6 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         builder.show();
     }
 
-    public Task getTaskFromDialog() {
-        Task newTask = new Task();
-        newTask.setLink(inputTextLink.getEditText().getText().toString().trim());
-        newTask.setTitle(inputTextTitle.getEditText().getText().toString().trim());
-        return newTask;
-    }
-
-    public void showTasks(ListTasks listTasks) {
-        taskAdapter.setData(listTasks);
-    }
-
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-        if (validateLink(editTextLink.getText().toString()))
-            presenter.add();
-        else
-            showToast(getString(R.string.link_empty_error), R.drawable.ic_sentiment_dissatisfied_toast);
-        dialog.dismiss();
-    }
-
-    @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
-        dialog.dismiss();
-    }
-
     public void isUpdate(boolean isExistUpdate) {
         if (isExistUpdate)
             showToast(getString(R.string.update_exist));
@@ -298,6 +136,16 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
 
     public void alertConnection() {
         showToast(getString(R.string.check_internet), R.drawable.ic_wifi_off_24px);
+    }
+
+    public void showToastSaveFailed() {
+        showToast(getString(R.string.fail_save),
+                R.drawable.ic_sentiment_dissatisfied_toast);
+    }
+
+    public void showToastSiteRip(String link) {
+        showToast(getString(R.string.site_rip) + link,
+                R.drawable.ic_sentiment_dissatisfied_toast);
     }
 
     public void showToast(String textToast) {
@@ -318,28 +166,5 @@ public class MainActivity extends AppCompatActivity implements DialogCreateTask.
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.setView(layout);
         toast.show();
-    }
-
-    public void showProgress() {
-        progressDialog = ProgressDialog.show(this, "", getString(R.string.loading));
-    }
-
-    public void hideProgress() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-    }
-
-    public void setBackground(int colorBackground, int colorText) {
-        constraintLayout.setBackgroundColor(colorBackground);
-        textEmpty.setTextColor(colorText);
-    }
-
-    public void showEmptyText() {
-        textEmpty.setVisibility(View.VISIBLE);
-    }
-
-    public void hideEmptyText() {
-        textEmpty.setVisibility(View.GONE);
     }
 }

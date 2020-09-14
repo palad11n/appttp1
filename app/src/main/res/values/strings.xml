@@ -6,6 +6,11 @@
     <string name="set_name">Your title (optional)</string>
     <string name="set_link">Link of creation*</string>
 
+    <!-- Редактирование задачи -->
+    <string name="set_new_name">New title</string>
+    <string name="edit_task_title">Edit</string>
+    <string name="edit_not_empty">Can\'t be empty</string>
+
     <!-- Основные кнопки -->
     <string name="done">OK</string>
     <string name="cancel">CANCEL</string>
@@ -17,7 +22,6 @@
     <string name="supported_sites">Supported sites:</string>
     <string name="wishes_or_problems">Wishes or problems?</string>
     <string name="write_to_telegram">Write to Telegram:</string>
-    <string name="link_for_problem">\@Life_not</string>
 
     <!-- Задача -->
     <string name="last_check">Last update: </string>
@@ -36,8 +40,8 @@
     <!-- Настройки вида -->
     <string name="appearance_header">Appearance</string>
     <string name="signature_title">Your signature</string>
-    <string name="theme_title">Color background</string>
-    <string name="theme_summary">App background color selection.</string>
+    <string name="theme_title">Theme</string>
+    <string name="theme_summary">App theme selection</string>
 
     <!-- Прочие настройки -->
     <string name="other_settings">Other settings</string>
@@ -50,7 +54,7 @@
     <string name="title_notify">News for you</string>
     <string name="after_rating">After</string>
     <string name="text_rating">Can you rate this app? :)</string>
-    <string name="rate_the_app">Rate app</string>
+    <string name="rate_the_app">Rate us</string>
     <string name="also_empty">Add task :)</string>
     <string name="text_error_link">Link must be start with http(s)://</string>
     <string name="helper_create_text">Input link to your favorite work</string>
@@ -66,5 +70,14 @@
     <string name="share_title">Share</string>
     <string name="or">or</string>
     <string name="help_click">Click to title to open page!</string>
+    <string name="to_move">To move</string>
+    <string name="move_text1">Move here what</string>
+    <string name="move_text2">you want to watch later !</string>
+    <string name="version_title">Version</string>
+    <string name="share_app_summary">Tell about WhenUPDATE to your friends</string>
+    <string name="share_app_recommend">"WhenUPDATE is an app for tracking updates of a specific manga, anime or series on different sites! Download from Google Play: "</string>
+    <string name="more_setting">More</string>
+    <string name="rate_app_summary">Rate WhenUPDATE to make us better</string>
+    <string name="license_title">Open Source Licenses</string>
 
 </resources>

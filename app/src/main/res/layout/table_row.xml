@@ -16,13 +16,13 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/swipeDelete"
-            android:layout_width="50dp"
+            android:layout_width="90dp"
             android:layout_height="50dp"
             android:layout_margin="10dp"
             android:backgroundTint="@color/error"
             android:clickable="true"
-            android:paddingLeft="5dp"
-            app:icon="@android:drawable/ic_menu_delete"
+            android:paddingLeft="6dp"
+            app:icon="@drawable/ic_delete_forever"
             app:iconGravity="textStart" />
 
         <com.google.android.material.button.MaterialButton
@@ -31,13 +31,39 @@
             android:layout_height="50dp"
             android:layout_margin="10dp"
             android:clickable="true"
-            android:paddingLeft="5dp"
-            app:icon="@android:drawable/ic_menu_send"
+            android:paddingLeft="6dp"
+            app:icon="@drawable/ic_open_in_browser"
             app:iconGravity="textStart" />
-        <!--What you want to show-->
     </LinearLayout>
     <!-- Bottom View End-->
-
+    <!-- Bottom View Start-->
+    <LinearLayout
+        android:id="@+id/bottom_wrapper_deferred"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:weightSum="2">
+        <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_dashboard" />
+            <TextView
+                android:id="@+id/text_move"
+                style="@style/TextView.Extra"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to_move"/>
+        </LinearLayout>
+    </LinearLayout>
+    <!-- Bottom View End-->
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

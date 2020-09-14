@@ -4,18 +4,14 @@ import com.whenupdate.tools.service.sites.InfoOfSite;
 
 import org.jsoup.select.Elements;
 
-public class FicbookParsing extends InfoOfSite {
+public class ArchiveOfOurOwnParsing extends InfoOfSite {
     @Override
     public String getLastDate(Elements rows) {
-        return findElement(rows.select(".small-text.text-muted span"));
+        return rows.select("dd.status").text(); //не загружается
     }
 
     @Override
     public String getLastChapter(Elements rows) {
-        return findElement(rows.select(".visit-link"));
-    }
-
-    private String findElement(Elements rows) {
-        return rows.last().text();
+        return rows.select("dd.chapters").text();
     }
 }

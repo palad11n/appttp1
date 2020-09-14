@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:divider="#00141414"
+        android:dividerHeight="12dp"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/table_row"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/emptyIdImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_star_border"
+        android:layout_above="@id/emptyId"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:id="@+id/emptyId"
+        style="@style/TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/move_text1"
+        android:layout_above="@id/emptyId1"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/emptyId1"
+        style="@style/TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/move_text2"
+        android:visibility="invisible" />
+</RelativeLayout>

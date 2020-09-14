@@ -12,16 +12,21 @@ class Const {
 
     static {
         MAP_TAG_FOR_LINK = new HashMap<>();
-        MAP_TAG_FOR_LINK.put("//soundcloud.com/", "article.audible");
         MAP_TAG_FOR_LINK.put("seria", ".epscape_tr");
-        MAP_TAG_FOR_LINK.put("//findanime.me/", ".table tr");
-        MAP_TAG_FOR_LINK.put("//mintmanga", ".table tr");
-        MAP_TAG_FOR_LINK.put("//readmanga", ".table tr");
-        MAP_TAG_FOR_LINK.put("//mangalib.me", ".chapter-item");
-        MAP_TAG_FOR_LINK.put("//ficbook.net", ".part-info");
-        MAP_TAG_FOR_LINK.put("//mangahub", ".d-flex.py-2.px-3.border-bottom");
+        MAP_TAG_FOR_LINK.put("findanime.me/", ".table tr");
+        MAP_TAG_FOR_LINK.put("mintmanga", ".table tr");
+        MAP_TAG_FOR_LINK.put("readmanga", ".table tr");
+        MAP_TAG_FOR_LINK.put("mangalib.me", ".chapter-item");
+        MAP_TAG_FOR_LINK.put("ficbook.net", ".part-info");
+        MAP_TAG_FOR_LINK.put("mangahub", ".d-flex.flex-column");
+        MAP_TAG_FOR_LINK.put("sovetromantica.com/", ".episodes-slick_item");
+
+        MAP_TAG_FOR_LINK.put("mangareader.net", "table#listing tr");
         MAP_TAG_FOR_LINK.put("//fanfox.net", ".detail-main-list-main");
         MAP_TAG_FOR_LINK.put("//mangafox", ".detail-main-list-main");
+        MAP_TAG_FOR_LINK.put("soundcloud.com/", "article.audible");
+        MAP_TAG_FOR_LINK.put("fanfiction.net/", "span.xgray.xcontrast_txt");
+        MAP_TAG_FOR_LINK.put("archiveofourown.org/", "dl.stats");
     }
 
     static {

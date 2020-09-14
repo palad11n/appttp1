@@ -19,9 +19,13 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.daimajia.swipe.SwipeLayout;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.whenupdate.tools.R;
-import com.whenupdate.tools.mvp.MainActivity;
+import com.whenupdate.tools.mvp.TasksPresenter;
 import com.whenupdate.tools.mvp.ViewActivity;
+
+import java.util.Collections;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
@@ -32,10 +36,29 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     private int row_index;
 
     @NonNull
+    private IAdapterCallback callback;
+
+    public interface IAdapterCallback {
+        void onDelete(Task task);
+
+        void onMove(Task task);
+
+        void onShowEmpty();
+
+        void onLoadUpdate(Task task, TasksPresenter.IUpdateCallback callback);
+
+        void onUpdateTask(Task task);
+    }
+
+    public void setCallback(@NonNull IAdapterCallback callback) {
+        this.callback = callback;
+    }
+
+    @NonNull
     @Override
     public TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RecyclerView d = parent.findViewById(R.id.listView);
-        d.setVisibility(View.VISIBLE);
+        RecyclerView recyclerView = parent.findViewById(R.id.listView);
+        recyclerView.setVisibility(View.VISIBLE);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.table_row, parent, false);
         return new TaskHolder(view);
     }
@@ -75,12 +98,57 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         notifyDataSetChanged();
     }
 
+    private void swapeItem(int fromPosition, int toPosition) {
+        int size = getItemCount();
+        if (size > 1) {
+            for (int j = fromPosition; j > toPosition; j--) {
+                Collections.swap(data, j, j - 1);
+            }
+
+            notifyItemMoved(fromPosition, toPosition);
+        }
+    }
+
     private void removeItem(int position) {
         Task task = data.get(position);
         data.remove(position);
         notifyItemRemoved(position);
-        MainActivity.presenter.remove(task);
-        if (getItemCount() == 0) MainActivity.presenter.loadTasks();
+        callback.onDelete(task);
+        if (getItemCount() == 0)
+            callback.onShowEmpty();
+    }
+
+    public void addItem(Task task) {
+        data.add(task);
+        notifyItemInserted(getItemCount());
+    }
+
+    /***
+     * Обновление задачи в разработке
+     * @param task
+     */
+    public void updateItem(Task task) {
+        int pos = -1;
+        for (int i = 0; i < getItemCount(); i++) {
+            pos = i;
+            if (task.getId() == data.get(i).getId())
+                break;
+        }
+        if (task.isUpdate() && pos != -1) {
+            data.remove(pos);
+            data.add(pos, task);
+            notifyItemChanged(pos);
+            swapeItem(pos, 0);
+        }
+    }
+
+    private void moveItemInDB(int position) {
+        Task task = data.get(position);
+        data.remove(position);
+        notifyItemRemoved(position);
+        callback.onMove(task);
+        if (getItemCount() == 0)
+            callback.onShowEmpty();
     }
 
     private void restoreItem(Task item, int position) {
@@ -88,13 +156,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         notifyItemInserted(position);
     }
 
-
     class TaskHolder extends RecyclerView.ViewHolder {
         private final TextView title;
         private final TextView lastCheck;
         private final TextView options;
-        //        private Button deleteBtn;
-//        private ImageButton syncImgBtn;
         private final View itemView;
         private final CardView cardView;
         private final TextView textChapter;
@@ -130,13 +195,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.itemUpdate:
-                            MainActivity.presenter.loadUpdate(task, result -> {
+                            callback.onLoadUpdate(task, result -> {
                                 if (result == 1) {
                                     row_index = getAdapterPosition();
                                     notifyItemChanged(row_index);
                                 }
                             });
-                            break;
+                            return true;
                         case R.id.itemCopy:
                             ClipboardManager clipboard =
                                     (ClipboardManager) itemView.getContext().getSystemService(CLIPBOARD_SERVICE);
@@ -146,7 +211,32 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                             Toast.makeText(itemView.getContext(),
                                     itemView.getContext().getString(R.string.link_copied),
                                     Toast.LENGTH_SHORT).show();
-                            break;
+                            return true;
+                        case R.id.itemEdit:
+                            Context context = itemView.getContext();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            View view = LayoutInflater.from(context).inflate(R.layout.dialog_edit_task, null);
+                            TextInputEditText editTitle = view.findViewById(R.id.editName);
+                            editTitle.setText(task.getTitle());
+                            TextInputLayout inputEditTitle = view.findViewById(R.id.textInputLayoutEditName);
+                            inputEditTitle.setHelperText(context.getString(R.string.edit_not_empty));
+
+                            builder.setView(view)
+                                    .setCancelable(false)
+                                    .setPositiveButton(R.string.done, (dialog, id) -> {
+                                        String newTitle = editTitle.getText().toString().trim();
+                                        if (!newTitle.isEmpty()) {
+                                            task.setTitle(newTitle);
+                                            callback.onUpdateTask(task);
+                                            notifyItemChanged(getAdapterPosition());
+                                        }
+                                        dialog.dismiss();
+                                    })
+                                    .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                            builder.create();
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                            return true;
                     }
                     return false;
                 });
@@ -158,7 +248,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 lastCheck.setText(task.getSimpleDateFormat());
                 setTextChapter(task.getChapter());
                 task.setUpdate(false);
-                MainActivity.presenter.updateTask(task);
+                callback.onUpdateTask(task);
+
             }
         }
 
@@ -180,7 +271,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
                 itemView.getContext().startActivity(browserIntent);
                 return true;
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
             return false;
         }
@@ -192,20 +283,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         }
 
         private void setClickView(String link) {
-            // itemView.setOnClickListener(v -> goToView(link));
             title.setOnClickListener(v -> goToView(link));
             textChapter.setOnClickListener(v -> goToView(link));
         }
 
-        private void setLongClick(String link) {
-            itemView.setOnLongClickListener(v -> goToBrowser(link));
-            title.setOnLongClickListener(v -> goToBrowser(link));
-            textChapter.setOnLongClickListener(v -> goToBrowser(link));
-        }
-
         private void setSwipeLayoutLeft(String link) {
             swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
-            //   swipeLayout.addDrag(SwipeLayout.DragEdge.Left, itemView.findViewById(R.id.bottom_wrapper));
+            swipeLayout.addDrag(SwipeLayout.DragEdge.Left, itemView.findViewById(R.id.bottom_wrapper_deferred));
 
             swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
                 @Override
@@ -216,20 +300,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 @Override
                 public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
                     //you are swiping.
+                    if (leftOffset > 0 && layout.getOpenStatus() == SwipeLayout.Status.Open) {
+                        int position = getAdapterPosition();
+                        if (position != -1)
+                            moveItemInDB(getAdapterPosition());
+                    }
                 }
 
                 @Override
                 public void onStartOpen(SwipeLayout layout) {
-
                 }
 
                 @Override
                 public void onOpen(SwipeLayout layout) {
-                    //when the BottomView totally show.
                     layout.findViewById(R.id.swipeDelete).setOnClickListener(v -> {
                         Context context = itemView.getContext();
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        View view = LayoutInflater.from(context).inflate(R.layout.dialog_rating, null);
+                        View view = LayoutInflater.from(context).inflate(R.layout.dialog_conf_delete, null);
 
                         builder.setView(view)
                                 .setPositiveButton(R.string.done, (dialog, id) -> {
@@ -249,7 +336,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
                 @Override
                 public void onStartClose(SwipeLayout layout) {
-
                 }
 
                 @Override

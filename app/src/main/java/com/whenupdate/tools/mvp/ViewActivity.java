@@ -3,6 +3,7 @@ package com.whenupdate.tools.mvp;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -18,6 +19,9 @@ import android.widget.ProgressBar;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
+import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewFeature;
 
 import com.whenupdate.tools.R;
 
@@ -61,6 +65,21 @@ public class ViewActivity extends AppCompatActivity {
         SimpleWebViewClient webViewClient = new SimpleWebViewClient(this, progressBar);
         webView.setWebViewClient(webViewClient);
 
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String theme = prefs.getString("theme", "light");
+            if (theme.contains("dark")) {
+                WebSettingsCompat.setForceDark(webSettings, WebSettingsCompat.FORCE_DARK_ON);
+            } else {
+                WebSettingsCompat.setForceDark(webSettings, WebSettingsCompat.FORCE_DARK_OFF);
+            }
+
+            if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)) {
+                WebSettingsCompat.setForceDarkStrategy(webSettings,
+                        WebSettingsCompat.DARK_STRATEGY_WEB_THEME_DARKENING_ONLY);
+            }
+        }
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             link = extras.getString(LINK_KEY);
@@ -97,7 +116,6 @@ public class ViewActivity extends AppCompatActivity {
                     sendIntent.setType("text/plain");
                     startActivity(Intent.createChooser(sendIntent, getString(R.string.share_title)));
                 }
-
                 return true;
         }
         return false;
