@@ -62,13 +62,13 @@ public class SiteUpdate implements ISite {
             infoOfSite = new SoundCloudParsing();
         } else if (linkUsers.contains("seria")) {
             infoOfSite = new SerialMovieParsing();
-        } else if (linkUsers.contains("mangalib.me")) {
+        } else if (linkUsers.contains("mangalib.me/")) {
             infoOfSite = new MangalibParsing();
-        } else if (linkUsers.contains("ficbook.net")) {
+        } else if (linkUsers.contains("ficbook.net/")) {
             infoOfSite = new FicbookParsing();
         } else if (linkUsers.contains("mangahub")) {
             infoOfSite = new MangaHubParsing();
-        } else if (linkUsers.contains("//mangafox") || linkUsers.contains("//fanfox.net")) {
+        } else if (linkUsers.contains("mangafox") || linkUsers.contains("fanfox.net/")) {
             infoOfSite = new MangaFoxParsing();
         } else if (linkUsers.contains("mangareader")) {
             infoOfSite = new MangaReaderParsing();
@@ -90,7 +90,10 @@ public class SiteUpdate implements ISite {
      */
     @SuppressLint("CheckResult")
     public void findUpDate(ICompleteCallback iCompleteCallback) {
-        if (TAG_CLASS == null) return;
+        if (TAG_CLASS == null){
+            iCompleteCallback.onComplete(-2, null, null);
+            return;
+        }
         getDateFromSite()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
