@@ -59,7 +59,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     public TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView recyclerView = parent.findViewById(R.id.listView);
         recyclerView.setVisibility(View.VISIBLE);
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.table_row, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main_listview, parent, false);
         return new TaskHolder(view);
     }
 
@@ -104,7 +104,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             for (int j = fromPosition; j > toPosition; j--) {
                 Collections.swap(data, j, j - 1);
             }
-
             notifyItemMoved(fromPosition, toPosition);
         }
     }
@@ -140,6 +139,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             notifyItemChanged(pos);
             swapeItem(pos, 0);
         }
+
     }
 
     private void moveItemInDB(int position) {

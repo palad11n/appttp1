@@ -8,11 +8,11 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         />
 
-    <item
-        android:id="@+id/itemHelp"
-        android:icon="@drawable/ic_help_24px"
-        android:title="@string/helper_title"
-        app:showAsAction="never" />
+<!--    <item-->
+<!--        android:id="@+id/itemHelp"-->
+<!--        android:icon="@drawable/ic_help_24px"-->
+<!--        android:title="@string/helper_title"-->
+<!--        app:showAsAction="never" />-->
 
     <item
         android:id="@+id/itemPreferences"

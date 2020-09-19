@@ -58,6 +58,11 @@ public class SiteUpdate implements ISite {
             }
         }
 
+        if (site.contains("://m.fanfox.net/"))
+            TAG_CLASS = ".chlist a";
+        if (site.contains("://m.fanfiction.net/"))
+            TAG_CLASS = "#top";
+
         if (linkUsers.contains("soundcloud.com/")) {
             infoOfSite = new SoundCloudParsing();
         } else if (linkUsers.contains("seria")) {
@@ -90,7 +95,7 @@ public class SiteUpdate implements ISite {
      */
     @SuppressLint("CheckResult")
     public void findUpDate(ICompleteCallback iCompleteCallback) {
-        if (TAG_CLASS == null){
+        if (TAG_CLASS == null) {
             iCompleteCallback.onComplete(-2, null, null);
             return;
         }

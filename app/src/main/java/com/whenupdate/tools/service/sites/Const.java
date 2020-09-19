@@ -22,7 +22,7 @@ class Const {
         MAP_TAG_FOR_LINK.put("sovetromantica.com/", ".episodes-slick_item");
 
         MAP_TAG_FOR_LINK.put("mangareader.net", "table#listing tr");
-        MAP_TAG_FOR_LINK.put("//fanfox.net", ".detail-main-list-main");
+        MAP_TAG_FOR_LINK.put("fanfox.net", ".detail-main-list-main");
         MAP_TAG_FOR_LINK.put("//mangafox", ".detail-main-list-main");
         MAP_TAG_FOR_LINK.put("soundcloud.com/", "article.audible");
         MAP_TAG_FOR_LINK.put("fanfiction.net/", "span.xgray.xcontrast_txt");

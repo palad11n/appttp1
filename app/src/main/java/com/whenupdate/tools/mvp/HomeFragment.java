@@ -54,6 +54,8 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
     private ProgressDialog progressDialog;
     private View view;
 
+    private RecyclerView listView;
+
     private TaskAdapter.IAdapterCallback callback = new TaskAdapter.IAdapterCallback() {
         @Override
         public void onDelete(Task task) {
@@ -119,7 +121,7 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
 
         taskAdapter = new TaskAdapter();
 
-        final RecyclerView listView = view.findViewById(R.id.listView);
+        listView = view.findViewById(R.id.listView);
         listView.setHasFixedSize(true);
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         listView.setAdapter(taskAdapter);
@@ -145,6 +147,8 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
 
         initSwipeRefreshLayout();
     }
+
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -259,11 +263,13 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
     @Override
     public void addedTask(Task task) {
         taskAdapter.addItem(task);
+        listView.smoothScrollToPosition(taskAdapter.getItemCount() + 1);
     }
 
     @Override
     public void updatedTask(Task task) {
         taskAdapter.updateItem(task);
+        listView.smoothScrollToPosition(0);
     }
 
     @Override

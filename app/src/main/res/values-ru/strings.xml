@@ -49,7 +49,7 @@
     <string name="cache_cleaned">Кеш очищен</string>
     <string name="share_title">Поделиться</string>
     <string name="or">или</string>
-    <string name="help_click">Нажмите на заголовок, чтобы открыть страницу в приложении!</string>
+    <string name="help_click">Нажмите на заголовок, чтобы открыть страницу в приложении.</string>
     <string name="to_move">Переместить</string>
     <string name="move_text1">Перемещайте сюда то,</string>
     <string name="move_text2">что желаете посмотреть позже !</string>
@@ -62,4 +62,12 @@
     <string name="more_setting">Ещё</string>
     <string name="rate_app_summary">Оцените WhenUPDATE, чтобы сделать нас лучше</string>
     <string name="license_title">Лицензии на ПО с открытым кодом</string>
+    <string name="question_about_view">Как войти в режим просмотра?</string>
+    <string name="answer_about_date_chapter">Попробуйте убрать \'m.\' в начале адреса вашего сайта. Возможно, что ошибка связана с тем, что мобильная версия сайта хостуется на другом адресе с другой разметкой. Если ошибка осталась, напишите мне.</string>
+    <string name="question_about_date_chapter">Почему мой сайт есть в списке, но дата и последняя часть не отобразились?</string>
+    <string name="faq_title">ЧаВо</string>
+    <string name="question_about_support_sites">Какие сайты поддерживаются приложением?</string>
+    <string name="answer_about_support_sites">Приложением поддерживаются следующие сайты: mintmanga.live, readmanga.live, findanime.net, mangalib.me, mangahub.ru, hdseria.tv, ficbook.net, mangareader.net, fanfox.net, soundcloud.com,  fanfiction.net, archiveofourown.org.</string>
+    <string name="question_about_tab_bookmark">Почему нельзя обновить список во вкладке \'Bookmarks\'?</string>
+    <string name="anwer_about_tab_bookmarks">Во вкладку \'Bookmarks\' вы можете отложить обновленную закладку, чтобы вспомнить и посмотреть обновление позже.</string>
 </resources>

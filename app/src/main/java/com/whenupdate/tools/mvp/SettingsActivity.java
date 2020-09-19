@@ -14,6 +14,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.whenupdate.tools.BuildConfig;
 import com.whenupdate.tools.R;
+import com.whenupdate.tools.common.HelpActivity;
 import com.whenupdate.tools.common.LicenseActivity;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -111,10 +112,19 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 });
             }
+
             Preference licenses = findPreference("open_source_license");
             if (licenses != null) {
                 licenses.setOnPreferenceClickListener(preference -> {
                     startActivity(new Intent(getActivity(), LicenseActivity.class));
+                    return true;
+                });
+            }
+
+            Preference faq = findPreference("faq_app");
+            if (faq != null) {
+                faq.setOnPreferenceClickListener(preference -> {
+                    startActivity(new Intent(getActivity(), HelpActivity.class));
                     return true;
                 });
             }

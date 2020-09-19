@@ -19,22 +19,30 @@
 
     <PreferenceCategory app:title="@string/more_setting">
         <PreferenceScreen
+            app:title="@string/rate_the_app"
+            app:key="rate_app"
+            >
+        </PreferenceScreen>
+
+        <PreferenceScreen
             app:title="@string/share_title"
             app:key="share_app"
             app:summary="@string/share_app_summary"
             >
         </PreferenceScreen>
+
         <PreferenceScreen
-            app:title="@string/rate_the_app"
-            app:key="rate_app"
-            app:summary="@string/rate_app_summary"
+            app:title="@string/faq_title"
+            app:key="faq_app"
             >
         </PreferenceScreen>
+
         <PreferenceScreen
             app:title="@string/license_title"
             app:key="open_source_license"
             >
         </PreferenceScreen>
+
         <PreferenceScreen
             app:title="@string/version_title"
             app:key="version"

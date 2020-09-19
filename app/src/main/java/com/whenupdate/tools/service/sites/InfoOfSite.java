@@ -54,7 +54,7 @@ public abstract class InfoOfSite {
     private Date convertToDate(String date) throws ParseException {
         if (date.equals("")) return null;
         if (isOnlyDigits(date)) {
-            java.util.Calendar cal =  java.util.Calendar.getInstance();
+            java.util.Calendar cal = java.util.Calendar.getInstance();
             cal.setTimeInMillis(Long.parseLong(date) * 1000L);
             cal.set(Calendar.HOUR_OF_DAY, 0);
             cal.set(Calendar.MINUTE, 0);

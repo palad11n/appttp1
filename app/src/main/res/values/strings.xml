@@ -69,7 +69,7 @@
     <string name="cache_cleaned">Cache cleaned</string>
     <string name="share_title">Share</string>
     <string name="or">or</string>
-    <string name="help_click">Click to title to open page!</string>
+    <string name="help_click">Click on the title to open the page in the app.</string>
     <string name="to_move">To move</string>
     <string name="move_text1">Move here what</string>
     <string name="move_text2">you want to watch later !</string>
@@ -79,5 +79,13 @@
     <string name="more_setting">More</string>
     <string name="rate_app_summary">Rate WhenUPDATE to make us better</string>
     <string name="license_title">Open Source Licenses</string>
+    <string name="question_about_view">How to enter view mode?</string>
+    <string name="question_about_date_chapter">Why is my site listed, but the date and last chapter are not displayed?</string>
+    <string name="answer_about_date_chapter">Try removing the \'m.\' at the beginning of your site address. It is possible that the error is due to the fact that the mobile version of the site is hosted at a different address with a different markup. If the error persists, email me.</string>
+    <string name="faq_title">F.A.Q.</string>
+    <string name="question_about_support_sites">What sites are supported by the application?</string>
+    <string name="answer_about_support_sites">The application supports the following sites: mintmanga.live, readmanga.live, findanime.net, mangalib.me, mangahub.ru, hdseria.tv, ficbook.net, mangareader.net, fanfox.net, soundcloud.com, fanfiction.net, archiveofourown.org.</string>
+    <string name="question_about_tab_bookmark">Why can\'t I update the list in the \'Bookmarks\' tab?</string>
+    <string name="anwer_about_tab_bookmarks">In the \'Bookmarks\' tab, you can postpone the updated bookmark to remember and watch the update later.</string>
 
 </resources>

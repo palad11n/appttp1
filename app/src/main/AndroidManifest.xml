@@ -26,6 +26,11 @@
             android:configChanges="locale"/>
 
         <activity
+            android:name=".common.HelpActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="locale"/>
+
+        <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
         <activity

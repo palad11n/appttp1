@@ -34,77 +34,103 @@
                 android:layout_height="wrap_content"
                 android:text="@string/supported_sites" />
 
-            <TextView
-                style="@style/StyleAbout.ListSite"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="✧ FindAnime.net" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <TextView
-                style="@style/StyleAbout.ListSite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="✧ ReadManga.live" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-            <TextView
-                style="@style/StyleAbout.ListSite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="✧ MintManga.live" />
+                    <TextView
+                        style="@style/StyleAbout.ListSite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✧ ReadManga" />
 
-            <TextView
-                style="@style/StyleAbout.ListSite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="✧ MangaLib.me" />
+                    <TextView
+                        style="@style/StyleAbout.ListSite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✧ MintManga" />
 
-            <TextView
-                style="@style/StyleAbout.ListSite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="✧ HDSeria.tv" />
+                    <TextView
+                        style="@style/StyleAbout.ListSite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✧ MangaLib.me" />
 
-            <TextView
-                style="@style/StyleAbout.ListSite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="✧ SoundCloud.com" />
+                    <TextView
+                        style="@style/StyleAbout.ListSite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✧ MangaHub.ru" />
 
-            <TextView
-                style="@style/StyleAbout.ListSite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="✧ MangaReader.net" />
+                    <TextView
+                        style="@style/StyleAbout.ListSite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✧ FindAnime.net" />
 
-            <TextView
-                style="@style/StyleAbout.ListSite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="✧ Ficbook.net" />
+                    <TextView
+                        style="@style/StyleAbout.ListSite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✧ HDSeria" />
 
-            <TextView
-                style="@style/StyleAbout.ListSite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="✧ MangaFox" />
+                    <TextView
+                        style="@style/StyleAbout.ListSite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✧ ficbook.net" />
 
-            <TextView
-                style="@style/StyleAbout.ListSite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="✧ MangaHub.ru" />
+                </LinearLayout>
 
-            <TextView
-                style="@style/StyleAbout.ListSite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="✧ FanFiction.net" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-            <TextView
-                style="@style/StyleAbout.ListSite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="✧ ArchiveOfOurOwn" />
+                    <TextView
+                        style="@style/StyleAbout.ListSite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✧ mangareader.net" />
+
+
+                    <TextView
+                        style="@style/StyleAbout.ListSite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✧ mangafox (fanfox.net)" />
+
+
+                    <TextView
+                        style="@style/StyleAbout.ListSite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✧ FanFiction" />
+
+                    <TextView
+                        style="@style/StyleAbout.ListSite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✧ Archive Of Our Own" />
+
+                    <TextView
+                        style="@style/StyleAbout.ListSite"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✧ SoundCloud" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"

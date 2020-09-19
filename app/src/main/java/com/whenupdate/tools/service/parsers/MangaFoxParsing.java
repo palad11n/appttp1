@@ -7,12 +7,23 @@ import org.jsoup.select.Elements;
 public class MangaFoxParsing extends InfoOfSite {
     @Override
     public String getLastDate(Elements rows) {
-        return findElement(rows.select("p.title2"));
+        String result = findElement(rows.select("p.title2"));
+        if (result.isEmpty())
+            result = findElement(rows.select(":not(a)"));
+        return result;
     }
 
     @Override
     public String getLastChapter(Elements rows) {
-        return findElement(rows.select("p.title3"));
+        String result = findElement(rows.select("p.title3"));
+        if (result.isEmpty()) {
+            String tempChDate = findElement(rows).trim();
+            int firstSpace = tempChDate.indexOf(' ') + 1;
+            int twoSpace = tempChDate.indexOf(' ', firstSpace);
+            result = tempChDate.substring(0, twoSpace);
+        }
+
+        return result;
     }
 
     private String findElement(Elements rows) {

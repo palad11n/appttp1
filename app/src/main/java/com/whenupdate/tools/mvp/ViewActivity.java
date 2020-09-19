@@ -69,6 +69,7 @@ public class ViewActivity extends AppCompatActivity {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             String theme = prefs.getString("theme", "light");
             if (theme.contains("dark")) {
+                webView.setBackgroundColor(getResources().getColor(R.color.background_dark));
                 WebSettingsCompat.setForceDark(webSettings, WebSettingsCompat.FORCE_DARK_ON);
             } else {
                 WebSettingsCompat.setForceDark(webSettings, WebSettingsCompat.FORCE_DARK_OFF);

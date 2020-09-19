@@ -112,9 +112,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.itemAbout:
                 showDialogPref(R.layout.dialog_about);
                 return true;
-            case R.id.itemHelp:
-                showDialogPref(R.layout.dialog_help);
-                return true;
+//            case R.id.itemHelp:
+//                showDialogPref(R.layout.dialog_help);
+//                return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -4,8 +4,9 @@
         <item name="colorPrimary">@color/colorMy</item>
         <item name="colorPrimaryDark">@color/colorMyDark</item>
         <item name="colorAccent">@color/colorMy</item>
-        <item name="colorSurface">@color/cardview_light_background</item>
     </style>
+
+<!--    <item name="colorSurface">@color/cardview_light_background</item>-->
 
     <style name="DarkStyle" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
         <item name="colorPrimary">@color/colorMyDark</item>
@@ -52,7 +53,7 @@
     <style name="StyleAbout.ListSite">
         <item name="android:layout_marginTop">5dp</item>
         <item name="android:textIsSelectable">true</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="StyleAbout.Footer">
