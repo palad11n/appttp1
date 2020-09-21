@@ -67,7 +67,7 @@
     <string name="question_about_date_chapter">Почему мой сайт есть в списке, но дата и последняя часть не отобразились?</string>
     <string name="faq_title">ЧаВо</string>
     <string name="question_about_support_sites">Какие сайты поддерживаются приложением?</string>
-    <string name="answer_about_support_sites">Приложением поддерживаются следующие сайты: mintmanga.live, readmanga.live, findanime.net, mangalib.me, mangahub.ru, hdseria.tv, ficbook.net, mangareader.net, fanfox.net, soundcloud.com,  fanfiction.net, archiveofourown.org.</string>
+    <string name="answer_about_support_sites">Приложением поддерживаются следующие сайты: mintmanga.live, readmanga.live, findanime.net, mangalib.me, mangahub.ru, hdseria.tv, sovetromantica.com, ficbook.net, mangareader.net, fanfox.net, soundcloud.com,  fanfiction.net, archiveofourown.org.</string>
     <string name="question_about_tab_bookmark">Почему нельзя обновить список во вкладке \'Bookmarks\'?</string>
     <string name="anwer_about_tab_bookmarks">Во вкладку \'Bookmarks\' вы можете отложить обновленную закладку, чтобы вспомнить и посмотреть обновление позже.</string>
 </resources>

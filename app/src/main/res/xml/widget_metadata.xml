@@ -2,7 +2,7 @@
     android:initialKeyguardLayout="@layout/info_widget"
     android:initialLayout="@layout/info_widget"
     android:minHeight="30dp"
-    android:minWidth="110dp"
+    android:minWidth="130dp"
     android:resizeMode="none"
     android:updatePeriodMillis="0"
     >

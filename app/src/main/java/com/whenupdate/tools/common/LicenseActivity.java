@@ -42,6 +42,11 @@ public class LicenseActivity extends AppCompatActivity {
         LICENSES.add(new License("Preference", "https://developer.android.com/jetpack/androidx/releases/preference"));
         LICENSES.add(new License("Appcompat", "https://developer.android.com/jetpack/androidx/releases/appcompat"));
         LICENSES.add(new License("material-design-icons", "https://github.com/google/material-design-icons/blob/master/LICENSE"));
+        LICENSES.add(new License("Android Support RecyclerView v7", "https://developer.android.com/topic/libraries/support-library"));
+        LICENSES.add(new License("Android Support CardView v7", "https://developer.android.com/topic/libraries/support-library"));
+        LICENSES.add(new License("AndroidX Preference", "https://developer.android.com/jetpack/androidx/releases/preference"));
+        LICENSES.add(new License("Android Multidex Support Library", "https://developer.android.com/topic/libraries/support-library"));
+
     }
 
     @Override

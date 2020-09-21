@@ -52,7 +52,7 @@ class Const {
         MONTHS.put("jun", 6);
         MONTHS.put("jul", 7);
         MONTHS.put("aug", 8);
-        MONTHS.put("sept", 9);
+        MONTHS.put("sep", 9);
         MONTHS.put("oct", 10);
         MONTHS.put("nov", 11);
         MONTHS.put("dec", 12);
