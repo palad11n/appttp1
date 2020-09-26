@@ -81,11 +81,13 @@
     <string name="license_title">Open Source Licenses</string>
     <string name="question_about_view">How to enter view mode?</string>
     <string name="question_about_date_chapter">Why is my site listed, but the date and last chapter are not displayed?</string>
-    <string name="answer_about_date_chapter">Try removing the \'m.\' at the beginning of your site address. It is possible that the error is due to the fact that the mobile version of the site is hosted at a different address with a different markup. If the error persists, email me.</string>
+    <string name="answer_about_date_chapter">Try adding or removing \'m.\' at the beginning of your site URL. It is possible that the error is due to the fact that the mobile version of the site is hosted with a different markup. If the error persists, email me.</string>
     <string name="faq_title">F.A.Q.</string>
     <string name="question_about_support_sites">What sites are supported by the application?</string>
     <string name="answer_about_support_sites">The application supports the following sites: mintmanga.live, readmanga.live, findanime.net, mangalib.me, mangahub.ru, hdseria.tv, sovetromantica.com, ficbook.net, mangareader.net, fanfox.net, soundcloud.com, fanfiction.net, archiveofourown.org.</string>
     <string name="question_about_tab_bookmark">Why can\'t I update the list in the \'Bookmarks\' tab?</string>
     <string name="anwer_about_tab_bookmarks">In the \'Bookmarks\' tab, you can postpone the updated bookmark to remember and watch the update later.</string>
+    <string name="question_about_move_bookmark">How do I move a bookmark to another tab?</string>
+    <string name="answer_about_move_bookmark">To move a bookmark to another tab, drag it to the right.</string>
 
 </resources>

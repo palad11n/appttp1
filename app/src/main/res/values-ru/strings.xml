@@ -63,11 +63,13 @@
     <string name="rate_app_summary">Оцените WhenUPDATE, чтобы сделать нас лучше</string>
     <string name="license_title">Лицензии на ПО с открытым кодом</string>
     <string name="question_about_view">Как войти в режим просмотра?</string>
-    <string name="answer_about_date_chapter">Попробуйте убрать \'m.\' в начале адреса вашего сайта. Возможно, что ошибка связана с тем, что мобильная версия сайта хостуется на другом адресе с другой разметкой. Если ошибка осталась, напишите мне.</string>
+    <string name="answer_about_date_chapter">Попробуйте добавить или удалить \'m.\' в начале адреса вашего сайта. Возможно, что ошибка связана с тем, что мобильная версия сайта хостуется с другой разметкой. Если ошибка осталась, напишите мне.</string>
     <string name="question_about_date_chapter">Почему мой сайт есть в списке, но дата и последняя часть не отобразились?</string>
-    <string name="faq_title">ЧаВо</string>
+    <string name="faq_title">F.A.Q.</string>
     <string name="question_about_support_sites">Какие сайты поддерживаются приложением?</string>
     <string name="answer_about_support_sites">Приложением поддерживаются следующие сайты: mintmanga.live, readmanga.live, findanime.net, mangalib.me, mangahub.ru, hdseria.tv, sovetromantica.com, ficbook.net, mangareader.net, fanfox.net, soundcloud.com,  fanfiction.net, archiveofourown.org.</string>
     <string name="question_about_tab_bookmark">Почему нельзя обновить список во вкладке \'Bookmarks\'?</string>
     <string name="anwer_about_tab_bookmarks">Во вкладку \'Bookmarks\' вы можете отложить обновленную закладку, чтобы вспомнить и посмотреть обновление позже.</string>
+    <string name="answer_about_move_bookmark">Чтобы переместить закладку на другую вкладку, потяните ее вправо.</string>
+    <string name="question_about_move_bookmark">Как переместить закладку в другую вкладку?</string>
 </resources>

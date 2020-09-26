@@ -8,9 +8,14 @@ import org.jsoup.select.Elements;
 public class SoundCloudParsing extends InfoOfSite {
     @Override
     public String getLastDate(Elements rows) {
-        Element elementDate = rows.select("time").first();
+        try {
+            Element elementDate = rows.select("time").first();
+            return elementDate.text();
 
-        return elementDate.text();
+        } catch (Exception e) {
+        }
+        return "";
+
     }
 
     @Override

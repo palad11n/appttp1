@@ -28,7 +28,7 @@ import com.whenupdate.tools.service.parsers.SovetromanticaParsing;
 
 public class SiteUpdate implements ISite {
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0";
-    private static final String REFERRER = "https://www.google.com";
+    private static final String REFERRER = "https://www.google.com/";
     private final String linkUsers;
     private final Date lastDate;
     private final String lastChapter;
@@ -120,14 +120,28 @@ public class SiteUpdate implements ISite {
             String[] row = new String[2];
             row[0] = "";
             row[1] = "";
+            String cookie = "";
+            String value = "";
+            if (linkUsers.contains("fanfox") || linkUsers.contains("mangafox")) {
+                cookie = "isAdult";
+                value = "1";
+            }
             try {
-                doc = Jsoup.connect(linkUsers)
+                if (cookie.isEmpty())
+                    doc = Jsoup.connect(linkUsers)
+                            .userAgent(USER_AGENT)
+                            .referrer(REFERRER)
+                            .maxBodySize(0)
+                            .timeout(10000)
+                            .get();
+                else doc = Jsoup.connect(linkUsers)
                         .userAgent(USER_AGENT)
                         .referrer(REFERRER)
+                        .cookie(cookie, value)
                         .maxBodySize(0)
                         .timeout(10000)
                         .get();
-                Elements rows = doc.select(TAG_CLASS);
+                Elements rows = doc.body().select(TAG_CLASS);
                 row[0] = infoOfSite.getLastDate(rows);
                 row[1] = infoOfSite.getLastChapter(rows);
                 return row;

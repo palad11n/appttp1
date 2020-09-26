@@ -39,7 +39,6 @@ public class LicenseActivity extends AppCompatActivity {
         LICENSES.add(new License("Mobile Ads SDK (Android)", "https://developers.google.com/admob/android/quick-start"));
         LICENSES.add(new License("firebase-core", "https://firebase.google.com/docs/android/setup#available-libraries"));
         LICENSES.add(new License("firebase-analytics", "https://firebase.google.com/docs/analytics/get-started?platform=android"));
-        LICENSES.add(new License("Preference", "https://developer.android.com/jetpack/androidx/releases/preference"));
         LICENSES.add(new License("Appcompat", "https://developer.android.com/jetpack/androidx/releases/appcompat"));
         LICENSES.add(new License("material-design-icons", "https://github.com/google/material-design-icons/blob/master/LICENSE"));
         LICENSES.add(new License("Android Support RecyclerView v7", "https://developer.android.com/topic/libraries/support-library"));

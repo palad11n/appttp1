@@ -286,6 +286,8 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
     }
 
     private Task getTaskFromDialog() {
+        Toast.makeText(getContext(), "In the process of parsing the page. You can continue to work", Toast.LENGTH_SHORT)
+                .show();
         Task newTask = new Task();
         newTask.setLink(inputTextLink.getEditText().getText().toString().trim());
         newTask.setTitle(inputTextTitle.getEditText().getText().toString().trim());

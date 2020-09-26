@@ -199,6 +199,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                                 if (result == 1) {
                                     row_index = getAdapterPosition();
                                     notifyItemChanged(row_index);
+                                    swapeItem(row_index, 0);
                                 }
                             });
                             return true;
