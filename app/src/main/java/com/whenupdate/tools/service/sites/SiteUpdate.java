@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.Date;
@@ -37,7 +38,7 @@ public class SiteUpdate implements ISite {
     private static final Map<String, String> map = Const.MAP_TAG_FOR_LINK;
 
     public interface ICompleteCallback {
-        void onComplete(int result, Date newDate, String chapter);
+        void onComplete(int result, Date newDate, String chapter, String hrefIcon);
     }
 
     public interface ICompleteCallbackTitle {
@@ -96,7 +97,7 @@ public class SiteUpdate implements ISite {
     @SuppressLint("CheckResult")
     public void findUpDate(ICompleteCallback iCompleteCallback) {
         if (TAG_CLASS == null) {
-            iCompleteCallback.onComplete(-2, null, null);
+            iCompleteCallback.onComplete(-2, null, null, null);
             return;
         }
         getDateFromSite()
@@ -108,7 +109,8 @@ public class SiteUpdate implements ISite {
                             infoOfSite.setTitle(info[1], "");
                             Date reqDate = infoOfSite.getDate();
                             String chapter = infoOfSite.getTitle();
-                            iCompleteCallback.onComplete(isUpdate(reqDate, chapter), reqDate, chapter);
+                            String icon = info[2];
+                            iCompleteCallback.onComplete(isUpdate(reqDate, chapter), reqDate, chapter, icon);
                         },
                         error -> Log.e("@@@", error.getMessage())
                 );
@@ -117,9 +119,10 @@ public class SiteUpdate implements ISite {
     private Observable<String[]> getDateFromSite() {
         return Observable.fromCallable(() -> {
             Document doc;
-            String[] row = new String[2];
+            String[] row = new String[3];
             row[0] = "";
             row[1] = "";
+            row[2] = "";
             String cookie = "";
             String value = "";
             if (linkUsers.contains("fanfox") || linkUsers.contains("mangafox")) {
@@ -131,22 +134,45 @@ public class SiteUpdate implements ISite {
                     doc = Jsoup.connect(linkUsers)
                             .userAgent(USER_AGENT)
                             .referrer(REFERRER)
+                            .timeout(185000)
                             .maxBodySize(0)
-                            .timeout(10000)
                             .get();
                 else doc = Jsoup.connect(linkUsers)
                         .userAgent(USER_AGENT)
                         .referrer(REFERRER)
-                        .cookie(cookie, value)
+                        .timeout(185000)
                         .maxBodySize(0)
-                        .timeout(10000)
+                        .cookie(cookie, value)
                         .get();
+
                 Elements rows = doc.body().select(TAG_CLASS);
                 row[0] = infoOfSite.getLastDate(rows);
                 row[1] = infoOfSite.getLastChapter(rows);
+                String hrefIcon = "";
+                try {
+                    Element icon = doc.head().select("link[rel=apple-touch-icon]").first();
+                    hrefIcon = icon.attr("href");
+
+                } catch (Exception exp) {
+                    Element icon = doc.head().select("link[rel=shortcut icon]").first();
+                    hrefIcon = icon.attr("href");
+                }
+                row[2] = hrefIcon;
+                if (hrefIcon.startsWith("/")) {
+                    if (hrefIcon.contains("//")) {
+                        row[2] = "https:" + hrefIcon;
+                    } else {
+                        int indexProtocol = ((linkUsers.contains("https")) ? 8 : 7);
+                        int index = linkUsers.indexOf('/', indexProtocol);
+                        String serverFull = linkUsers.substring(0, (index == -1) ? linkUsers.length() : index);
+                        row[2] = serverFull + hrefIcon;
+                    }
+                }
+
                 return row;
             } catch (Exception e) {
             }
+
             return row;
         });
     }
@@ -180,15 +206,13 @@ public class SiteUpdate implements ISite {
     @SuppressLint("CheckResult")
     @Override
     public void getTitleSite(ICompleteCallbackTitle iCompleteCallback) {
-        //WebDriver driver =new FirefoxDriver();
-        //Builder request = new Request.Builder().url(url);
         Observable.fromCallable(() -> {
             final Document doc;
             try {
                 doc = Jsoup.connect(linkUsers)
                         .userAgent(USER_AGENT)
                         .referrer(REFERRER)
-                        .timeout(10000)
+                        .timeout(65000)
                         .ignoreHttpErrors(true)
                         .get();
                 String title = doc.title();
@@ -225,7 +249,7 @@ public class SiteUpdate implements ISite {
                             Date reqDate = infoOfSite.getDate();
                             infoOfSite.setTitle(info[1], "");
                             String chapter = infoOfSite.getTitle();
-                            iCompleteCallback.onComplete(isUpdate(reqDate, chapter), reqDate, chapter);
+                            iCompleteCallback.onComplete(isUpdate(reqDate, chapter), reqDate, chapter, info[2]);
                         },
                         error -> Log.e("@@@", error.getMessage())
                 );

@@ -12,9 +12,18 @@ public class Task {
     private String link;
     private String title;
     private String chapter;
+    private String icon;
     @NonNull
     private Date date = new Date();
     private boolean isUpdate = false;
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public long getId() {
         return id;

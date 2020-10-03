@@ -32,7 +32,8 @@ public class InfoOfSiteTest {
 
     @Test
     public void setTitle() {
-
+        //https://www.mangareader.net/haikyuu-bu
+        //http://m.fanfox.net/manga/how_to_fight
         String testTitle = "Title of user";
         String testLink = "https://127.0.0.1/";
 

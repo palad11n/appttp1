@@ -1,7 +1,9 @@
 package com.whenupdate.tools.common;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -16,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.mvp.MainActivity;
@@ -136,6 +139,15 @@ public class HelpActivity extends AppCompatActivity {
                     answerLayout.setVisibility(View.GONE);
                 }
             });
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            String theme = prefs.getString("theme", "light");
+            if (theme.contains("dark")) {
+                answer.setTextColor(Color.WHITE);
+            } else {
+                answer.setTextColor(Color.BLACK);
+            }
+
             return convertView;
         }
     }

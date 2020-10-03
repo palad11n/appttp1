@@ -6,9 +6,11 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -21,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.daimajia.swipe.SwipeLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.mvp.TasksPresenter;
 import com.whenupdate.tools.mvp.ViewActivity;
@@ -164,6 +168,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         private final CardView cardView;
         private final TextView textChapter;
         private final LinearLayout layoutChapter;
+        private final ImageView imageView;
         SwipeLayout swipeLayout;
 
         TaskHolder(View itemView) {
@@ -177,7 +182,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             layoutChapter = itemView.findViewById(R.id.linearLayoutChapter);
             row_index = -1;
             swipeLayout = itemView.findViewById(R.id.simp);
-
+            imageView = itemView.findViewById(R.id.picasso_img);
         }
 
         void bind(final Task task) {
@@ -188,6 +193,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             setClickView(task.getLink());
             setSwipeLayoutLeft(task.getLink());
             //setLongClick(task.getLink());
+            String hrefIcon = task.getIcon();
+            if (hrefIcon != null && !hrefIcon.isEmpty())
+                Picasso.with(itemView.getContext())
+                        .load(task.getIcon())
+                        .placeholder(R.drawable.ic_img_placeholder)
+                        .error(R.drawable.ic_info_outline_setting)
+                        .into(imageView);
 
             options.setOnClickListener(v -> {
                 PopupMenu popup = new PopupMenu(itemView.getContext(), options);

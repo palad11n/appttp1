@@ -224,7 +224,7 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
                     if (validateLink(s.toString())) {
                         inputTextLink.setError("");
                     } else {
-                        inputTextLink.setError("https://link.on/creation/");
+                        inputTextLink.setError("https://path/to/manga_or_other/");
                     }
                 }
             });
@@ -232,7 +232,7 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
 
     private boolean validateLink(String textLink) {
         textLink = textLink.trim();
-        return (!textLink.isEmpty() && textLink.startsWith("http")
+        return (!textLink.isEmpty() && textLink.startsWith("https")
                 && Patterns.WEB_URL.matcher(textLink).matches());
     }
 
@@ -286,7 +286,7 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
     }
 
     private Task getTaskFromDialog() {
-        Toast.makeText(getContext(), "In the process of parsing the page. You can continue to work", Toast.LENGTH_SHORT)
+        Toast.makeText(getContext(), R.string.in_process_notify, Toast.LENGTH_SHORT)
                 .show();
         Task newTask = new Task();
         newTask.setLink(inputTextLink.getEditText().getText().toString().trim());

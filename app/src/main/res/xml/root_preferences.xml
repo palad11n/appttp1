@@ -1,53 +1,48 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory
-        app:title="@string/appearance_header">
+    <PreferenceCategory app:title="@string/setting_app">
         <ListPreference
             app:defaultValue="light"
             app:entries="@array/theme_entries"
             app:entryValues="@array/theme_values"
             app:key="theme"
+            app:summary="@string/theme_summary"
             app:title="@string/theme_title"
             app:useSimpleSummaryProvider="true"
-            app:summary="@string/theme_summary"/>
+            app:icon="@drawable/ic_palette_setting" />
+
+        <Preference
+            app:key="btnCleanCache"
+            app:title="@string/clean_cache_btn"
+            app:icon="@drawable/ic_loop_up"/>
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/other_settings">
-        <Preference
-            app:title="@string/clean_cache_btn"
-            app:key="btnCleanCache"/>
+    <PreferenceCategory app:title="@string/info_title">
+        <PreferenceScreen
+            app:key="faq_app"
+            app:title="@string/faq_title"
+            app:icon="@drawable/ic_help_24px"></PreferenceScreen>
+
+        <PreferenceScreen
+            app:key="open_source_license"
+            app:title="@string/license_title"
+            app:icon="@drawable/ic_public_setting"></PreferenceScreen>
+        <PreferenceScreen
+            app:key="version"
+            app:summary="1.0"
+            app:title="@string/version_title"
+            app:icon="@drawable/ic_info_outline_setting"></PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/more_setting">
         <PreferenceScreen
-            app:title="@string/rate_the_app"
             app:key="rate_app"
-            >
-        </PreferenceScreen>
+            app:title="@string/rate_the_app"
+            app:icon="@drawable/ic_star_border"></PreferenceScreen>
 
         <PreferenceScreen
-            app:title="@string/share_title"
             app:key="share_app"
-            app:summary="@string/share_app_summary"
-            >
-        </PreferenceScreen>
+            app:title="@string/share_title"
+            app:icon="@drawable/ic_share_setting"></PreferenceScreen>
 
-        <PreferenceScreen
-            app:title="@string/faq_title"
-            app:key="faq_app"
-            >
-        </PreferenceScreen>
-
-        <PreferenceScreen
-            app:title="@string/license_title"
-            app:key="open_source_license"
-            >
-        </PreferenceScreen>
-
-        <PreferenceScreen
-            app:title="@string/version_title"
-            app:key="version"
-            app:summary="1.0"
-            >
-        </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>

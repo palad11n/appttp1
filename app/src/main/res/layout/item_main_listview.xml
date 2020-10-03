@@ -11,8 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/swipeDelete"
@@ -42,8 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:weightSum="2">
+        android:orientation="vertical">
         <LinearLayout
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
@@ -65,13 +63,10 @@
     </LinearLayout>
     <!-- Bottom View End-->
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:id="@+id/relativeLayout_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
         android:orientation="vertical">
 
         <com.google.android.material.card.MaterialCardView
@@ -79,24 +74,29 @@
             style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="4dp">
+            android:layout_margin="4dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp">
 
+                <ImageView
+                    android:id="@+id/picasso_img"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    app:srcCompat="@drawable/ic_img_placeholder"
+                    android:layout_alignParentTop="true"
+                   />
+
                 <LinearLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="5dp"
-                    android:layout_toLeftOf="@id/textViewOptions">
+                    android:layout_toLeftOf="@id/textViewOptions"
+                    android:layout_toRightOf="@id/picasso_img">
 
                     <HorizontalScrollView
                         android:layout_width="wrap_content"
@@ -133,7 +133,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/linearLayout"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="5dp"
+                    android:layout_toRightOf="@id/picasso_img">
 
                     <TextView
                         android:id="@+id/nameVolCh"
@@ -141,9 +142,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_start"
-                        android:padding="@dimen/field_task_padding"
+                        android:paddingBottom="@dimen/field_task_padding"
+                        android:paddingLeft="@dimen/field_task_padding"
+                        android:paddingRight="@dimen/field_task_padding"
                         android:text="Volume 2 Ch 15" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -151,7 +153,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/linearLayoutChapter"
-                    android:layout_marginStart="5dp">
+                    android:layout_marginStart="5dp"
+                    android:layout_toRightOf="@id/picasso_img">
 
                     <TextView
                         android:id="@+id/lastCheck"
@@ -160,20 +163,12 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:padding="5dip"
+                        android:paddingBottom="@dimen/field_task_padding"
+                        android:paddingLeft="@dimen/field_task_padding"
                         android:singleLine="true"
                         android:text="dd.MM.yyyy" />
-
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/linearLayout4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linearLayoutChapter"
-                    android:layout_marginStart="5dp"
-                    android:orientation="horizontal"
-                    android:paddingBottom="10dp"></LinearLayout>
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

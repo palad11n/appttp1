@@ -58,14 +58,15 @@ public class TasksPresenter {
                 } else task.setTitle(task.getLink());
             }
             if (checkConnecting())
-                update.findDate((result, newDate, chapter) -> {
+                update.findDate((result, newDate, chapter, hrefIcon) -> {
                     if (newDate != null)
                         task.setDate(newDate);
                     task.setChapter(chapter);
+                    task.setIcon(hrefIcon);
                     long start = System.currentTimeMillis();
                     long timeConsumedMillis = 0;
-                    // 15 секунд
-                    while (task.getTitle().equals("") && timeConsumedMillis < 15000) {
+                    // 35 секунд
+                    while (task.getTitle().equals("") && timeConsumedMillis < 35000) {
                         timeConsumedMillis = System.currentTimeMillis() - start;
                     }
                     if (!task.getTitle().equals(""))
@@ -137,12 +138,13 @@ public class TasksPresenter {
 
     private void loadingUpdate(Task task, IUpdateCallback callback, ICompleteCallback callbackPrivate) {
         ISite scu = new SiteUpdate(task.getLink(), task.getDate(), task.getChapter());
-        scu.findUpDate((result, newDate, chapter) -> {
+        scu.findUpDate((result, newDate, chapter, hrefIcon) -> {
             switch (result) {
                 case 1:
                     if (newDate != null)
                         task.setDate(newDate);
                     task.setChapter(chapter);
+                    task.setIcon(hrefIcon);
                     task.setUpdate(true);
                     updateTask(task);
                     model.startNotifyService();
@@ -152,6 +154,10 @@ public class TasksPresenter {
                     break;
                 default:
                     break;
+            }
+            if (task.getIcon() == null) {
+                task.setIcon(hrefIcon);
+                model.updateTask(task, null);
             }
 
             if (callback != null) {
