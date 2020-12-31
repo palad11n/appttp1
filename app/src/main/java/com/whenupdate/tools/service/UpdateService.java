@@ -41,8 +41,8 @@ public class UpdateService {
                 case 1:
                     Toast.makeText(context, context.getResources().getString(R.string.update_exist),
                             Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(context.getApplicationContext(), NotifyService.class);
-                    context.startService(intent);
+                    //Intent intent = new Intent(context.getApplicationContext(), NotifyService.class);
+                    //context.startService(intent);
                     break;
                 case -1:
                     Toast.makeText(context, context.getResources().getString(R.string.site_rip)

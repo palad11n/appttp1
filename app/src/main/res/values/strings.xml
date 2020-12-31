@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WhenUPDATE</string>
+    <string name="app_name">nePart</string>
 
     <!-- Быстрые настройки и создание задачи -->
     <string name="setting_row">Create task</string>
@@ -18,7 +18,7 @@
     <!-- Меню -->
     <string name="about_app">About</string>
     <string name="setting_app">Setting</string>
-    <string name="about_description">Check for updates from your favorite authors without opening a browser and consuming unnecessary traffic.</string>
+    <string name="about_description">Check for updates from your favorite authors without opening a browser.</string>
     <string name="supported_sites">Supported sites:</string>
     <string name="wishes_or_problems">Wishes or problems?</string>
     <string name="write_to_telegram">Write to Telegram:</string>
@@ -75,7 +75,7 @@
     <string name="move_text2">you want to watch later !</string>
     <string name="version_title">Version</string>
     <string name="share_app_summary">Tell about WhenUPDATE to your friends</string>
-    <string name="share_app_recommend">"WhenUPDATE is an app for tracking updates of a specific manga, anime or series on different sites! Download from Google Play: "</string>
+    <string name="share_app_recommend">"Download from Google Play: "</string>
     <string name="more_setting">More</string>
     <string name="rate_app_summary">Rate WhenUPDATE to make us better</string>
     <string name="license_title">Open Source Licenses</string>
@@ -84,12 +84,17 @@
     <string name="answer_about_date_chapter">Try adding or removing \'m.\' at the beginning of your site URL. Or try replacing the \'http\' protocol with \'https\'. If the error persists, please let me know which sites have the problem.</string>
     <string name="faq_title">F.A.Q.</string>
     <string name="question_about_support_sites">What sites are supported by the application?</string>
-    <string name="answer_about_support_sites">The application supports the following sites: mintmanga.live, readmanga.live, findanime.net, mangalib.me, mangahub.ru, hdseria.tv, sovetromantica.com, ficbook.net, mangareader.net, fanfox.net, soundcloud.com, fanfiction.net, archiveofourown.org.</string>
+    <string name="answer_about_support_sites">The application supports the following sites: mintmanga.live, readmanga.live, findanime.net, mangahub.ru, hdseria.tv, sovetromantica.com, ficbook.net, mangareader.net, fanfox.net, soundcloud.com, archiveofourown.org.</string>
     <string name="question_about_tab_bookmark">Why can\'t I update the list in the \'Bookmarks\' tab?</string>
     <string name="anwer_about_tab_bookmarks">In the \'Bookmarks\' tab, you can postpone the updated bookmark to remember and watch the update later.</string>
     <string name="question_about_move_bookmark">How do I move a bookmark to another tab?</string>
     <string name="answer_about_move_bookmark">To move a bookmark to another tab, drag it to the right.</string>
     <string name="info_title">Information</string>
     <string name="in_process_notify">In the process of parsing the page. You can continue to work</string>
+    <string name="home">Home</string>
+    <string name="postponed">Postponed</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="instructions">Add links to a page that lists all parts of the work.\n\nFor example, for the Archive of Out Own site:\nhttps://archiveofourown.org/works/{numbers}\n\nFor the SovetRomantica site:\nhttps://sovetromantica.com/anime/{title_of_anime}</string>
 
 </resources>

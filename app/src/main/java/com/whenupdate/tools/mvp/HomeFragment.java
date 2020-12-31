@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,6 +33,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.review.testing.FakeReviewManager;
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.common.DialogCreateTask;
 import com.whenupdate.tools.common.ListTasks;
@@ -55,6 +60,9 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
     private View view;
 
     private RecyclerView listView;
+
+    private ReviewInfo reviewInfo;
+    private ReviewManager manager;
 
     private TaskAdapter.IAdapterCallback callback = new TaskAdapter.IAdapterCallback() {
         @Override
@@ -84,6 +92,10 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
         }
     };
 
+    public static HomeFragment getInstance() {
+        return new HomeFragment();
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +114,10 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
         init();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            initRate();
+        }
+
     }
 
     @Override
@@ -110,11 +126,23 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
         presenter.detachView();
     }
 
+    private void initRate() {
+        manager = ReviewManagerFactory.create(getContext());
+       // manager = new FakeReviewManager(getContext());
+        com.google.android.play.core.tasks.Task<ReviewInfo> request = manager.requestReviewFlow();
+        request.addOnCompleteListener(taskRate -> {
+            if (taskRate.isSuccessful()) {
+                reviewInfo = taskRate.getResult();
+            }
+        });
+    }
+
     private void init() {
         textEmpty = view.findViewById(R.id.emptyId);
         imgEmpty = view.findViewById(R.id.emptyIdImage);
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         floatingActionButton = view.findViewById(R.id.floatingActionButton);
+        floatingActionButton.setClickable(true);
         floatingActionButton.setOnClickListener(v -> {
             initDialogCreateTask();
         });
@@ -147,8 +175,6 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
 
         initSwipeRefreshLayout();
     }
-
-
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -224,7 +250,7 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
                     if (validateLink(s.toString())) {
                         inputTextLink.setError("");
                     } else {
-                        inputTextLink.setError("https://path/to/manga_or_other/");
+                        inputTextLink.setError("https://path/to/parts/");
                     }
                 }
             });
@@ -270,6 +296,11 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
     public void updatedTask(Task task) {
         taskAdapter.updateItem(task);
         listView.smoothScrollToPosition(0);
+        if (reviewInfo != null) {
+            com.google.android.play.core.tasks.Task<Void> flow = manager.launchReviewFlow(getActivity(), reviewInfo);
+            flow.addOnCompleteListener(taskRate -> {
+            });
+        }
     }
 
     @Override

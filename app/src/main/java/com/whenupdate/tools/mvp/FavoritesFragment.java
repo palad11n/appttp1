@@ -38,7 +38,6 @@ public class FavoritesFragment extends Fragment implements TasksPresenter.IMainC
     private TextView textEmpty1;
     private ProgressDialog progressDialog;
     private View view;
-    private BottomNavigationView nav;
 
     private TaskAdapter.IAdapterCallback callback = new TaskAdapter.IAdapterCallback() {
         @Override
@@ -67,6 +66,10 @@ public class FavoritesFragment extends Fragment implements TasksPresenter.IMainC
             presenter.updateTask(task);
         }
     };
+
+    public static FavoritesFragment getInstance() {
+        return new FavoritesFragment();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,7 +107,7 @@ public class FavoritesFragment extends Fragment implements TasksPresenter.IMainC
         textEmpty1 = view.findViewById(R.id.emptyId1);
         imgEmpty = view.findViewById(R.id.emptyIdImage);
         taskAdapter = new TaskAdapter();
-        nav = getActivity().findViewById(R.id.bottom_nav);
+        //nav = getActivity().findViewById(R.id.bottom_nav);
 
         final RecyclerView listView = view.findViewById(R.id.listView);
         listView.setHasFixedSize(true);
@@ -243,13 +246,11 @@ public class FavoritesFragment extends Fragment implements TasksPresenter.IMainC
         textEmpty.setVisibility(View.VISIBLE);
         textEmpty1.setVisibility(View.VISIBLE);
         imgEmpty.setVisibility(View.VISIBLE);
-        nav.getOrCreateBadge(R.id.itemFavorites).setVisible(false);
     }
 
     public void hideEmptyText() {
         textEmpty.setVisibility(View.GONE);
         textEmpty1.setVisibility(View.GONE);
         imgEmpty.setVisibility(View.GONE);
-        nav.getOrCreateBadge(R.id.itemFavorites).setVisible(true);
     }
 }

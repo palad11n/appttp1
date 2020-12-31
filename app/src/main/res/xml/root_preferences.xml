@@ -20,7 +20,7 @@
         <PreferenceScreen
             app:key="faq_app"
             app:title="@string/faq_title"
-            app:icon="@drawable/ic_help_24px"></PreferenceScreen>
+            app:icon="@drawable/ic_help"></PreferenceScreen>
 
         <PreferenceScreen
             app:key="open_source_license"
@@ -30,7 +30,7 @@
             app:key="version"
             app:summary="1.0"
             app:title="@string/version_title"
-            app:icon="@drawable/ic_info_outline_setting"></PreferenceScreen>
+            app:icon="@drawable/ic_info_setting"></PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/more_setting">

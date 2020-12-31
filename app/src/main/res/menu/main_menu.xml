@@ -5,30 +5,5 @@
         android:title="Search"
         android:icon="@drawable/ic_search"
         app:showAsAction="always"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        />
-
-<!--    <item-->
-<!--        android:id="@+id/itemHelp"-->
-<!--        android:icon="@drawable/ic_help_24px"-->
-<!--        android:title="@string/helper_title"-->
-<!--        app:showAsAction="never" />-->
-
-    <item
-        android:id="@+id/itemPreferences"
-        android:icon="@android:drawable/ic_menu_preferences"
-        android:title="@string/setting_app"
-        app:showAsAction="never" />
-
-<!--    <item-->
-<!--        android:id="@+id/itemRating"-->
-<!--        android:icon="@drawable/ic_sentiment_smale_toast"-->
-<!--        android:title="@string/rate_the_app"-->
-<!--        app:showAsAction="never" />-->
-
-    <item
-        android:id="@+id/itemAbout"
-        android:icon="@android:drawable/ic_dialog_info"
-        android:title="@string/about_app"
-        app:showAsAction="never" />
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
 </menu>

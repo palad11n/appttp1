@@ -6,9 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".common.HelpActivity">
 
+    <TextView
+        android:id="@+id/instruction"
+        style="@style/StyleAbout.TextView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/instructions"
+        android:textSize="16sp" />
+
     <ListView
         android:id="@+id/list_question"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_question_answer"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/instruction"
+        tools:listitem="@layout/item_question_answer" />
 </RelativeLayout>

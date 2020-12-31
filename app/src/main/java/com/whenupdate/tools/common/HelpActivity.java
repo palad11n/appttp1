@@ -28,10 +28,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HelpActivity extends AppCompatActivity {
-    private static final List<HelpActivity.Help> QUESTION_ANSWER;
+    private static List<HelpActivity.Help> QUESTION_ANSWER;
     private static final Resources res = MainActivity.mContext.getResources();
+    private TextView mInstruction;
+    private String THEME;
 
-    static {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        TaskModel.setNewTheme(this);
+        setContentView(R.layout.activity_question_answer);
+        initArray();
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.faq_title);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
+
+        init();
+    }
+
+    private void initArray() {
         QUESTION_ANSWER = new ArrayList<>();
         QUESTION_ANSWER.add(new HelpActivity.Help(
                 res.getString(R.string.question_about_view),
@@ -54,22 +72,16 @@ public class HelpActivity extends AppCompatActivity {
                 res.getString(R.string.answer_about_support_sites)));
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        TaskModel.setNewTheme(this);
-        setContentView(R.layout.activity_question_answer);
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(R.string.faq_title);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-        }
-        init();
-    }
-
     private void init() {
+        mInstruction = findViewById(R.id.instruction);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        THEME = prefs.getString("theme", "light");
+        if (THEME.contains("dark")) {
+            mInstruction.setTextColor(Color.WHITE);
+        } else {
+            mInstruction.setTextColor(Color.BLACK);
+        }
+
         ListView listView = (ListView) findViewById(R.id.list_question);
         ArrayAdapter<HelpActivity.Help> adapter = new HelpActivity.HelpAdapter(this);
         listView.setAdapter(adapter);
@@ -85,7 +97,6 @@ public class HelpActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
     private static class Help {
         public final String question;
@@ -140,9 +151,7 @@ public class HelpActivity extends AppCompatActivity {
                 }
             });
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-            String theme = prefs.getString("theme", "light");
-            if (theme.contains("dark")) {
+            if (THEME.contains("dark")) {
                 answer.setTextColor(Color.WHITE);
             } else {
                 answer.setTextColor(Color.BLACK);

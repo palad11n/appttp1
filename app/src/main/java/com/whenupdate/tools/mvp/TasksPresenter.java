@@ -148,6 +148,7 @@ public class TasksPresenter {
                     task.setUpdate(true);
                     updateTask(task);
                     model.startNotifyService();
+
                     break;
                 case -1:
                     view.showToastSiteRip(task.getLink());

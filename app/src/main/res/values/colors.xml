@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="primary">#3F51B5</color>
+    <color name="primary_dark">#303F9F</color>
+    <color name="primary_light">#C5CAE9</color>
+    <color name="accent">#9E9E9E</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="icons">#B3FFFFFF</color>
+    <color name="icons_dark">#B3212121</color>
+    <color name="divider">#BDBDBD</color>
 
-    <color name="colorOld">#560319</color>
-    <color name="shape_off_colorold">#80363640</color>
     <color name="error">#E65100</color>
 
     <!-- Актуальные цвета -->
-    <color name="colorMy">#7C4DFF</color>
-    <color name="toast">#E67C4DFF</color>
-    <color name="colorMyDark">#49369C</color>
-    <color name="text_row">@color/colorMy</color>
+    <color name="colorMy">@color/primary</color>
+    <color name="toast">@color/primary_dark</color>
+    <color name="colorMyDark">@color/primary_dark</color>
+    <color name="text_row">@color/primary_text</color>
 
     <!-- Цвет задач -->
-<!--<color name="shape_off_color">#990068E3</color>-->
     <color name="shape_off_color">#CCFEFEFE</color>
     <color name="shape_on_color">#a3edcb</color>
     <color name="delete_btn_off">#990068E3</color>
     <color name="delete_btn_on">#4eb782</color>
     <color name="info_row">#5A5A5A</color>
+
     <!-- Фон -->
     <color name="background_dark">#161616</color>
     <color name="background_light">#ECEAEC</color>
-
 </resources>

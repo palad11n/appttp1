@@ -7,12 +7,12 @@ import org.jsoup.select.Elements;
 public class FicbookParsing extends InfoOfSite {
     @Override
     public String getLastDate(Elements rows) {
-        return findElement(rows.select(".small-text.text-muted span"));
+        return findElement(rows.select(".text-muted span"));
     }
 
     @Override
     public String getLastChapter(Elements rows) {
-        return findElement(rows.select(".visit-link"));
+        return findElement(rows.select(".part-title"));
     }
 
     private String findElement(Elements rows) {

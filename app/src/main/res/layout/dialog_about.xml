@@ -61,12 +61,6 @@
                         style="@style/StyleAbout.ListSite"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="✧ MangaLib.me" />
-
-                    <TextView
-                        style="@style/StyleAbout.ListSite"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:text="✧ MangaHub.ru" />
 
                     <TextView
@@ -91,7 +85,7 @@
                         style="@style/StyleAbout.ListSite"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="✧ ficbook.net" />
+                        android:text="✧ FicBook" />
 
                 </LinearLayout>
 
@@ -105,27 +99,21 @@
                         style="@style/StyleAbout.ListSite"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="✧ mangareader.net" />
+                        android:text="✧ MangaReader.net" />
 
 
                     <TextView
                         style="@style/StyleAbout.ListSite"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="✧ mangafox (fanfox.net)" />
+                        android:text="✧ MangaFox (FanFox.net)" />
 
 
                     <TextView
                         style="@style/StyleAbout.ListSite"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="✧ FanFiction" />
-
-                    <TextView
-                        style="@style/StyleAbout.ListSite"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="✧ Archive Of Our Own" />
+                        android:text="✧ Archive of Our Own" />
 
                     <TextView
                         style="@style/StyleAbout.ListSite"

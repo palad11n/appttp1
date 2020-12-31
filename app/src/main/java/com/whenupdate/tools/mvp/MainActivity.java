@@ -12,76 +12,123 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.whenupdate.tools.R;
 
 @SuppressWarnings("all")
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public final static String DATABASE = "list_db";
     public static Context mContext;
 
-    private RelativeLayout constraintLayout;
     private ProgressDialog progressDialog;
     private BottomNavigationView bottomNav;
+    private NavigationView navView;
+
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TaskModel.setNewTheme(this);
         setContentView(R.layout.activity_main);
+        initNav();
         init();
+    }
+
+    private void initNav() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getText(R.string.home));
+        navView = findViewById(R.id.nav_view);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        mDrawerLayout = findViewById(R.id.cl_main);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                findViewById(R.id.cl_main),
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+
+        mDrawerLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mDrawerToggle.syncState();
+            }
+        });
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        navView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawers();
+            return;
+        }
+
+        super.onBackPressed();
     }
 
     private void init() {
         if (mContext == null)
             mContext = MainActivity.this;
-        constraintLayout = findViewById(R.id.cl_main);
-        initBottomNavigation();
+        //initBottomNavigation();
 
         TaskModel taskModel = new TaskModel(this, FavoritesFragment.DATABASE);
         taskModel.loadTasks(listTasks -> {
-            if (listTasks.size() > 0) {
-                bottomNav.getOrCreateBadge(R.id.itemFavorites).setVisible(true);
-            } else bottomNav.getOrCreateBadge(R.id.itemFavorites).setVisible(false);
+            //if (listTasks.size() > 0) {
+            //      bottomNav.getOrCreateBadge(R.id.itemFavorites).setVisible(true);
+            // } else bottomNav.getOrCreateBadge(R.id.itemFavorites).setVisible(false);
         });
     }
 
-    private void initBottomNavigation() {
-        bottomNav = findViewById(R.id.bottom_nav);
-        bottomNav.setOnNavigationItemSelectedListener(item -> {
-            Fragment selectedFragment = null;
-            switch (item.getItemId()) {
-                case R.id.itemHome:
-                    selectedFragment = new HomeFragment();
-
-                    break;
-                case R.id.itemFavorites:
-                    selectedFragment = new FavoritesFragment();
-                    break;
-            }
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    selectedFragment).commit();
-            return true;
-        });
-    }
+//    private void initBottomNavigation() {
+//        // bottomNav = findViewById(R.id.bottom_nav);
+//        bottomNav.setOnNavigationItemSelectedListener(item -> {
+//            Fragment selectedFragment = null;
+//            switch (item.getItemId()) {
+//                case R.id.itemHome:
+//                    selectedFragment = new HomeFragment();
+//                    break;
+//                case R.id.itemFavorites:
+//                    selectedFragment = new FavoritesFragment();
+//                    break;
+//                case R.id.itemPreferences:
+//                    Intent intent = new Intent(this, SettingsActivity.class);
+//                    startActivityForResult(intent, 1);
+//                    break;
+//            }
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                    selectedFragment).commit();
+//            return true;
+//        });
+//    }
 
     @Override
     protected void onResume() {
         super.onResume();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getText(R.string.home));
+        navView.getMenu().getItem(0).setChecked(true);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new FavoritesFragment()).commit();
-        bottomNav.setSelectedItemId(R.id.itemHome);
+                FavoritesFragment.getInstance()).commit();
+        // bottomNav.setSelectedItemId(R.id.itemHome);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
+                HomeFragment.getInstance()).commit();
     }
 
     @Override
@@ -104,17 +151,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         switch (item.getItemId()) {
-            case R.id.itemPreferences:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivityForResult(intent, 1);
-                return true;
             case R.id.itemAbout:
                 showDialogPref(R.layout.dialog_about);
                 return true;
-//            case R.id.itemHelp:
-//                showDialogPref(R.layout.dialog_help);
-//                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -166,5 +210,35 @@ public class MainActivity extends AppCompatActivity {
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.setView(layout);
         toast.show();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Fragment selectedFragment = null;
+        ActionBar actionBar = getSupportActionBar();
+        switch (item.getItemId()) {
+            case R.id.itemHome:
+                actionBar.setTitle(getText(R.string.home));
+                selectedFragment = HomeFragment.getInstance();
+                mDrawerLayout.closeDrawers();
+                break;
+            case R.id.itemFavorites:
+                mDrawerLayout.closeDrawers();
+                actionBar.setTitle(getText(R.string.postponed));
+                selectedFragment = FavoritesFragment.getInstance();
+                break;
+            case R.id.itemPreferences:
+                mDrawerLayout.closeDrawers();
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivityForResult(intent, 1);
+                return true;
+            case R.id.itemAbout:
+                mDrawerLayout.closeDrawers();
+                showDialogPref(R.layout.dialog_about);
+                return true;
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                selectedFragment).commit();
+        return true;
     }
 }

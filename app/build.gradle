@@ -13,8 +13,8 @@ android {
         applicationId "com.whenupdate.tools"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 46
-        versionName "1.4.6"
+        versionCode 50
+        versionName "1.5.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -42,7 +42,14 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.webkit:webkit:1.3.0-rc01'
 
+    // Rate
+    implementation 'com.google.android.play:core:1.9.0'
+
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.navigation:navigation-fragment:2.3.1'
+    implementation 'androidx.navigation:navigation-ui:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     testImplementation 'junit:junit:4.12'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'

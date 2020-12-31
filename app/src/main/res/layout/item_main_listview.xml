@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/simp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="4dp">
 
     <!-- Bottom View Start-->
     <LinearLayout
@@ -17,7 +18,7 @@
             android:id="@+id/swipeDelete"
             android:layout_width="90dp"
             android:layout_height="50dp"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:backgroundTint="@color/error"
             android:clickable="true"
             android:paddingLeft="6dp"
@@ -28,7 +29,7 @@
             android:id="@+id/swipeGo"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:clickable="true"
             android:paddingLeft="6dp"
             app:icon="@drawable/ic_open_in_browser"
@@ -42,23 +43,26 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="vertical">
+
         <LinearLayout
-            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_dashboard" />
+
             <TextView
                 android:id="@+id/text_move"
                 style="@style/TextView.Extra"
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/to_move"/>
+                android:text="@string/to_move"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
     <!-- Bottom View End-->
@@ -85,9 +89,8 @@
                     android:id="@+id/picasso_img"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    app:srcCompat="@drawable/ic_img_placeholder"
                     android:layout_alignParentTop="true"
-                   />
+                    app:srcCompat="@drawable/ic_placeholder" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
@@ -142,9 +145,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_start"
-                        android:paddingBottom="@dimen/field_task_padding"
                         android:paddingLeft="@dimen/field_task_padding"
                         android:paddingRight="@dimen/field_task_padding"
+                        android:paddingBottom="@dimen/field_task_padding"
                         android:text="Volume 2 Ch 15" />
                 </LinearLayout>
 
@@ -163,8 +166,8 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:paddingBottom="@dimen/field_task_padding"
                         android:paddingLeft="@dimen/field_task_padding"
+                        android:paddingBottom="@dimen/field_task_padding"
                         android:singleLine="true"
                         android:text="dd.MM.yyyy" />
                 </LinearLayout>
@@ -172,6 +175,4 @@
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
-
-
 </com.daimajia.swipe.SwipeLayout>

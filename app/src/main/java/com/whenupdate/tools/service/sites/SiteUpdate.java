@@ -3,6 +3,7 @@ package com.whenupdate.tools.service.sites;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,14 +29,14 @@ import com.whenupdate.tools.service.parsers.SoundCloudParsing;
 import com.whenupdate.tools.service.parsers.SovetromanticaParsing;
 
 public class SiteUpdate implements ISite {
-    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0";
+    private static final String USER_AGENT = "Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36";
     private static final String REFERRER = "https://www.google.com/";
     private final String linkUsers;
     private final Date lastDate;
     private final String lastChapter;
     private InfoOfSite infoOfSite;
     private String TAG_CLASS;
-    private static final Map<String, String> map = Const.MAP_TAG_FOR_LINK;
+    private static final Map<String, String> map = Constants.getTags();
 
     public interface ICompleteCallback {
         void onComplete(int result, Date newDate, String chapter, String hrefIcon);
@@ -61,15 +62,13 @@ public class SiteUpdate implements ISite {
 
         if (site.contains("://m.fanfox.net/"))
             TAG_CLASS = ".chlist a";
-        if (site.contains("://m.fanfiction.net/"))
-            TAG_CLASS = "#top";
+//        if (site.contains("://m.fanfiction.net/"))
+//            TAG_CLASS = "#top";
 
         if (linkUsers.contains("soundcloud.com/")) {
             infoOfSite = new SoundCloudParsing();
         } else if (linkUsers.contains("seria")) {
             infoOfSite = new SerialMovieParsing();
-        } else if (linkUsers.contains("mangalib.me/")) {
-            infoOfSite = new MangalibParsing();
         } else if (linkUsers.contains("ficbook.net/")) {
             infoOfSite = new FicbookParsing();
         } else if (linkUsers.contains("mangahub")) {
@@ -80,9 +79,7 @@ public class SiteUpdate implements ISite {
             infoOfSite = new MangaReaderParsing();
         } else if (linkUsers.contains("sovetromantica")) {
             infoOfSite = new SovetromanticaParsing();
-        } else if (linkUsers.contains("fanfiction.")) {
-            infoOfSite = new FanfictionParsing();
-        } else if (linkUsers.contains("archiveofourown.org/")) {
+        }  else if (linkUsers.contains("archiveofourown.org/")) {
             infoOfSite = new ArchiveOfOurOwnParsing();
         } else {
             infoOfSite = new FindAnimeParsing();
@@ -171,6 +168,9 @@ public class SiteUpdate implements ISite {
 
                 return row;
             } catch (Exception e) {
+
+                e.printStackTrace();
+                Log.e("getUpdate", e.getMessage());
             }
 
             return row;
@@ -212,7 +212,7 @@ public class SiteUpdate implements ISite {
                 doc = Jsoup.connect(linkUsers)
                         .userAgent(USER_AGENT)
                         .referrer(REFERRER)
-                        .timeout(65000)
+                        .timeout(185000)
                         .ignoreHttpErrors(true)
                         .get();
                 String title = doc.title();

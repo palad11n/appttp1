@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/itemHome"
-        android:icon="@drawable/ic_home"
-        android:title="Home"
-        />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/itemHome"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home" />
 
-    <item
-        android:id="@+id/itemFavorites"
-        android:icon="@drawable/ic_star"
-        android:title="Bookmarks"
-        />
+        <item
+            android:id="@+id/itemFavorites"
+            android:icon="@drawable/ic_star"
+            android:title="@string/postponed" />
+    </group>
+    <item android:title="@string/other_settings">
+        <menu>
+            <item
+                android:id="@+id/itemPreferences"
+                android:icon="@drawable/ic_settings"
+                android:title="@string/setting_app" />
+
+            <item
+                android:id="@+id/itemAbout"
+                android:icon="@drawable/ic_info_setting"
+                android:title="@string/about_app" />
+        </menu>
+    </item>
+
+
 </menu>

@@ -11,7 +11,7 @@ import java.util.Map;
 public abstract class InfoOfSite {
     private Date date;
     private String title;
-    private static final Map<String, Integer> months = Const.MONTHS;
+    private static final Map<String, Integer> months = Constants.getMonth();
 
     public InfoOfSite(String title, String date) {
         this.title = title;

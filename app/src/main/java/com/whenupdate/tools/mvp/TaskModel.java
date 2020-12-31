@@ -10,10 +10,15 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.review.testing.FakeReviewManager;
 import com.google.gson.Gson;
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.common.ListTasks;
@@ -69,12 +74,29 @@ public class TaskModel {
     }
 
     public void startNotifyService() {
-        Intent serviceIntent = new Intent(mContext, NotifyService.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mContext.startForegroundService(serviceIntent);
-        } else {
-            mContext.startService(serviceIntent);
-        }
+//       // ReviewManager manager = ReviewManagerFactory.create(mContext);
+//        ReviewManager manager = new FakeReviewManager(mContext);
+//
+//        com.google.android.play.core.tasks.Task<ReviewInfo> request = manager.requestReviewFlow();
+//        request.addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                ReviewInfo reviewInfo = task.getResult();
+//                Task<Void> flow = manager.launchReviewFlow(mContext, reviewInfo);
+//                flow.addOnCompleteListener(task -> {
+//                    // The flow has finished. The API does not indicate whether the user
+//                    // reviewed or not, or even whether the review dialog was shown. Thus, no
+//                    // matter the result, we continue our app flow.
+//                });
+//            } else {
+//                Toast.makeText(mContext, "rate", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        Intent serviceIntent = new Intent(mContext, NotifyService.class);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            mContext.startForegroundService(serviceIntent);
+//        } else {
+//            mContext.startService(serviceIntent);
+//        }
     }
 
     public static boolean isNetworkAvailable(Context context) {

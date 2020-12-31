@@ -194,12 +194,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             setSwipeLayoutLeft(task.getLink());
             //setLongClick(task.getLink());
             String hrefIcon = task.getIcon();
-            if (hrefIcon != null && !hrefIcon.isEmpty())
-                Picasso.with(itemView.getContext())
-                        .load(task.getIcon())
-                        .placeholder(R.drawable.ic_img_placeholder)
-                        .error(R.drawable.ic_info_outline_setting)
-                        .into(imageView);
+            try {
+                if (hrefIcon != null && !hrefIcon.isEmpty())
+                    Picasso.with(itemView.getContext())
+                            .load(task.getIcon())
+                            .placeholder(R.drawable.ic_info_setting)
+                            .error(R.drawable.ic_info_setting)
+                            .into(imageView);
+            } catch (Exception exception) {
+                Log.e("picasso", hrefIcon + ": " + exception.getMessage());
+            }
 
             options.setOnClickListener(v -> {
                 PopupMenu popup = new PopupMenu(itemView.getContext(), options);
