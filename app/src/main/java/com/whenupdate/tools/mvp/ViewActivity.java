@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -23,6 +24,9 @@ import androidx.preference.PreferenceManager;
 import androidx.webkit.WebSettingsCompat;
 import androidx.webkit.WebViewFeature;
 
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
 import com.whenupdate.tools.R;
 
 public class ViewActivity extends AppCompatActivity {
@@ -30,6 +34,9 @@ public class ViewActivity extends AppCompatActivity {
     private String link;
     private WebView webView;
     private String currentUrl;
+
+    public ReviewInfo reviewInfo;
+    public ReviewManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,9 @@ public class ViewActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         init();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            initRate();
+        }
     }
 
     @Override
@@ -84,9 +94,15 @@ public class ViewActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void initRate() {
+        manager = ReviewManagerFactory.create(this);
+        //manager = new FakeReviewManager(this);
+        com.google.android.play.core.tasks.Task<ReviewInfo> request = manager.requestReviewFlow();
+        request.addOnCompleteListener(taskRate -> {
+            if (taskRate.isSuccessful()) {
+                reviewInfo = taskRate.getResult();
+            }
+        });
     }
 
     @Override
@@ -102,7 +118,7 @@ public class ViewActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                super.onBackPressed();
+                onBackPressed();
                 return true;
             case R.id.itemShare:
                 Intent sendIntent = new Intent();
@@ -115,6 +131,18 @@ public class ViewActivity extends AppCompatActivity {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (reviewInfo != null) {
+            com.google.android.play.core.tasks.Task<Void> flow = manager.launchReviewFlow(this, reviewInfo);
+            flow.addOnCompleteListener(taskRate -> {
+//                if (taskRate.isSuccessful())
+//                    Toast.makeText(this, "Successful", Toast.LENGTH_SHORT).show();
+            });
+        }
+        super.onBackPressed();
     }
 
     @Override

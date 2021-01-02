@@ -67,14 +67,17 @@
     <string name="question_about_date_chapter">Почему мой сайт есть в списке, но дата и последняя часть не отобразились?</string>
     <string name="faq_title">Помощь</string>
     <string name="question_about_support_sites">Какие сайты поддерживаются приложением?</string>
-    <string name="answer_about_support_sites">Приложением поддерживаются следующие сайты: mintmanga.live, readmanga.live, findanime.net, mangahub.ru, hdseria.tv, sovetromantica.com, ficbook.net, mangareader.net, fanfox.net, soundcloud.com,  fanfiction.net, archiveofourown.org.</string>
-    <string name="question_about_tab_bookmark">Почему нельзя обновить список во вкладке \'Bookmarks\'?</string>
+    <string name="answer_about_support_sites">Приложением поддерживаются следующие сайты: mintmanga.live, readmanga.live, findanime.net, mangahub.ru, hdseria.tv, sovetromantica.com, ficbook.net, mangareader.net, fanfox.net, soundcloud.com,  archiveofourown.org.</string>
+    <string name="question_about_tab_bookmark">Почему нельзя обновить список во вкладке \'Отложено\'?</string>
     <string name="anwer_about_tab_bookmarks">Во вкладку \'Bookmarks\' вы можете отложить обновленную закладку, чтобы вспомнить и посмотреть обновление позже.</string>
     <string name="answer_about_move_bookmark">Чтобы переместить закладку на другую вкладку, потяните ее вправо.</string>
-    <string name="question_about_move_bookmark">Как переместить закладку в другую вкладку?</string>
+    <string name="question_about_move_bookmark">Как удалить закладку или переместить ее в другой раздел?</string>
     <string name="info_title">Информация</string>
     <string name="in_process_notify">В процессе парсинга страницы. Можете продолжать работать с приложением</string>
     <string name="home">Главная</string>
     <string name="postponed">Отложено</string>
     <string name="instructions">Добаляйте ссылки на страницу, где перечисляются все части произведения.\n\nНапример, для сайта Archive of Out Own:\nhttps://archiveofourown.org/works/{numbers}\n\nДля SovetRomantica:\nhttps://sovetromantica.com/anime/{title_of_anime}</string>
+    <string name="got_it">Понятно</string>
+    <string name="help_row">Зажмите закладку и потащите вправо, чтобы переместить ее в другой раздел.\nПотащите влево, чтобы удалить ее или открыть в браузере.\nНажмите на заголовок, чтобы открыть закладку в приложении.</string>
+    <string name="help_add_row">Для начала добавьте ссылку на страницу со всеми главами, где Вы читаете мангу, фанфик или смотрите аниме.</string>
 </resources>

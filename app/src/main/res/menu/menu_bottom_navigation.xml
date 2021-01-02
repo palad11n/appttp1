@@ -20,6 +20,11 @@
                 android:title="@string/setting_app" />
 
             <item
+                android:id="@+id/itemHelp"
+                android:icon="@drawable/ic_help"
+                android:title="@string/faq_title" />
+
+            <item
                 android:id="@+id/itemAbout"
                 android:icon="@drawable/ic_info_setting"
                 android:title="@string/about_app" />

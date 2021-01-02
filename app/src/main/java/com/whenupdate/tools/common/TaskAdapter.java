@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.daimajia.swipe.SwipeLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.mvp.TasksPresenter;

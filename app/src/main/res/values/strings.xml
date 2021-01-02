@@ -87,7 +87,7 @@
     <string name="answer_about_support_sites">The application supports the following sites: mintmanga.live, readmanga.live, findanime.net, mangahub.ru, hdseria.tv, sovetromantica.com, ficbook.net, mangareader.net, fanfox.net, soundcloud.com, archiveofourown.org.</string>
     <string name="question_about_tab_bookmark">Why can\'t I update the list in the \'Bookmarks\' tab?</string>
     <string name="anwer_about_tab_bookmarks">In the \'Bookmarks\' tab, you can postpone the updated bookmark to remember and watch the update later.</string>
-    <string name="question_about_move_bookmark">How do I move a bookmark to another tab?</string>
+    <string name="question_about_move_bookmark">How do I delete a bookmark or move it to another section?</string>
     <string name="answer_about_move_bookmark">To move a bookmark to another tab, drag it to the right.</string>
     <string name="info_title">Information</string>
     <string name="in_process_notify">In the process of parsing the page. You can continue to work</string>
@@ -96,5 +96,8 @@
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="instructions">Add links to a page that lists all parts of the work.\n\nFor example, for the Archive of Out Own site:\nhttps://archiveofourown.org/works/{numbers}\n\nFor the SovetRomantica site:\nhttps://sovetromantica.com/anime/{title_of_anime}</string>
+    <string name="got_it">GOT IT</string>
+    <string name="help_row">Hold a bookmark and drag to the right to move it to another section.\nDrag to the left to delete it or open it in the browser.\nClick on the title to open the bookmark in the app.</string>
+    <string name="help_add_row">To get started, add a link to the page with all the chapters where you read manga, fanfic or watch anime.</string>
 
 </resources>

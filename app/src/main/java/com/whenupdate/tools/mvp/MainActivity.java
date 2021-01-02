@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.whenupdate.tools.R;
+import com.whenupdate.tools.common.HelpActivity;
 
 @SuppressWarnings("all")
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -235,6 +236,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.itemAbout:
                 mDrawerLayout.closeDrawers();
                 showDialogPref(R.layout.dialog_about);
+                return true;
+            case R.id.itemHelp:
+                mDrawerLayout.closeDrawers();
+                startActivity(new Intent(this, HelpActivity.class));
                 return true;
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

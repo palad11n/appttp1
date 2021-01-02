@@ -57,7 +57,7 @@ public class HelpActivity extends AppCompatActivity {
 
         QUESTION_ANSWER.add(new HelpActivity.Help(
                 res.getString(R.string.question_about_move_bookmark),
-                res.getString(R.string.answer_about_move_bookmark)));
+                res.getString(R.string.help_row)));
 
         QUESTION_ANSWER.add(new HelpActivity.Help(
                 res.getString(R.string.question_about_date_chapter),

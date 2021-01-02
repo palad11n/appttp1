@@ -5,7 +5,8 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,10 +34,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.play.core.review.ReviewInfo;
-import com.google.android.play.core.review.ReviewManager;
-import com.google.android.play.core.review.ReviewManagerFactory;
-import com.google.android.play.core.review.testing.FakeReviewManager;
 import com.whenupdate.tools.R;
 import com.whenupdate.tools.common.DialogCreateTask;
 import com.whenupdate.tools.common.ListTasks;
@@ -44,8 +41,15 @@ import com.whenupdate.tools.common.Task;
 import com.whenupdate.tools.common.TaskAdapter;
 import com.whenupdate.tools.common.desing.ScrollFABBehavior;
 
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.shape.RectangleShape;
+
 public class HomeFragment extends Fragment implements TasksPresenter.IMainContract {
     public final static String DATABASE = "list_db";
+    private final static String SHOWCASE_ID = "SHOWCASE_ID";
+    private final static String SHOWCASE_ID_ROW = "SHOW_ROW";
 
     public static TasksPresenter presenter;
     private TaskAdapter taskAdapter;
@@ -60,9 +64,6 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
     private View view;
 
     private RecyclerView listView;
-
-    private ReviewInfo reviewInfo;
-    private ReviewManager manager;
 
     private TaskAdapter.IAdapterCallback callback = new TaskAdapter.IAdapterCallback() {
         @Override
@@ -114,27 +115,44 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
         init();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            initRate();
-        }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private void initHelp() {
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(1000);
+        sequence.setConfig(config);
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(getActivity())
+                        .setTarget(floatingActionButton)
+                        .setDismissText(getString(R.string.got_it))
+                        .setDismissTextColor(Color.DKGRAY)
+                        .setContentText(getString(R.string.help_add_row))
+                        .build()
+        );
+        sequence.start();
+
+        if (taskAdapter.getItemCount() != 0)
+            new MaterialShowcaseView.Builder(getActivity())
+                    .singleUse(SHOWCASE_ID_ROW)
+                    .setDelay(1000)
+                    .setTarget(view.findViewById(R.id.test))
+                    .setShape(new RectangleShape(new Rect(), true))
+                    .setDismissText(getString(R.string.got_it))
+                    .setDismissTextColor(Color.DKGRAY)
+                    .setContentText(getString(R.string.help_row))
+                    .show();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         presenter.detachView();
-    }
-
-    private void initRate() {
-        manager = ReviewManagerFactory.create(getContext());
-       // manager = new FakeReviewManager(getContext());
-        com.google.android.play.core.tasks.Task<ReviewInfo> request = manager.requestReviewFlow();
-        request.addOnCompleteListener(taskRate -> {
-            if (taskRate.isSuccessful()) {
-                reviewInfo = taskRate.getResult();
-            }
-        });
     }
 
     private void init() {
@@ -288,24 +306,24 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
 
     @Override
     public void addedTask(Task task) {
-        taskAdapter.addItem(task);
-        listView.smoothScrollToPosition(taskAdapter.getItemCount() + 1);
+        if (taskAdapter.getItemCount() == 0) {
+            presenter.loadTasks();
+        } else {
+            taskAdapter.addItem(task);
+            listView.smoothScrollToPosition(taskAdapter.getItemCount() + 1);
+        }
     }
 
     @Override
     public void updatedTask(Task task) {
         taskAdapter.updateItem(task);
         listView.smoothScrollToPosition(0);
-        if (reviewInfo != null) {
-            com.google.android.play.core.tasks.Task<Void> flow = manager.launchReviewFlow(getActivity(), reviewInfo);
-            flow.addOnCompleteListener(taskRate -> {
-            });
-        }
     }
 
     @Override
     public void showTasks(ListTasks listTasks) {
         taskAdapter.setData(listTasks);
+        initHelp();
     }
 
     public void onDialogPositiveClick(DialogFragment dialog) {

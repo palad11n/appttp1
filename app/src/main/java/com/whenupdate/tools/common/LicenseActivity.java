@@ -46,6 +46,7 @@ public class LicenseActivity extends AppCompatActivity {
         LICENSES.add(new License("AndroidX Preference", "https://developer.android.com/jetpack/androidx/releases/preference"));
         LICENSES.add(new License("Android Multidex Support Library", "https://developer.android.com/topic/libraries/support-library"));
         LICENSES.add(new License("Picasso", "https://square.github.io/picasso"));
+        LICENSES.add(new License("MaterialShowcaseView", "https://github.com/deano2390/MaterialShowcaseView/blob/master/LICENSE"));
     }
 
     @Override
