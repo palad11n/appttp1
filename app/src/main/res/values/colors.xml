@@ -17,6 +17,7 @@
     <color name="toast">@color/primary_dark</color>
     <color name="colorMyDark">@color/primary_dark</color>
     <color name="text_row">@color/primary_text</color>
+    <color name="black">#000</color>
 
     <!-- Цвет задач -->
     <color name="shape_off_color">#CCFEFEFE</color>

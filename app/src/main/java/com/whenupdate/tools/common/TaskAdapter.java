@@ -209,6 +209,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 popup.inflate(R.menu.menu_options);
                 popup.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
+                        case R.id.itemOpen:
+                            goToBrowser(task.getLink());
+                            return true;
                         case R.id.itemUpdate:
                             callback.onLoadUpdate(task, result -> {
                                 if (result == 1) {
@@ -345,9 +348,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                         alert.show();
                     });
 
-                    layout.findViewById(R.id.swipeGo).setOnClickListener(v -> {
-                        goToBrowser(link);
-                    });
+//                    layout.findViewById(R.id.swipeGo).setOnClickListener(v -> {
+//                        goToBrowser(link);
+//                    });
                 }
 
                 @Override

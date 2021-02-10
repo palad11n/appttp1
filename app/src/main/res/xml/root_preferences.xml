@@ -17,10 +17,10 @@
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/info_title">
-        <PreferenceScreen
-            app:key="faq_app"
-            app:title="@string/faq_title"
-            app:icon="@drawable/ic_help"></PreferenceScreen>
+<!--        <PreferenceScreen-->
+<!--            app:key="faq_app"-->
+<!--            app:title="@string/faq_title"-->
+<!--            app:icon="@drawable/ic_help"></PreferenceScreen>-->
 
         <PreferenceScreen
             app:key="open_source_license"
@@ -43,6 +43,11 @@
             app:key="share_app"
             app:title="@string/share_title"
             app:icon="@drawable/ic_share_setting"></PreferenceScreen>
-
+        <PreferenceScreen
+            app:key="send_mail"
+            app:title="@string/send_mail"
+            app:summary="armodoner@gmail.com"
+            app:icon="@drawable/ic_gmail"></PreferenceScreen>
     </PreferenceCategory>
+
 </PreferenceScreen>

@@ -7,6 +7,8 @@ import com.whenupdate.tools.common.Task;
 import com.whenupdate.tools.service.sites.ISite;
 import com.whenupdate.tools.service.sites.SiteUpdate;
 
+import org.jetbrains.annotations.NotNull;
+
 public class TasksPresenter {
     private IMainContract view;
     private final TaskModel model;
@@ -47,7 +49,7 @@ public class TasksPresenter {
         loadTasks();
     }
 
-    void add(Task task) {
+    void add(@NotNull Task task) {
         Completable.fromAction(() -> {
             //Task task = view.getTaskFromDialog();
             ISite update = new SiteUpdate(task.getLink(), task.getDate(), task.getChapter());
@@ -80,7 +82,7 @@ public class TasksPresenter {
         }).subscribe();
     }
 
-    private void saveTask(Task task) {
+    private void saveTask(@NotNull Task task) {
         model.saveTask(task, () -> {
             //view.hideProgress();
             //loadTasks();
@@ -89,13 +91,13 @@ public class TasksPresenter {
         });
     }
 
-    void updateTask(Task task) {
+    void updateTask(@NotNull Task task) {
         model.updateTask(task, () -> {
             view.updatedTask(task);
         });
     }
 
-    void remove(Task task) {
+    void remove(@NotNull Task task) {
         model.removeTask(task, () -> {
         });
     }

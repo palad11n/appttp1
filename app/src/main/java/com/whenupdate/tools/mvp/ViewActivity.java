@@ -17,6 +17,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,6 +64,8 @@ public class ViewActivity extends AppCompatActivity {
     @SuppressLint("SetJavaScriptEnabled")
     private void init() {
         ProgressBar progressBar = findViewById(R.id.progressBar_horizontal);
+        TextView helpText = findViewById(R.id.use_browser);
+
         webView = (WebView) findViewById(R.id.webView);
         WebSettings webSettings = webView.getSettings();
 
@@ -72,7 +75,7 @@ public class ViewActivity extends AppCompatActivity {
         webSettings.setSupportZoom(true);
         webSettings.setDisplayZoomControls(false);
 
-        SimpleWebViewClient webViewClient = new SimpleWebViewClient(this, progressBar);
+        SimpleWebViewClient webViewClient = new SimpleWebViewClient(this, progressBar, helpText);
         webView.setWebViewClient(webViewClient);
 
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
@@ -157,11 +160,14 @@ public class ViewActivity extends AppCompatActivity {
     private class SimpleWebViewClient extends WebViewClient {
         private Activity activity;
         private ProgressBar progressBar;
+        private TextView helpText;
 
-        SimpleWebViewClient(Activity activity, ProgressBar progressBar) {
+        SimpleWebViewClient(Activity activity, ProgressBar progressBar, TextView helpText) {
             this.activity = activity;
             this.progressBar = progressBar;
+            this.helpText = helpText;
             progressBar.setVisibility(View.VISIBLE);
+            helpText.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -194,6 +200,7 @@ public class ViewActivity extends AppCompatActivity {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             progressBar.setVisibility(View.GONE);
+            helpText.setVisibility(View.GONE);
             view.setVisibility(View.VISIBLE);
         }
 
@@ -201,6 +208,7 @@ public class ViewActivity extends AppCompatActivity {
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
             super.onReceivedError(view, request, error);
             progressBar.setVisibility(View.GONE);
+            helpText.setVisibility(View.GONE);
         }
     }
 }

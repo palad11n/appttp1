@@ -58,7 +58,6 @@
         android:layout_marginRight="30dp"
         android:layout_marginBottom="50dp"
         android:clickable="true"
-        app:backgroundTint="@color/colorMy"
         app:layout_behavior="ru.csu.ttpapp.common.desing.ScrollAwareFABBehavior"
         app:srcCompat="@drawable/ic_add" />
 </RelativeLayout>

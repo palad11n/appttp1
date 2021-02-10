@@ -50,6 +50,9 @@ public class HelpActivity extends AppCompatActivity {
     }
 
     private void initArray() {
+        if (QUESTION_ANSWER != null) {
+            return;
+        }
         QUESTION_ANSWER = new ArrayList<>();
         QUESTION_ANSWER.add(new HelpActivity.Help(
                 res.getString(R.string.question_about_view),
@@ -62,6 +65,10 @@ public class HelpActivity extends AppCompatActivity {
         QUESTION_ANSWER.add(new HelpActivity.Help(
                 res.getString(R.string.question_about_date_chapter),
                 res.getString(R.string.answer_about_date_chapter)));
+
+        QUESTION_ANSWER.add(new HelpActivity.Help(
+                res.getString(R.string.question_update_next_step),
+                res.getString(R.string.answer_update_next_step)));
 
         QUESTION_ANSWER.add(new HelpActivity.Help(
                 res.getString(R.string.question_about_tab_bookmark),

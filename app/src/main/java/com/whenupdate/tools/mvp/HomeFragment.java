@@ -41,6 +41,8 @@ import com.whenupdate.tools.common.Task;
 import com.whenupdate.tools.common.TaskAdapter;
 import com.whenupdate.tools.common.desing.ScrollFABBehavior;
 
+import java.util.Objects;
+
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
@@ -48,8 +50,8 @@ import uk.co.deanwild.materialshowcaseview.shape.RectangleShape;
 
 public class HomeFragment extends Fragment implements TasksPresenter.IMainContract {
     public final static String DATABASE = "list_db";
-    private final static String SHOWCASE_ID = "SHOWCASE_ID";
-    private final static String SHOWCASE_ID_ROW = "SHOW_ROW";
+    private final static String SHOWCASE_ID = "SHOWCASE_ID1";
+    private final static String SHOWCASE_ID_ROW = "SHOW_ROW_ID1";
 
     public static TasksPresenter presenter;
     private TaskAdapter taskAdapter;
@@ -123,30 +125,30 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
     }
 
     private void initHelp() {
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID_ROW);
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(1000);
         sequence.setConfig(config);
         sequence.addSequenceItem(
                 new MaterialShowcaseView.Builder(getActivity())
-                        .setTarget(floatingActionButton)
+                        .setTarget(view.findViewById(R.id.test))
+                        .setShape(new RectangleShape(new Rect(), true))
                         .setDismissText(getString(R.string.got_it))
                         .setDismissTextColor(Color.DKGRAY)
-                        .setContentText(getString(R.string.help_add_row))
+                        .setContentText(getString(R.string.help_row))
+                        .build()
+        );
+
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(getActivity())
+                        .setTarget(view.findViewById(R.id.test))
+                        .setDismissText(getString(R.string.got_it))
+                        .setDismissTextColor(Color.DKGRAY)
+                        .setContentText(getString(R.string.help_all_update))
                         .build()
         );
         sequence.start();
 
-        if (taskAdapter.getItemCount() != 0)
-            new MaterialShowcaseView.Builder(getActivity())
-                    .singleUse(SHOWCASE_ID_ROW)
-                    .setDelay(1000)
-                    .setTarget(view.findViewById(R.id.test))
-                    .setShape(new RectangleShape(new Rect(), true))
-                    .setDismissText(getString(R.string.got_it))
-                    .setDismissTextColor(Color.DKGRAY)
-                    .setContentText(getString(R.string.help_row))
-                    .show();
     }
 
     @Override
@@ -268,7 +270,7 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
                     if (validateLink(s.toString())) {
                         inputTextLink.setError("");
                     } else {
-                        inputTextLink.setError("https://path/to/parts/");
+                        inputTextLink.setError("https://...");
                     }
                 }
             });
@@ -285,13 +287,15 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
         switch (requestCode) {
             case 0:
                 if (resultCode == Activity.RESULT_OK) {
-                    if (validateLink(editTextLink.getText().toString()))
+                    String newLink = Objects.requireNonNull(editTextLink.getText()).toString();
+                    if (validateLink(newLink))
                         presenter.add(getTaskFromDialog());
-                    else
-                        showToast(getString(R.string.link_empty_error), R.drawable.ic_sentiment_dissatisfied_toast);
+                    else {
+                        Activity activity = getActivity();
+                        if (activity != null)
+                            showToast(activity.getResources().getString(R.string.link_empty_error), R.drawable.ic_sentiment_dissatisfied_toast);
+                    }
                     // dialog.dismiss();
-                } else {
-
                 }
         }
     }
@@ -323,7 +327,21 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
     @Override
     public void showTasks(ListTasks listTasks) {
         taskAdapter.setData(listTasks);
-        initHelp();
+        if (listTasks.size() == 0) {
+            MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+            ShowcaseConfig config = new ShowcaseConfig();
+            config.setDelay(2000);
+            sequence.setConfig(config);
+            sequence.addSequenceItem(
+                    new MaterialShowcaseView.Builder(getActivity())
+                            .setTarget(floatingActionButton)
+                            .setDismissText(getString(R.string.got_it))
+                            .setDismissTextColor(Color.DKGRAY)
+                            .setContentText(getString(R.string.help_add_row))
+                            .build()
+            );
+            sequence.start();
+        } else initHelp();
     }
 
     public void onDialogPositiveClick(DialogFragment dialog) {
@@ -335,11 +353,15 @@ public class HomeFragment extends Fragment implements TasksPresenter.IMainContra
     }
 
     private Task getTaskFromDialog() {
-        Toast.makeText(getContext(), R.string.in_process_notify, Toast.LENGTH_SHORT)
-                .show();
+        Context context = getContext();
+        if (context != null)
+            Toast.makeText(context, R.string.in_process_notify, Toast.LENGTH_SHORT)
+                    .show();
         Task newTask = new Task();
-        newTask.setLink(inputTextLink.getEditText().getText().toString().trim());
-        newTask.setTitle(inputTextTitle.getEditText().getText().toString().trim());
+        String link = inputTextLink.getEditText().getText().toString();
+        String title = inputTextTitle.getEditText().getText().toString();
+        newTask.setLink(link.trim());
+        newTask.setTitle(title.trim());
         return newTask;
     }
 

@@ -129,6 +129,21 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
 
+            Preference sendEmail = findPreference("send_mail");
+            if (sendEmail != null) {
+                sendEmail.setOnPreferenceClickListener(preference -> {
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                    emailIntent.setType("message/rfc822");
+                    emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
+                            new String[] { getString(R.string.email) });
+                    try {
+                        startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail)));
+                    } catch (android.content.ActivityNotFoundException ignored) {
+                    }
+                    return true;
+                });
+            }
+
         }
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">nePart</string>
+    <string name="app_name">MAFic: Updates</string>
 
     <!-- Быстрые настройки и создание задачи -->
     <string name="setting_row">Create task</string>
@@ -56,7 +56,7 @@
     <string name="text_rating">Can you rate this app? :)</string>
     <string name="rate_the_app">Rate us</string>
     <string name="also_empty">Add task :)</string>
-    <string name="text_error_link">Link must be start with http(s)://</string>
+    <string name="text_error_link">Link must be start with https://</string>
     <string name="helper_create_text">Input link to your favorite work</string>
     <string name="last_updated_all_text">Last updated:</string>
     <string name="fail_save">Failed to get data from the site.</string>
@@ -74,19 +74,23 @@
     <string name="move_text1">Move here what</string>
     <string name="move_text2">you want to watch later !</string>
     <string name="version_title">Version</string>
-    <string name="share_app_summary">Tell about WhenUPDATE to your friends</string>
+    <string name="share_app_summary">Tell about MAFic to your friends</string>
     <string name="share_app_recommend">"Download from Google Play: "</string>
     <string name="more_setting">More</string>
-    <string name="rate_app_summary">Rate WhenUPDATE to make us better</string>
+    <string name="rate_app_summary">Rate MAFic to make us better</string>
     <string name="license_title">Open Source Licenses</string>
     <string name="question_about_view">How to enter view mode?</string>
     <string name="question_about_date_chapter">Why is my site listed, but the date and last chapter are not displayed?</string>
-    <string name="answer_about_date_chapter">Try adding or removing \'m.\' at the beginning of your site URL. Or try replacing the \'http\' protocol with \'https\'. If the error persists, please let me know which sites have the problem.</string>
-    <string name="faq_title">F.A.Q.</string>
+    <string name="answer_about_date_chapter">Try adding or removing \'m.\' at the beginning of your site URL. Or try adding or removing \'/\' at the end of the link. If the error persists, please let me know which sites have the problem.</string>
+    <string name="faq_title">Frequently Asked</string>
     <string name="question_about_support_sites">What sites are supported by the application?</string>
     <string name="answer_about_support_sites">The application supports the following sites: mintmanga.live, readmanga.live, findanime.net, mangahub.ru, hdseria.tv, sovetromantica.com, ficbook.net, mangareader.net, fanfox.net, soundcloud.com, archiveofourown.org.</string>
-    <string name="question_about_tab_bookmark">Why can\'t I update the list in the \'Bookmarks\' tab?</string>
-    <string name="anwer_about_tab_bookmarks">In the \'Bookmarks\' tab, you can postpone the updated bookmark to remember and watch the update later.</string>
+    <string name="question_about_tab_bookmark">Why can\'t I update the list in the \'Postponed\' tab?</string>
+
+    <string name="question_update_next_step">I tried everything suggested above but nothing changed. What\'s next?</string>
+    <string name="answer_update_next_step">ЧOpen a bookmark in your browser and check the availability of the site.</string>
+
+    <string name="anwer_about_tab_bookmarks">In the \'Postponed\' tab, you can postpone the updated bookmark to remember and watch the update later.</string>
     <string name="question_about_move_bookmark">How do I delete a bookmark or move it to another section?</string>
     <string name="answer_about_move_bookmark">To move a bookmark to another tab, drag it to the right.</string>
     <string name="info_title">Information</string>
@@ -95,9 +99,13 @@
     <string name="postponed">Postponed</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
-    <string name="instructions">Add links to a page that lists all parts of the work.\n\nFor example, for the Archive of Out Own site:\nhttps://archiveofourown.org/works/{numbers}\n\nFor the SovetRomantica site:\nhttps://sovetromantica.com/anime/{title_of_anime}</string>
+    <string name="instructions">Add links to a page that lists all parts of the work.\n\nFor example, for the Archive of Out Own site:\nhttps://archiveofourown.org/works/{numbers}\n\nFor the SovetRomantica site:\nhttps://sovetromantica.com/anime/{title_of_anime}\n\nFor the MangaReader site:\nhttps://www.mangareader.net/{title_of_manga}</string>
     <string name="got_it">GOT IT</string>
-    <string name="help_row">Hold a bookmark and drag to the right to move it to another section.\nDrag to the left to delete it or open it in the browser.\nClick on the title to open the bookmark in the app.</string>
+    <string name="help_row">Hold a bookmark and drag to the → to move it to another section.\nDrag to the ← to delete it or open it in the browser.\nClick on the title to open the bookmark in the app.</string>
     <string name="help_add_row">To get started, add a link to the page with all the chapters where you read manga, fanfic or watch anime.</string>
-
+    <string name="help_all_update">Drag ↓ to refresh all bookmarks.</string>
+    <string name="open_in_browser">Open in Browser</string>
+    <string name="use_browser">(・人・)\n\nIn case of problems,\nuse a browser.</string>
+    <string name="send_mail">Write to developer</string>
+    <string name="email" translatable="false">armodoner@gmail.com</string>
 </resources>

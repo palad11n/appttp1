@@ -12,8 +12,8 @@
             android:icon="@drawable/ic_star"
             android:title="@string/postponed" />
     </group>
-    <item android:title="@string/other_settings">
-        <menu>
+    <group android:id="@+id/other_settings">
+
             <item
                 android:id="@+id/itemPreferences"
                 android:icon="@drawable/ic_settings"
@@ -21,15 +21,15 @@
 
             <item
                 android:id="@+id/itemHelp"
-                android:icon="@drawable/ic_help"
+                android:icon="@drawable/ic_baseline_help"
                 android:title="@string/faq_title" />
 
             <item
                 android:id="@+id/itemAbout"
-                android:icon="@drawable/ic_info_setting"
+                android:icon="@drawable/ic_baseline_info"
                 android:title="@string/about_app" />
-        </menu>
-    </item>
+
+    </group>
 
 
 </menu>

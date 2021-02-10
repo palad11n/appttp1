@@ -20,4 +20,10 @@
         android:title="@string/update_task_title"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/itemOpen"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/open_in_browser"
+        app:showAsAction="never" />
+
 </menu>

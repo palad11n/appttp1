@@ -4,12 +4,13 @@
     android:id="@+id/simp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp">
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp">
 
     <!-- Bottom View Start-->
     <LinearLayout
         android:id="@+id/bottom_wrapper"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="horizontal">
@@ -18,10 +19,9 @@
             android:id="@+id/swipeDelete"
             android:layout_width="90dp"
             android:layout_height="50dp"
-            android:layout_margin="5dp"
+            android:paddingLeft="6dp"
             android:backgroundTint="@color/error"
             android:clickable="true"
-            android:paddingLeft="6dp"
             app:icon="@drawable/ic_delete_forever"
             app:iconGravity="textStart" />
 
@@ -31,6 +31,7 @@
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:clickable="true"
+            android:visibility="gone"
             android:paddingLeft="6dp"
             app:icon="@drawable/ic_open_in_browser"
             app:iconGravity="textStart" />
