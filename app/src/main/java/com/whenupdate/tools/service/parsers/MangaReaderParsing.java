@@ -8,20 +8,20 @@ import org.jsoup.select.Elements;
 public class MangaReaderParsing extends InfoOfSite {
     @Override
     public String getLastDate(Elements rows) {
-        return findElement(rows, 1);
+        return findElement(rows);
     }
 
     @Override
     public String getLastChapter(Elements rows) {
-        return findElement(rows, 0);
+        return findElement(rows);
     }
 
-    private String findElement(Elements rows, int column) {
+    private String findElement(Elements rows) {
         try {
-            Element row = rows.last();
-            Elements cols = row.select("td");
-            String elem = cols.get(column).text();
-            return elem.replace(":", "");
+            Element row = rows.first();
+            Elements cols = row.select(".xanh");
+            String elem = cols.text();
+            return elem;
         } catch (Exception e) {
             return "";
         }

@@ -3,7 +3,6 @@ package com.whenupdate.tools.service.sites;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -29,12 +28,13 @@ import com.whenupdate.tools.service.parsers.SoundCloudParsing;
 import com.whenupdate.tools.service.parsers.SovetromanticaParsing;
 
 public class SiteUpdate implements ISite {
-    private static final String USER_AGENT = "Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36";
+    private static final String USER_AGENT = Constants.getUserAgent();
+    //"Mozilla/5.0 (Linux; Android 5.0; SM-G900P Build/LRX21T) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36";
     private static final String REFERRER = "https://www.google.com/";
     private final String linkUsers;
     private final Date lastDate;
     private final String lastChapter;
-    private InfoOfSite infoOfSite;
+    private final InfoOfSite infoOfSite;
     private String TAG_CLASS;
     private static final Map<String, String> map = Constants.getTags();
 
@@ -75,11 +75,13 @@ public class SiteUpdate implements ISite {
             infoOfSite = new MangaHubParsing();
         } else if (linkUsers.contains("mangafox") || linkUsers.contains("fanfox.net/")) {
             infoOfSite = new MangaFoxParsing();
-        } else if (linkUsers.contains("mangareader")) {
-            infoOfSite = new MangaReaderParsing();
-        } else if (linkUsers.contains("sovetromantica")) {
+        }
+//        else if (linkUsers.contains("mangareader")) {
+//            infoOfSite = new MangaReaderParsing();
+//        }
+        else if (linkUsers.contains("sovetromantica")) {
             infoOfSite = new SovetromanticaParsing();
-        }  else if (linkUsers.contains("archiveofourown.org/")) {
+        } else if (linkUsers.contains("archiveofourown.org/")) {
             infoOfSite = new ArchiveOfOurOwnParsing();
         } else {
             infoOfSite = new FindAnimeParsing();
@@ -155,9 +157,14 @@ public class SiteUpdate implements ISite {
                     hrefIcon = icon.attr("href");
                 }
                 row[2] = hrefIcon;
+                String http_protocol = "https://";
+                if (!linkUsers.startsWith(http_protocol)) {
+                    http_protocol = "http://";
+                }
+
                 if (hrefIcon.startsWith("/")) {
                     if (hrefIcon.contains("//")) {
-                        row[2] = "https:" + hrefIcon;
+                        row[2] = http_protocol + hrefIcon;
                     } else {
                         int indexProtocol = ((linkUsers.contains("https")) ? 8 : 7);
                         int index = linkUsers.indexOf('/', indexProtocol);
@@ -168,7 +175,6 @@ public class SiteUpdate implements ISite {
 
                 return row;
             } catch (Exception e) {
-
                 e.printStackTrace();
                 Log.e("getUpdate", e.getMessage());
             }

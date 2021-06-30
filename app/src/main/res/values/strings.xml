@@ -82,9 +82,9 @@
     <string name="question_about_view">How to enter view mode?</string>
     <string name="question_about_date_chapter">Why is my site listed, but the date and last chapter are not displayed?</string>
     <string name="answer_about_date_chapter">Try adding or removing \'m.\' at the beginning of your site URL. Or try adding or removing \'/\' at the end of the link. If the error persists, please let me know which sites have the problem.</string>
-    <string name="faq_title">Frequently Asked</string>
+    <string name="faq_title">FAQ</string>
     <string name="question_about_support_sites">What sites are supported by the application?</string>
-    <string name="answer_about_support_sites">The application supports the following sites: mintmanga.live, readmanga.live, findanime.net, mangahub.ru, hdseria.tv, sovetromantica.com, ficbook.net, mangareader.net, fanfox.net, soundcloud.com, archiveofourown.org.</string>
+    <string name="answer_about_support_sites">The application supports the following sites: fanfox.net, soundcloud.com, archiveofourown.org, mintmanga.live, readmanga.live, findanime.net, mangahub.ru, hdseria.tv, sovetromantica.com, ficbook.net.</string>
     <string name="question_about_tab_bookmark">Why can\'t I update the list in the \'Postponed\' tab?</string>
 
     <string name="question_update_next_step">I tried everything suggested above but nothing changed. What\'s next?</string>
@@ -99,9 +99,9 @@
     <string name="postponed">Postponed</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
-    <string name="instructions">Add links to a page that lists all parts of the work.\n\nFor example, for the Archive of Out Own site:\nhttps://archiveofourown.org/works/{numbers}\n\nFor the SovetRomantica site:\nhttps://sovetromantica.com/anime/{title_of_anime}\n\nFor the MangaReader site:\nhttps://www.mangareader.net/{title_of_manga}</string>
+    <string name="instructions">Add links to a page that lists all parts of the work.\n\nFor example, for the Archive of Out Own site:\nhttps://archiveofourown.org/works/{numbers}/\nhttps://archiveofourown.org/works/32289190/\n\nFor the fanfox.net site:\nhttps://fanfox.net/manga/{title_of_manga}/\nhttps://fanfox.net/manga/onepunch_man/\n</string>
     <string name="got_it">GOT IT</string>
-    <string name="help_row">Hold a bookmark and drag to the → to move it to another section.\nDrag to the ← to delete it or open it in the browser.\nClick on the title to open the bookmark in the app.</string>
+    <string name="help_row">Hold a bookmark and Drag to the ← to delete or ☆move☆ it or open it in the browser.\nClick on the title to open the bookmark in the app.</string>
     <string name="help_add_row">To get started, add a link to the page with all the chapters where you read manga, fanfic or watch anime.</string>
     <string name="help_all_update">Drag ↓ to refresh all bookmarks.</string>
     <string name="open_in_browser">Open in Browser</string>

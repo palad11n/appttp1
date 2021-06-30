@@ -7,7 +7,7 @@ import org.jsoup.select.Elements;
 public class FicbookParsing extends InfoOfSite {
     @Override
     public String getLastDate(Elements rows) {
-        return findElement(rows.select(".text-muted span"));
+        return findElement(rows.select(".part-info.text-muted span"));
     }
 
     @Override

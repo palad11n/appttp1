@@ -85,7 +85,7 @@
                         style="@style/StyleAbout.ListSite"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="✧ FicBook" />
+                        android:text="✧ Ficbook" />
 
                 </LinearLayout>
 
@@ -95,11 +95,11 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <TextView
-                        style="@style/StyleAbout.ListSite"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="✧ MangaReader.net" />
+<!--                    <TextView-->
+<!--                        style="@style/StyleAbout.ListSite"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="✧ MangaReader.cc" />-->
 
 
                     <TextView
@@ -114,12 +114,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="✧ Archive of Our Own" />
-
-                    <TextView
-                        style="@style/StyleAbout.ListSite"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="✧ SoundCloud" />
 
                 </LinearLayout>
 

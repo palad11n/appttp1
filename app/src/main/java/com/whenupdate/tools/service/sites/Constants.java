@@ -18,11 +18,11 @@ class Constants {
         mapTagForLink.put("mangahub", ".d-flex.flex-column");
         mapTagForLink.put("sovetromantica.com/", ".episodes-slick_item");
 
-        mapTagForLink.put("mangareader", "table tr");
+//        mapTagForLink.put("mangareader", ".cl li");
         mapTagForLink.put("fanfox.net", ".detail-main-list-main");
         mapTagForLink.put("mangafox", ".detail-main-list-main");
         mapTagForLink.put("soundcloud.com/", "article.audible");
-      //  mapTagForLink.put("fanfiction.", "span.xgray.xcontrast_txt");
+        //  mapTagForLink.put("fanfiction.", "span.xgray.xcontrast_txt");
         mapTagForLink.put("archiveofourown.org/", "dl.stats");
         return mapTagForLink;
     }
@@ -56,4 +56,14 @@ class Constants {
         months.put("dec", 12);
         return months;
     }
+
+    private static String USER_AGENT = null;
+
+    public static String getUserAgent() {
+        if (USER_AGENT == null) {
+            USER_AGENT = System.getProperty("http.agent");
+        }
+        return USER_AGENT;
+    }
+
 }

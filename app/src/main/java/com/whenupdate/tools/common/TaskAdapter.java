@@ -308,7 +308,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
         private void setSwipeLayoutLeft(String link) {
             swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
-            swipeLayout.addDrag(SwipeLayout.DragEdge.Left, itemView.findViewById(R.id.bottom_wrapper_deferred));
+//            swipeLayout.addDrag(SwipeLayout.DragEdge.Left, itemView.findViewById(R.id.bottom_wrapper_deferred));
 
             swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
                 @Override
@@ -351,6 +351,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 //                    layout.findViewById(R.id.swipeGo).setOnClickListener(v -> {
 //                        goToBrowser(link);
 //                    });
+
+                    layout.findViewById(R.id.swipeMove).setOnClickListener(v -> {
+                        moveItemInDB(getAdapterPosition());
+                    });
                 }
 
                 @Override
